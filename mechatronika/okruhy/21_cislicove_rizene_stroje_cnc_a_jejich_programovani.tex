@@ -1,0 +1,208 @@
+% ============================================================
+%  Příprava na maturitu – Mechatronika
+%  Kompiluj: pdflatex maturita_mechatronika.tex
+%  Kódování: UTF-8
+% ============================================================
+
+\documentclass[a4paper,10pt]{article}
+
+% --- Balíčky ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[left=2.4cm, right=1.8cm, top=1.8cm, bottom=1.8cm]{geometry}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
+
+% --- Barvy ---
+\definecolor{accent}{HTML}{03254E}
+\definecolor{stripeblue}{HTML}{568EA3}
+\definecolor{medgray}{HTML}{888888}
+\definecolor{lightblue}{HTML}{EAF2F8}
+\definecolor{lightyellow}{HTML}{FDFBE4}
+\definecolor{lightgreen}{HTML}{EAF7EA}
+
+% --- Modrý pruh vlevo ---
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[stripeblue]
+      (current page.north west)
+      rectangle
+      ([xshift=10mm] current page.south west);
+    \fill[accent!60]
+      ([xshift=10mm] current page.north west)
+      rectangle
+      ([xshift=12mm] current page.south west);
+  \end{tikzpicture}%
+}
+
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+
+\titleformat{\section}
+  {\large\bfseries\color{accent}}
+  {\thesection.}
+  {0.5em}
+  {}
+  [\color{accent}\titlerule]
+
+\titlespacing{\section}{0pt}{16pt}{6pt}
+
+\newmdenv[
+  backgroundcolor=lightblue,
+  linecolor=stripeblue,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=4pt
+]{pojmybox}
+
+\newmdenv[
+  backgroundcolor=lightyellow,
+  linecolor=accent!40,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vysvetlenibox}
+
+\newmdenv[
+  backgroundcolor=lightgreen,
+  linecolor=accent!30,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vzorcebox}
+
+\pagestyle{plain}
+
+% ============================================================
+\begin{document}
+
+% --- Záhlaví ---
+\begin{minipage}[t]{0.75\textwidth}
+    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
+    {\large\color{stripeblue} Mechatronika}\\[2pt]
+    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.22\textwidth}
+    \raggedleft
+    \begin{tikzpicture}
+        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
+            (0,0) rectangle (3,1.2)
+            node[midway, align=center, color=accent, font=\small\bfseries]
+            {Otázek: 22};
+    \end{tikzpicture}
+\end{minipage}
+
+\vspace{6pt}
+\noindent\color{accent}\rule{\linewidth}{1.5pt}
+\vspace{2pt}
+
+% ============================================================
+\section{Číslicově řízené stroje (CNC) a jejich programování}
+
+\begin{pojmybox}
+\textbf{Klíčové pojmy:}
+G-kód, M-kód, souřadnicový systém, absolutní/přírůstkové programování,
+nulový bod, korekce nástroje, frézování, soustružení, CAM,
+interpolace, posuvová rychlost, otáčky vřetena
+\end{pojmybox}
+
+\begin{vysvetlenibox}
+\textbf{Souřadnicový systém CNC stroje}\\
+Pravotočivý kartézský systém (X, Y, Z + rotační osy A, B, C).
+Nulový bod obrobku (WCS) se nastavuje před obráběním.
+
+\textbf{Přehled G-kódů}
+
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l X @{}}
+    \toprule
+    \textbf{G-kód} & \textbf{Funkce} \\
+    \midrule
+    G00 & Rychloposuv (bez řezu) \\
+    G01 & Lineární interpolace (řez přímou čarou) \\
+    G02 & Kruhová interpolace po směru hodinových ručiček \\
+    G03 & Kruhová interpolace proti směru hod. ručiček \\
+    G17/18/19 & Výběr roviny (XY / XZ / YZ) \\
+    G90/G91 & Absolutní / přírůstkové souřadnice \\
+    G94/G95 & Posuv [mm/min] / [mm/otáčku] \\
+    \bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Přehled M-kódů}
+
+\begin{center}
+\begin{tabular}{@{} l l @{\quad} l l @{}}
+    \toprule
+    M00 & Pauza & M08 & Chlazení zapnout \\
+    M03 & Vřeteno CW & M09 & Chlazení vypnout \\
+    M04 & Vřeteno CCW & M30 & Konec programu \\
+    M05 & Vřeteno stop & M06 & Výměna nástroje \\
+    \bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Ukázkový blok G-kódu:}
+\begin{vzorcebox}
+\begin{verbatim}
+N10 G90 G17 G94         ; Absolutní, rovina XY, mm/min
+N20 T01 M06             ; Nástroj č. 1
+N30 S1200 M03           ; 1200 RPM, vřeteno CW
+N40 G00 X0 Y0 Z5        ; Rychloposuv nad nulový bod
+N50 G01 Z-3 F100        ; Hloubkový záběr 3mm, F=100
+N60 G01 X50 Y0 F300     ; Frézování přímkou X+50
+N70 G02 X50 Y50 I0 J25  ; Oblouk CW, střed I0 J25
+N80 G00 Z50             ; Zdvih nástroje
+N90 M05 M30             ; Stop vřetena, konec
+\end{verbatim}
+\end{vzorcebox}
+
+\textbf{CAM -- Computer Aided Manufacturing}\\
+CAM software (Fusion 360, Mastercam, NX) generuje G-kód automaticky
+z 3D modelu. Postprocesor převede neutrální CLData na G-kód specifický
+pro daný řídicí systém (Fanuc, Siemens Sinumerik, Heidenhain).
+
+\begin{vzorcebox}
+Řezná rychlost: $v_c = \frac{\pi \cdot d \cdot n}{1000}$ [m/min]\\
+$\Rightarrow$ Otáčky: $n = \frac{1000 \cdot v_c}{\pi \cdot d}$ [min$^{-1}$]\\
+Minutový posuv: $v_f = f_z \cdot z \cdot n$ [mm/min]
+\quad ($f_z$ = posuv na zub, $z$ = počet zubů)
+\end{vzorcebox}
+\end{vysvetlenibox}
+
+% ============================================================
+
+% ============================================================
+\end{document}

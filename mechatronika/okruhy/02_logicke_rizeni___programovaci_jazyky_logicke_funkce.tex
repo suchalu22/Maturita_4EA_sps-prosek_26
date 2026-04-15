@@ -1,0 +1,286 @@
+% ============================================================
+%  Příprava na maturitu – Mechatronika
+%  Kompiluj: pdflatex maturita_mechatronika.tex
+%  Kódování: UTF-8
+% ============================================================
+
+\documentclass[a4paper,10pt]{article}
+
+% --- Balíčky ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[left=2.4cm, right=1.8cm, top=1.8cm, bottom=1.8cm]{geometry}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
+
+% --- Barvy ---
+\definecolor{accent}{HTML}{03254E}
+\definecolor{stripeblue}{HTML}{568EA3}
+\definecolor{medgray}{HTML}{888888}
+\definecolor{lightblue}{HTML}{EAF2F8}
+\definecolor{lightyellow}{HTML}{FDFBE4}
+\definecolor{lightgreen}{HTML}{EAF7EA}
+
+% --- Modrý pruh vlevo ---
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[stripeblue]
+      (current page.north west)
+      rectangle
+      ([xshift=10mm] current page.south west);
+    \fill[accent!60]
+      ([xshift=10mm] current page.north west)
+      rectangle
+      ([xshift=12mm] current page.south west);
+  \end{tikzpicture}%
+}
+
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+
+\titleformat{\section}
+  {\large\bfseries\color{accent}}
+  {\thesection.}
+  {0.5em}
+  {}
+  [\color{accent}\titlerule]
+
+\titlespacing{\section}{0pt}{16pt}{6pt}
+
+\newmdenv[
+  backgroundcolor=lightblue,
+  linecolor=stripeblue,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=4pt
+]{pojmybox}
+
+\newmdenv[
+  backgroundcolor=lightyellow,
+  linecolor=accent!40,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vysvetlenibox}
+
+\newmdenv[
+  backgroundcolor=lightgreen,
+  linecolor=accent!30,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vzorcebox}
+
+\pagestyle{plain}
+
+% ============================================================
+\begin{document}
+
+% --- Záhlaví ---
+\begin{minipage}[t]{0.75\textwidth}
+    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
+    {\large\color{stripeblue} Mechatronika}\\[2pt]
+    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.22\textwidth}
+    \raggedleft
+    \begin{tikzpicture}
+        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
+            (0,0) rectangle (3,1.2)
+            node[midway, align=center, color=accent, font=\small\bfseries]
+            {Otázek: 22};
+    \end{tikzpicture}
+\end{minipage}
+
+\vspace{6pt}
+\noindent\color{accent}\rule{\linewidth}{1.5pt}
+\vspace{2pt}
+
+% ============================================================
+\section{Logické řízení -- programovací jazyky, logické funkce}
+
+\begin{pojmybox}
+\textbf{Klíčové pojmy:}
+Booleova algebra, logické funkce (AND, OR, NOT, NAND, NOR, XOR),
+pravdivostní tabulka, IEC~61131-3, LD, FBD, IL, ST, SFC,
+funkčně úplný systém
+\end{pojmybox}
+
+\begin{vysvetlenibox}
+\textbf{Booleova algebra}\\
+Logické řízení pracuje s binárními signály: \textbf{0} (nepravda, vypnuto)
+a \textbf{1} (pravda, zapnuto). Základem je Booleova algebra -- algebraická
+struktura s operacemi součin (AND), součet (OR) a negace (NOT).
+
+\textbf{Historický kontext}\\
+Booleovu algebru vytvořil George Boole v roce 1854 jako matematický systém
+pro logické úsudky. Až v roce 1937 ukázal Claude Shannon, že se dá použít
+pro analýzu elektrických obvodů s relé -- tím vznikla moderna digitální
+technika. Dnes je základem všech počítačů, PLC i mikrokontrolérů.
+
+\textbf{Fyzikální reprezentace logických úrovní}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{TTL logika} (Transistor-Transistor Logic):
+          $0 = 0\text{--}0{,}8\,\text{V}$, $1 = 2\text{--}5\,\text{V}$
+    \item \textbf{CMOS logika} (Complementary MOS):
+          $0 = 0\text{--}1{,}5\,\text{V}$, $1 = 3{,}5\text{--}5\,\text{V}$
+    \item \textbf{PLC vstupy} (podle normy IEC 61131-2):
+          $0 = 0\text{--}5\,\text{V}$, $1 = 15\text{--}30\,\text{V}$
+\end{itemize}
+
+\textbf{Základní logické funkce a jejich pravdivostní tabulky}
+
+\begin{center}
+\begin{tabular}{cc|c|c|c|c|c}
+    \toprule
+    $A$ & $B$ & AND & OR & NAND & NOR & XOR \\
+    \midrule
+    0 & 0 & 0 & 0 & 1 & 1 & 0 \\
+    0 & 1 & 0 & 1 & 1 & 0 & 1 \\
+    1 & 0 & 0 & 1 & 1 & 0 & 1 \\
+    1 & 1 & 1 & 1 & 0 & 0 & 0 \\
+    \bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Vysvětlení logických funkcí:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{AND} (konjunkce, $\cdot$) -- výstup je 1, pouze když \textit{oba} vstupy jsou 1
+    \item \textbf{OR} (disjunkce, $+$) -- výstup je 1, když \textit{alespoň jeden} vstup je 1
+    \item \textbf{NOT} (negace, $\overline{A}$) -- převrátí hodnotu (0$\to$1, 1$\to$0)
+    \item \textbf{NAND} (NOT-AND) -- negovaný AND; univerzální hradlo
+    \item \textbf{NOR} (NOT-OR) -- negovaný OR; také univerzální
+    \item \textbf{XOR} (exklusivní OR) -- výstup je 1, když se vstupy \textit{liší}
+\end{itemize}
+
+\textbf{Základní zákony Booleovy algebry}
+
+\begin{vzorcebox}
+\begin{align*}
+A \cdot 0 &= 0 & A + 0 &= A & \text{(nulový prvek)} \\
+A \cdot 1 &= A & A + 1 &= 1 & \text{(jednotkový prvek)} \\
+A \cdot A &= A & A + A &= A & \text{(idempotence)} \\
+A \cdot \overline{A} &= 0 & A + \overline{A} &= 1 & \text{(komplementarita)} \\
+\overline{\overline{A}} &= A & & & \text{(dvojí negace)} \\
+\overline{A \cdot B} &= \overline{A} + \overline{B} &
+\overline{A + B} &= \overline{A} \cdot \overline{B} & \text{(De Morganovy zákony)}
+\end{align*}
+\end{vzorcebox}
+
+\textbf{Funkčně úplné systémy}\\
+NAND nebo NOR samy o sobě dokáží realizovat libovolnou logickou funkci.
+To znamená, že kdybychom měli k dispozici pouze hradla NAND (nebo pouze NOR),
+dokážeme sestavit jakýkoliv logický obvod.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8,
+  gate/.style={rectangle, draw=accent, fill=lightblue, rounded corners=2pt,
+               minimum width=1.2cm, minimum height=0.5cm, font=\small}]
+  % NAND jako NOT
+  \node[gate] (n1) at (0,0) {NAND};
+  \draw[>-] (-0.8,-0.1) -- (n1.west);
+  \draw[>-] (-0.8,0.1) -- (n1.west);
+  \draw[>-] (n1.east) -- (0.8,0);
+  \node[below, font=\scriptsize] at (0,-0.4) {NOT z NAND};
+
+  % NAND jako AND
+  \node[gate] (n2) at (2.5,0) {NAND};
+  \node[gate] (n3) at (4.5,0) {NAND};
+  \draw[>-] (1.7,-0.1) -- (n2.west);
+  \draw[>-] (1.7,0.1) -- (n2.west);
+  \draw[>-] (n2.east) -- (n3.west);
+  \draw[>-] (n3.east) -- (n3.west);
+  \draw[>-] (n3.east) -- (5.5,0);
+  \node[below, font=\scriptsize] at (3.5,-0.4) {AND z NAND};
+\end{tikzpicture}
+\end{center}
+
+\textbf{Programovací jazyky PLC dle normy IEC 61131-3}\\
+Norma IEC 61131-3 definuje 5 programovacích jazyků pro PLC:
+
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l l X @{}}
+    \toprule
+    \textbf{Zkratka} & \textbf{Název} & \textbf{Popis a použití} \\
+    \midrule
+    LD  & Ladder Diagram & Grafický, podobá se elektrickému schématu;
+                           nejrozšířenější v průmyslu \\
+    FBD & Function Block Diagram & Grafický, propojení funkčních bloků;
+                                   vhodný pro regulaci \\
+    ST  & Structured Text & Textový, podobný Pascalu;
+                            vhodný pro složité algoritmy \\
+    IL  & Instruction List & Nízkoúrovňový assembler PLC;
+                             dnes již málo používaný \\
+    SFC & Sequential Function Chart & Šablona stavového automatu;
+                                       sekvenční procesy \\
+    \bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Příklad kódu v jednotlivých jazycích:}
+
+\textit{LD (Ladder Diagram):}
+\begin{verbatim}
+   I0.0      I0.1      Q0.0
+|----| |------|/|------( )---|
+|  start     stop     motor  |
+\end{verbatim}
+
+\textit{ST (Structured Text):}
+\begin{verbatim}
+IF start AND NOT stop THEN
+    motor := TRUE;
+ELSE
+    motor := FALSE;
+END_IF;
+\end{verbatim}
+
+\textit{SFC (Sequential Function Chart):}
+\begin{verbatim}
+[INIT] --(start)--> [RUN] --(stop)--> [STOP]
+   ^                                   |
+   +-----------------------------------+
+\end{verbatim}
+
+\textbf{Proč více jazyků?}\\
+Různí výrobci PLC (Siemens, Allen-Bradley, Schneider) mají vlastní tradice.
+Norma IEC 61131-3 umožňuje přenositelnost programů mezi platformami a usnadňuje
+komunikaci mezi dodavateli.
+\end{vysvetlenibox}
+
+% ============================================================
+
+% ============================================================
+\end{document}

@@ -1,0 +1,276 @@
+% ============================================================
+%  Příprava na maturitu – Mechatronika
+%  Kompiluj: pdflatex maturita_mechatronika.tex
+%  Kódování: UTF-8
+% ============================================================
+
+\documentclass[a4paper,10pt]{article}
+
+% --- Balíčky ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[left=2.4cm, right=1.8cm, top=1.8cm, bottom=1.8cm]{geometry}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
+
+% --- Barvy ---
+\definecolor{accent}{HTML}{03254E}
+\definecolor{stripeblue}{HTML}{568EA3}
+\definecolor{medgray}{HTML}{888888}
+\definecolor{lightblue}{HTML}{EAF2F8}
+\definecolor{lightyellow}{HTML}{FDFBE4}
+\definecolor{lightgreen}{HTML}{EAF7EA}
+
+% --- Modrý pruh vlevo ---
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[stripeblue]
+      (current page.north west)
+      rectangle
+      ([xshift=10mm] current page.south west);
+    \fill[accent!60]
+      ([xshift=10mm] current page.north west)
+      rectangle
+      ([xshift=12mm] current page.south west);
+  \end{tikzpicture}%
+}
+
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+
+\titleformat{\section}
+  {\large\bfseries\color{accent}}
+  {\thesection.}
+  {0.5em}
+  {}
+  [\color{accent}\titlerule]
+
+\titlespacing{\section}{0pt}{16pt}{6pt}
+
+\newmdenv[
+  backgroundcolor=lightblue,
+  linecolor=stripeblue,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=4pt
+]{pojmybox}
+
+\newmdenv[
+  backgroundcolor=lightyellow,
+  linecolor=accent!40,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vysvetlenibox}
+
+\newmdenv[
+  backgroundcolor=lightgreen,
+  linecolor=accent!30,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vzorcebox}
+
+\pagestyle{plain}
+
+% ============================================================
+\begin{document}
+
+% --- Záhlaví ---
+\begin{minipage}[t]{0.75\textwidth}
+    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
+    {\large\color{stripeblue} Mechatronika}\\[2pt]
+    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.22\textwidth}
+    \raggedleft
+    \begin{tikzpicture}
+        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
+            (0,0) rectangle (3,1.2)
+            node[midway, align=center, color=accent, font=\small\bfseries]
+            {Otázek: 22};
+    \end{tikzpicture}
+\end{minipage}
+
+\vspace{6pt}
+\noindent\color{accent}\rule{\linewidth}{1.5pt}
+\vspace{2pt}
+
+% ============================================================
+\section{Diskrétní řízení -- použití, signály, diskretizace, PSD regulátor}
+
+\begin{pojmybox}
+\textbf{Klíčové pojmy:}
+diskrétní signál, vzorkování, Shannonův teorém, kvantování,
+A/D převodník, perioda vzorkování $T_s$, Z-transformace,
+PSD regulátor, dopředná/zpětná diference, antiwindup
+\end{pojmybox}
+
+\begin{vysvetlenibox}
+\textbf{Proč diskrétní řízení?}\\
+Moderní řídicí systémy (PLC, MCU) jsou digitální -- zpracovávají signál
+\textit{nespojitě}, v pravidelných časových okamžicích.
+Spojitý signál musíme nejprve \textbf{vzorkovat} a \textbf{kvantovat}.
+
+\textbf{Proces převodu spojitého signálu na diskrétní:}
+\begin{enumerate}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Vzorkování} -- získání hodnoty signálu v časových okamžicích $t = k \cdot T_s$
+    \item \textbf{Držení} -- hodnota se udržuje konstantní po dobu převodu (sample \& hold)
+    \item \textbf{Kvantování} -- zaokrouhlení napětí na nejbližší diskrétní úroveň
+    \item \textbf{Kódování} -- přiřazení binárního kódu kvantizační úrovni
+\end{enumerate}
+
+\textbf{Shannonův vzorkovací teorém}
+
+\begin{vzorcebox}
+$$f_s \geq 2 \cdot f_{max}$$
+Vzorkovací frekvence musí být alespoň \textbf{dvojnásobek} nejvyšší
+frekvence v signálu. Jinak dojde k \textbf{aliasingu} (překrývání spekter).
+\end{vzorcebox}
+
+\textbf{Příklad aliasingu:}\\
+Pokud vzorkujeme signál 50\,Hz frekvencí 80\,Hz ($< 2 \cdot 50$),
+výsledek bude vypadat jako signál s frekvencí $80 - 50 = 30$\,Hz.
+Tento falešný signál se nazývá \textit{alias}.
+
+\textbf{Antialiasingový filtr}\\
+Abychom předešli aliasingu, řadíme před A/D převodník \textbf{dolní propust},
+k která potlačí frekvence vyšší než $f_s / 2$. Typicky se používá
+Besselův nebo Butterworthův filtr 2.--4. řádu.
+
+\textbf{Kvantování a rozlišení A/D převodníku}
+
+\begin{vzorcebox}
+$$\Delta U = \frac{U_{ref}}{2^n - 1}$$
+kde $n$ je počet bitů A/D převodníku, $\Delta U$ je kvantizační krok.\\
+Příklad: 12-bitový ADC s $U_{ref} = 3{,}3\,\text{V}$:
+$\Delta U = \frac{3{,}3}{4095} \approx 0{,}806\,\text{mV}$
+\end{vzorcebox}
+
+\textbf{Typy A/D převodníků:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Flash ADC} -- nejrychlejší (ns), mnoho komparátorů,
+          pro vysoké frekvence (osciloskopy, rádiové přijímače)
+    \item \textbf{SAR ADC} (Successive Approximation) -- střední rychlost ($\mu$s),
+          nízká spotřeba; nejpoužívanější v mikrokontrolérech
+    \item \textbf{Sigma-Delta ADC} -- vysoké rozlišení (24 bitů), pomalejší;
+          pro audio, přesná měření (vážní snímače, teploměry)
+    \item \textbf{Dual-slope ADC} -- velmi přesný, pomalý;
+          pro multimetry a měřicí přístroje
+\end{itemize}
+
+\textbf{D/A převodníky}\\
+Pro převod digitálního signálu na analogový (např. řízení motoru):
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{R-2R žebřík} -- rezistorová síť, každý bit přispívá proudem
+    \item \textbf{PWM + filtr} -- pulzně šířková modulace s RC filtrem;
+          jednoduché, levné, pro nenáročné aplikace
+\end{itemize}
+
+\textbf{PSD regulátor -- diskrétní analogie PID}\\
+Derivace se nahradí \textbf{diferencí}, integrál \textbf{sumou}:
+
+\begin{vzorcebox}
+$$u_k = K_p \cdot e_k
++ K_i \cdot T_s \sum_{j=0}^{k} e_j
++ K_d \cdot \frac{e_k - e_{k-1}}{T_s}$$
+kde $e_k = w_k - y_k$ je regulační odchylka v kroku $k$,
+$T_s$ je perioda vzorkování.
+\end{vzorcebox}
+
+\textbf{Implementační detaily PSD regulátoru:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Proporcionální složka} -- okamžitá reakce na chybu
+    \item \textbf{Sumační člen} -- akumulace chyby; pozor na přetečení
+    \item \textbf{Derivační člen} -- predikce budoucího vývoje;
+          v praxi se často filtruje (šumová citlivost)
+    \item \textbf{Pozicionální algoritmus} -- výpočet absolutní hodnoty $u_k$
+    \item \textbf{Inkrementální algoritmus} -- výpočet změny $\Delta u_k$;
+          bezpečnější při přepnutí do manuálního režimu
+\end{itemize}
+
+\textbf{Vliv periody vzorkování $T_s$}
+
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l X X @{}}
+    \toprule
+    & \textbf{Příliš velké $T_s$} & \textbf{Příliš malé $T_s$} \\
+    \midrule
+    Stabilita     & systém může kmitat nebo být nestabilní & dobrá \\
+    Výpočetní zátěž & nízká & vysoká \\
+    Aliasing      & hrozba & nehrozí \\
+    Doporučení    & $T_s < \frac{T_{63\%}}{10}$
+                  & zbytečné plýtvání výkonem \\
+    \bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Volba periody vzorkování v praxi:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Teplotní soustavy} -- pomalé ($T_{63\%} \approx 10$\,s): $T_s = 1$\,s
+    \item \textbf{Hladiny, tlaky} -- střední ($T_{63\%} \approx 1$\,s): $T_s = 100$\,ms
+    \item \textbf{Pohony, poloha} -- rychlé ($T_{63\%} \approx 100$\,ms): $T_s = 10$\,ms
+    \item \textbf{Elektronické zatížení} -- velmi rychlé: $T_s = 10$\,--\,100\,$\mu$s
+\end{itemize}
+
+\textbf{Antiwindup}\\
+Antiwindup je ochrana proti přetečení integrační složky při saturaci
+akčního zásahu. Když regulátor dosáhne maxima (např. 100\,\% výkonu),
+integrace se zastaví -- jinak by se "naintegrovala" velká hodnota
+a výstup by pozdě přestál přeběh.
+
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Podmíněná integrace} -- integrace běží, pouze když $|e_k| < \text{limit}$
+    \item \textbf{Back-calculation} -- rozdíl mezi ideálním a saturovaným výstupem
+          se vrací na vstup integrátoru se zpožděním
+    \item \textbf{Clamping} -- zastavení integrace při dosažení limitu
+\end{itemize}
+
+\textbf{Z-transformace}\\
+Pro analýzu diskrétních systémů se používá Z-transformace:
+$$X(z) = \sum_{k=0}^{\infty} x_k \cdot z^{-k}$$
+Převod mezi spojitým a diskrétním světem:
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Dopředná diference} -- $s \approx \frac{z-1}{T_s}$
+    \item \textbf{Zpětná diference} -- $s \approx \frac{1-z^{-1}}{T_s}$
+    \item \textbf{Tustinova metoda} -- $s \approx \frac{2}{T_s} \cdot \frac{z-1}{z+1}$;
+          zachovává stabilitu, nejpoužívanější
+\end{itemize}
+\end{vysvetlenibox}
+
+% ============================================================
+
+% ============================================================
+\end{document}

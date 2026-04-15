@@ -1,0 +1,220 @@
+% ============================================================
+%  Příprava na maturitu – Mechatronika
+%  Kompiluj: pdflatex maturita_mechatronika.tex
+%  Kódování: UTF-8
+% ============================================================
+
+\documentclass[a4paper,10pt]{article}
+
+% --- Balíčky ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[left=2.4cm, right=1.8cm, top=1.8cm, bottom=1.8cm]{geometry}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
+
+% --- Barvy ---
+\definecolor{accent}{HTML}{03254E}
+\definecolor{stripeblue}{HTML}{568EA3}
+\definecolor{medgray}{HTML}{888888}
+\definecolor{lightblue}{HTML}{EAF2F8}
+\definecolor{lightyellow}{HTML}{FDFBE4}
+\definecolor{lightgreen}{HTML}{EAF7EA}
+
+% --- Modrý pruh vlevo ---
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[stripeblue]
+      (current page.north west)
+      rectangle
+      ([xshift=10mm] current page.south west);
+    \fill[accent!60]
+      ([xshift=10mm] current page.north west)
+      rectangle
+      ([xshift=12mm] current page.south west);
+  \end{tikzpicture}%
+}
+
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+
+\titleformat{\section}
+  {\large\bfseries\color{accent}}
+  {\thesection.}
+  {0.5em}
+  {}
+  [\color{accent}\titlerule]
+
+\titlespacing{\section}{0pt}{16pt}{6pt}
+
+\newmdenv[
+  backgroundcolor=lightblue,
+  linecolor=stripeblue,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=4pt
+]{pojmybox}
+
+\newmdenv[
+  backgroundcolor=lightyellow,
+  linecolor=accent!40,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vysvetlenibox}
+
+\newmdenv[
+  backgroundcolor=lightgreen,
+  linecolor=accent!30,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vzorcebox}
+
+\pagestyle{plain}
+
+% ============================================================
+\begin{document}
+
+% --- Záhlaví ---
+\begin{minipage}[t]{0.75\textwidth}
+    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
+    {\large\color{stripeblue} Mechatronika}\\[2pt]
+    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.22\textwidth}
+    \raggedleft
+    \begin{tikzpicture}
+        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
+            (0,0) rectangle (3,1.2)
+            node[midway, align=center, color=accent, font=\small\bfseries]
+            {Otázek: 22};
+    \end{tikzpicture}
+\end{minipage}
+
+\vspace{6pt}
+\noindent\color{accent}\rule{\linewidth}{1.5pt}
+\vspace{2pt}
+
+% ============================================================
+\section{CAx systémy a Rapid prototyping}
+
+\begin{pojmybox}
+\textbf{Klíčové pojmy:}
+CAD, CAM, CAE, FEM, simulace, Fusion~360, SolidWorks, CATIA,
+Rapid prototyping, FDM, SLA, SLS, DMLS, postprocesor,
+STL formát, topologická optimalizace
+\end{pojmybox}
+
+\begin{vysvetlenibox}
+\textbf{CAx -- přehled nástrojů}
+
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l l X @{}}
+    \toprule
+    \textbf{Zkratka} & \textbf{Název} & \textbf{Funkce} \\
+    \midrule
+    CAD & Computer Aided Design      & 3D parametrické modelování geometrie \\
+    CAM & Computer Aided Manufacturing & Generování obráběcích drah z modelu \\
+    CAE & Computer Aided Engineering & Simulace a analýza (FEM, CFD, MBS) \\
+    CAPP& Aided Process Planning     & Plánování výrobního procesu \\
+    PDM & Product Data Management    & Správa dat a verzí modelu \\
+    \bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Metoda konečných prvků (FEM)}\\
+Soustava se rozdělí na malé prvky (mesh). Pro každý prvek se zapíše
+rovnice tuhosti. Soustava rovnic se řeší numericky.
+
+\begin{vzorcebox}
+Maticová forma: $[K]\{u\} = \{F\}$\\
+kde $[K]$ = globální matice tuhosti, $\{u\}$ = posuvy uzlů,
+$\{F\}$ = vektor sil.\\
+Napětí: $\sigma = E \cdot \varepsilon = E \cdot \frac{\Delta l}{l_0}$
+\end{vzorcebox}
+
+\textbf{Rapid prototyping -- pracovní postup}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85,
+  step/.style={rectangle, draw=accent, fill=lightblue, rounded corners=3pt,
+               minimum width=2.3cm, minimum height=0.6cm,
+               text centered, font=\small}]
+  \node[inner sep=2pt,rectangle,draw,fill=blue!20] (cad)  at (0,0)    {3D model (CAD)};
+  \node[inner sep=2pt,rectangle,draw,fill=blue!20] (stl)  at (3,0)    {Export STL};
+  \node[inner sep=2pt,rectangle,draw,fill=blue!20] (slic) at (6,0)    {Slicování};
+  \node[inner sep=2pt,rectangle,draw,fill=blue!20] (tisk) at (6,-1.2) {Tisk / výroba};
+  \node[inner sep=2pt,rectangle,draw,fill=blue!20] (post) at (3,-1.2) {Post-processing};
+  \node[inner sep=2pt,rectangle,draw,fill=blue!20] (test) at (0,-1.2) {Testování};
+  \draw[>-,accent] (cad)--(stl)--(slic)--(tisk)--(post)--(test);
+\end{tikzpicture}
+\end{center}
+
+\textbf{Topologická optimalizace}\\
+Algoritmus odstraní materiál z míst s nízkým napětím -- výsledek
+je organická struktura s maximálním poměrem tuhosti/hmotnosti.
+Typicky se kombinuje s DMLS tiskem (nelze vyrobit klasickým obráběním).
+
+\textbf{Srovnání RP technologií -- použití v praxi}
+
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l X X @{}}
+    \toprule
+    \textbf{Metoda} & \textbf{Výhody} & \textbf{Nevýhody} \\
+    \midrule
+    FDM  & Levná, dostupná, velký sortiment materiálů
+         & Viditelné vrstvy, nižší přesnost \\
+    SLA  & Hladký povrch, vysoká přesnost
+         & Drahá pryskyřice, křehké \\
+    SLS  & Bez podpor, funkční díly z nylonu
+         & Drahý stroj, prašné \\
+    DMLS & Kovové díly, složité tvary, vysoká pevnost
+         & Velmi drahý stroj (\textgreater{}500k EUR) \\
+    \bottomrule
+\end{tabularx}
+\end{center}
+\end{vysvetlenibox}
+
+% ============================================================
+\vfill
+\noindent\textcolor{medgray}{\small
+Souhlasím se zpracováním osobních údajů pro účely náboru v souladu s GDPR.}
+
+\end{document}
+```
+
+% ============================================================
+\end{document}

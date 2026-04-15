@@ -1,0 +1,203 @@
+% ============================================================
+%  Příprava na maturitu – Mechatronika
+%  Kompiluj: pdflatex maturita_mechatronika.tex
+%  Kódování: UTF-8
+% ============================================================
+
+\documentclass[a4paper,10pt]{article}
+
+% --- Balíčky ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[left=2.4cm, right=1.8cm, top=1.8cm, bottom=1.8cm]{geometry}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
+
+% --- Barvy ---
+\definecolor{accent}{HTML}{03254E}
+\definecolor{stripeblue}{HTML}{568EA3}
+\definecolor{medgray}{HTML}{888888}
+\definecolor{lightblue}{HTML}{EAF2F8}
+\definecolor{lightyellow}{HTML}{FDFBE4}
+\definecolor{lightgreen}{HTML}{EAF7EA}
+
+% --- Modrý pruh vlevo ---
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[stripeblue]
+      (current page.north west)
+      rectangle
+      ([xshift=10mm] current page.south west);
+    \fill[accent!60]
+      ([xshift=10mm] current page.north west)
+      rectangle
+      ([xshift=12mm] current page.south west);
+  \end{tikzpicture}%
+}
+
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+
+\titleformat{\section}
+  {\large\bfseries\color{accent}}
+  {\thesection.}
+  {0.5em}
+  {}
+  [\color{accent}\titlerule]
+
+\titlespacing{\section}{0pt}{16pt}{6pt}
+
+\newmdenv[
+  backgroundcolor=lightblue,
+  linecolor=stripeblue,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=4pt
+]{pojmybox}
+
+\newmdenv[
+  backgroundcolor=lightyellow,
+  linecolor=accent!40,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vysvetlenibox}
+
+\newmdenv[
+  backgroundcolor=lightgreen,
+  linecolor=accent!30,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vzorcebox}
+
+\pagestyle{plain}
+
+% ============================================================
+\begin{document}
+
+% --- Záhlaví ---
+\begin{minipage}[t]{0.75\textwidth}
+    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
+    {\large\color{stripeblue} Mechatronika}\\[2pt]
+    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.22\textwidth}
+    \raggedleft
+    \begin{tikzpicture}
+        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
+            (0,0) rectangle (3,1.2)
+            node[midway, align=center, color=accent, font=\small\bfseries]
+            {Otázek: 22};
+    \end{tikzpicture}
+\end{minipage}
+
+\vspace{6pt}
+\noindent\color{accent}\rule{\linewidth}{1.5pt}
+\vspace{2pt}
+
+% ============================================================
+\section{Umělá inteligence}
+
+\begin{pojmybox}
+\textbf{Klíčové pojmy:}
+strojové učení, neuronová síť, hluboké učení, CNN, RNN, LSTM,
+regrese, klasifikace, trénovací/validační/testovací data,
+overfitting, přeučení, aktivační funkce, zpětná propagace
+\end{pojmybox}
+
+\begin{vysvetlenibox}
+\textbf{Rozdělení metod AI}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85,
+  node/.style={rectangle, draw=accent, fill=lightblue, rounded corners=3pt,
+               minimum width=3cm, minimum height=0.55cm,
+               text centered, font=\small}]
+  \node[node, fill=lightyellow] (ai) at (0,3) {Umělá inteligence};
+  \node[node] (ml) at (-3,2)  {Strojové učení};
+  \node[node] (es) at (0,2)   {Expert. systémy};
+  \node[node] (cv) at (3,2)   {Poč. vidění};
+  \node[node] (sup)  at (-4.5,1)  {Superv.};
+  \node[node] (uns)  at (-3,1)    {Nesuperv.};
+  \node[node] (rl)   at (-1.5,1)  {Posilovací};
+  \node[node] (dl)   at (-3,0)    {Hluboké učení};
+  \node[node] (cnn)  at (-4.2,-0.8) {CNN};
+  \node[node] (rnn)  at (-3,-0.8)   {RNN/LSTM};
+  \node[node] (tr)   at (-1.8,-0.8) {Transformer};
+  \draw[>-,accent] (ai)--(ml);
+  \draw[>-,accent] (ai)--(es);
+  \draw[>-,accent] (ai)--(cv);
+  \draw[>-,accent] (ml)--(sup);
+  \draw[>-,accent] (ml)--(uns);
+  \draw[>-,accent] (ml)--(rl);
+  \draw[>-,accent] (sup)--(dl);
+  \draw[>-,accent] (dl)--(cnn);
+  \draw[>-,accent] (dl)--(rnn);
+  \draw[>-,accent] (dl)--(tr);
+\end{tikzpicture}
+\end{center}
+
+\textbf{Neuronová síť -- princip}
+
+\begin{vzorcebox}
+Jeden neuron: $y = f\!\left(\sum_{i=1}^{n} w_i x_i + b\right)$\\
+Aktivační funkce: ReLU: $f(x) = \max(0,x)$; \quad
+Sigmoid: $f(x) = \frac{1}{1+e^{-x}}$\\
+Zpětná propagace: $w \leftarrow w - \eta \frac{\partial L}{\partial w}$
+\quad ($\eta$ = rychlost učení, $L$ = ztrátová funkce)
+\end{vzorcebox}
+
+\textbf{Použití AI v mechatronice}
+
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l X l @{}}
+    \toprule
+    \textbf{Aplikace} & \textbf{Popis} & \textbf{Metoda} \\
+    \midrule
+    Detekce vad    & Rozpoznání defektů na výrobku z kamery & CNN \\
+    Predikce poruch & Předpověď poruchy z vibrací a teplot & LSTM \\
+    Autonomní robot & Navigace, vyhýbání překážkám & Posilovací učení \\
+    Kvalita svaru  & Klasifikace kvality z obrazu & CNN \\
+    Digitální dvojče & Aktualizace modelu dle měření & Hybridní \\
+    \bottomrule
+\end{tabularx}
+\end{center}
+\end{vysvetlenibox}
+
+% ============================================================
+
+% ============================================================
+\end{document}

@@ -1,0 +1,266 @@
+% ============================================================
+%  Příprava na maturitu – Mechatronika
+%  Kompiluj: pdflatex maturita_mechatronika.tex
+%  Kódování: UTF-8
+% ============================================================
+
+\documentclass[a4paper,10pt]{article}
+
+% --- Balíčky ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[left=2.4cm, right=1.8cm, top=1.8cm, bottom=1.8cm]{geometry}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
+
+% --- Barvy ---
+\definecolor{accent}{HTML}{03254E}
+\definecolor{stripeblue}{HTML}{568EA3}
+\definecolor{medgray}{HTML}{888888}
+\definecolor{lightblue}{HTML}{EAF2F8}
+\definecolor{lightyellow}{HTML}{FDFBE4}
+\definecolor{lightgreen}{HTML}{EAF7EA}
+
+% --- Modrý pruh vlevo ---
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[stripeblue]
+      (current page.north west)
+      rectangle
+      ([xshift=10mm] current page.south west);
+    \fill[accent!60]
+      ([xshift=10mm] current page.north west)
+      rectangle
+      ([xshift=12mm] current page.south west);
+  \end{tikzpicture}%
+}
+
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+
+\titleformat{\section}
+  {\large\bfseries\color{accent}}
+  {\thesection.}
+  {0.5em}
+  {}
+  [\color{accent}\titlerule]
+
+\titlespacing{\section}{0pt}{16pt}{6pt}
+
+\newmdenv[
+  backgroundcolor=lightblue,
+  linecolor=stripeblue,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=4pt
+]{pojmybox}
+
+\newmdenv[
+  backgroundcolor=lightyellow,
+  linecolor=accent!40,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vysvetlenibox}
+
+\newmdenv[
+  backgroundcolor=lightgreen,
+  linecolor=accent!30,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vzorcebox}
+
+\pagestyle{plain}
+
+% ============================================================
+\begin{document}
+
+% --- Záhlaví ---
+\begin{minipage}[t]{0.75\textwidth}
+    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
+    {\large\color{stripeblue} Mechatronika}\\[2pt]
+    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.22\textwidth}
+    \raggedleft
+    \begin{tikzpicture}
+        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
+            (0,0) rectangle (3,1.2)
+            node[midway, align=center, color=accent, font=\small\bfseries]
+            {Otázek: 22};
+    \end{tikzpicture}
+\end{minipage}
+
+\vspace{6pt}
+\noindent\color{accent}\rule{\linewidth}{1.5pt}
+\vspace{2pt}
+
+% ============================================================
+\section{Sekvenční logické řízení, klopné obvody}
+
+\begin{pojmybox}
+\textbf{Klíčové pojmy:}
+sekvenční obvod, klopný obvod, SR, JK, D, T,
+automat (Mealy, Moore), stavový diagram, čítač, registr,
+synchronní/asynchronní řízení, hazard
+\end{pojmybox}
+
+\begin{vysvetlenibox}
+\textbf{Sekvenční obvod}\\
+Na rozdíl od kombinačního má sekvenční obvod \textbf{paměť} -- výstup závisí
+na vstupech \textit{a} na předchozím stavu. Základním stavebním prvkem je
+\textbf{klopný obvod} (bistabilní člen -- může být ve stavu 0 nebo 1).
+
+\textbf{Rozdělení sekvenčních obvodů:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Asynchronní} -- stav se mění ihned při změně vstupů;
+          rychlejší, ale náchylné k hazardům
+    \item \textbf{Synchronní} -- stav se mění pouze při hodinovém impulsu (CLK);
+          stabilnější, snadněji se navrhují
+\end{itemize}
+
+\textbf{Princip klopného obvodu}\\
+Klopný obvod má dva stabilní stavy (0 a 1). Přechod mezi stavy se řídí:
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Úrovní} -- obvod reaguje, když je CLK na vysoké/nízké úrovni
+    \item \textbf{Hranou} -- obvod reaguje pouze při náběžné/sestupné hraně CLK
+\end{itemize}
+Hranové řízení je výhodnější -- zabraňuje vícečetným přepnutím.
+
+\textbf{Přehled klopných obvodů}
+
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l l X l @{}}
+    \toprule
+    \textbf{Typ} & \textbf{Vstupy} & \textbf{Funkce} & \textbf{Zvláštnost} \\
+    \midrule
+    SR  & S, R       & S=1: nastav Q=1; R=1: nastav Q=0
+                     & Zakázaný stav S=R=1 \\
+    D   & D, CLK     & Q přejde na hodnotu D při hraně CLK
+                     & Jednoduchý, základ registrů \\
+    JK  & J, K, CLK  & J=K=0: paměť; J=1,K=0: set; J=0,K=1: reset;
+                       J=K=1: přepnutí
+                     & Nemá zakázaný stav \\
+    T   & T, CLK     & T=1: přepne stav; T=0: paměť
+                     & Základ čítačů \\
+    \bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Detailní popis klopných obvodů:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{SR klopný obvod} -- nejzákladnější typ; S (Set) nastaví Q=1,
+          R (Reset) nastaví Q=0. Stav S=R=1 je zakázaný (neurčitý výstup).
+    \item \textbf{D klopný obvod} -- eliminuje zakázaný stav; data (D) se
+          zapíší při hraně CLK. Základ registrů a pamětí.
+    \item \textbf{JK klopný obvod} -- univerzální; J=K=1 přepne stav (toggle).
+          Používá se v čítačích a děličkách frekvence.
+    \item \textbf{T klopný obvod} -- zjednodušený JK s jedním vstupem;
+          T=1 přepne, T=0 pamatuje.
+\end{itemize}
+
+\begin{vzorcebox}
+JK klopný obvod -- charakteristická rovnice:
+$Q_{n+1} = J \cdot \overline{Q_n} + \overline{K} \cdot Q_n$\\
+D klopný obvod: $Q_{n+1} = D$\\
+T klopný obvod: $Q_{n+1} = T \oplus Q_n$\\
+SR klopný obvod: $Q_{n+1} = S + \overline{R} \cdot Q_n$ (pro S·R=0)
+\end{vzorcebox}
+
+\textbf{Stavový diagram -- vizualizace chování}\\
+Stavový diagram znázorňuje přechody mezi stavy pomocí kruhů a šipek:
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Kruh} -- reprezentuje stav (0 nebo 1)
+    \item \textbf{Šipka} -- přechod mezi stavy při splnění podmínky
+    \item \textbf{Podmínka} -- zápis ve tvaru "vstup/výstup"
+\end{itemize}
+
+\textbf{Moorův a Mealyho automat}\\
+Automat je model sekvenčního obvodu s definovanými stavy a přechody:
+
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l X X @{}}
+    \toprule
+    & \textbf{Moorův automat} & \textbf{Mealyho automat} \\
+    \midrule
+    Výstup závisí na & pouze na stavu & stavu i vstupu \\
+    Stabilita výstupu & stabilní, mění se při přechodu & může se měnit i bez přechodu \\
+    Počet stavů & obvykle více & obvykle méně \\
+    Použití & bezpečnostní systémy & rychlé řídicí automaty \\
+    \bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Příklad: Automat pro rozpoznání sekvence 101}\\
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Stavy:} S0 (čekám na 1), S1 (čekám na 0), S2 (čekám na 1), S3 (detekováno)
+    \item \textbf{Přechody:} S0--1→S1, S1--0→S2, S2--1→S3, S3--0→S2, S3--1→S1
+    \item \textbf{Výstup:} Y=1 pouze ve stavu S3 (Mealyho varianta)
+\end{itemize}
+
+\textbf{Čítače a registry}
+
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Asynchronní čítač} -- výstup předchozího KO je CLK
+          následujícího; jednodušší, ale pomalejší (ripple carry).
+          \textit{Nevýhoda:} zpoždění se sčítá při průchodu řetězcem.
+    \item \textbf{Synchronní čítač} -- všechny KO mají společný CLK;
+          rychlejší, bez hazardů. Převodní logika určuje, které KO se přepne.
+    \item \textbf{Čítač se zátěží} -- lze přednastavit počáteční hodnotu;
+          používá se pro děličky s programovatelným poměrem.
+    \item \textbf{Posuvný registr} -- D klopné obvody zapojené do série;
+          sériový vstup / výstup dat. Typy:
+          \begin{itemize}[noitemsep, leftmargin=1em]
+              \item \textbf{SIPO} (Serial-In Parallel-Out) -- sériový vstup, paralelní výstup
+              \item \textbf{PISO} (Parallel-In Serial-Out) -- paralelní vstup, sériový výstup
+              \item \textbf{SISO} (Serial-In Serial-Out) -- zpoždění signálu
+              \item \textbf{PIPO} (Parallel-In Parallel-Out) -- přesun dat mezi registry
+          \end{itemize}
+\end{itemize}
+
+\textbf{Hazardy v sekvenčních obvodech}\\
+Hazard je krátký nežádoucí impuls při změně vstupů:
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Statický hazard} -- výstup má krátce opačnou hodnotu
+    \item \textbf{Dynamický hazard} -- výstup několikanásobně přepne
+    \item \textbf{Řešení:} synchronní design, redundance v logice, filtry
+\end{itemize}
+\end{vysvetlenibox}
+
+% ============================================================
+
+% ============================================================
+\end{document}

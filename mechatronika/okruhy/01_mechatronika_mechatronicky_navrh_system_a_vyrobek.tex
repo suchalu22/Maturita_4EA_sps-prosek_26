@@ -1,0 +1,283 @@
+% ============================================================
+%  Příprava na maturitu – Mechatronika
+%  Kompiluj: pdflatex maturita_mechatronika.tex
+%  Kódování: UTF-8
+% ============================================================
+
+\documentclass[a4paper,10pt]{article}
+
+% --- Balíčky ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[left=2.4cm, right=1.8cm, top=1.8cm, bottom=1.8cm]{geometry}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
+
+% --- Barvy ---
+\definecolor{accent}{HTML}{03254E}
+\definecolor{stripeblue}{HTML}{568EA3}
+\definecolor{medgray}{HTML}{888888}
+\definecolor{lightblue}{HTML}{EAF2F8}
+\definecolor{lightyellow}{HTML}{FDFBE4}
+\definecolor{lightgreen}{HTML}{EAF7EA}
+
+% --- Modrý pruh vlevo ---
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[stripeblue]
+      (current page.north west)
+      rectangle
+      ([xshift=10mm] current page.south west);
+    \fill[accent!60]
+      ([xshift=10mm] current page.north west)
+      rectangle
+      ([xshift=12mm] current page.south west);
+  \end{tikzpicture}%
+}
+
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+
+\titleformat{\section}
+  {\large\bfseries\color{accent}}
+  {\thesection.}
+  {0.5em}
+  {}
+  [\color{accent}\titlerule]
+
+\titlespacing{\section}{0pt}{16pt}{6pt}
+
+\newmdenv[
+  backgroundcolor=lightblue,
+  linecolor=stripeblue,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=4pt
+]{pojmybox}
+
+\newmdenv[
+  backgroundcolor=lightyellow,
+  linecolor=accent!40,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vysvetlenibox}
+
+\newmdenv[
+  backgroundcolor=lightgreen,
+  linecolor=accent!30,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vzorcebox}
+
+\pagestyle{plain}
+
+% ============================================================
+\begin{document}
+
+% --- Záhlaví ---
+\begin{minipage}[t]{0.75\textwidth}
+    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
+    {\large\color{stripeblue} Mechatronika}\\[2pt]
+    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.22\textwidth}
+    \raggedleft
+    \begin{tikzpicture}
+        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
+            (0,0) rectangle (3,1.2)
+            node[midway, align=center, color=accent, font=\small\bfseries]
+            {Otázek: 22};
+    \end{tikzpicture}
+\end{minipage}
+
+\vspace{6pt}
+\noindent\color{accent}\rule{\linewidth}{1.5pt}
+\vspace{2pt}
+
+% ============================================================
+\section{Mechatronika, mechatronický návrh, systém a výrobek}
+
+\begin{pojmybox}
+\textbf{Klíčové pojmy:}
+mechatronika, interdisciplinarita, mechanika, elektronika, informatika,
+senzor, aktuátor, řídící systém, systémový přístup, mechatronický výrobek,
+V-model návrhu, SiL, HiL, zpětná vazba
+\end{pojmybox}
+
+\begin{vysvetlenibox}
+\textbf{Definice a vznik oboru}\\
+Mechatronika je interdisciplinární obor kombinující \textbf{mechaniku},
+\textbf{elektroniku} a \textbf{informatiku} za účelem návrhu inteligentních
+systémů a výrobků. Termín poprvé použila japonská firma Yaskawa Electric
+v roce 1969. Dnes je mechatronika základem moderní průmyslové automatizace,
+automobilového průmyslu, robotiky i spotřební elektroniky.
+
+\textbf{Historický vývoj mechatroniky}\\
+Vývoj mechatroniky lze rozdělit do několika fází:
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{1969--1980} -- vznik termínu, první mechatronické systémy (přádací stroje, CNC)
+    \item \textbf{1980--1995} -- rozvoj mikroprocesorů, masové nasazení v automobilkách
+    \item \textbf{1995--2010} -- nástup průmyslových sběrnic, decentralizovaná řízení
+    \item \textbf{2010--současnost} -- Industry 4.0, IoT, umělá inteligence, kyberfyzikální systémy
+\end{itemize}
+
+\textbf{Složky mechatronického systému}\\
+Každý mechatronický výrobek obsahuje tři neoddělitelné složky:
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Mechanická část} -- nosná konstrukce, převody, kinematické
+          vazby; zajišťuje pohyb a přenos sil
+    \item \textbf{Elektronická část} -- senzory (měří fyzikální veličiny),
+          aktuátory (vykonávají pohyb), výkonová elektronika (řídí výkon)
+    \item \textbf{Řídicí část} -- mikrokontrolér nebo PLC s algoritmem;
+          zpracovává data ze senzorů a vydává příkazy aktuátorům
+\end{itemize}
+
+\textbf{Informační toky v mechatronickém systému}\\
+Signál putuje systémem v uzavřené smyčce:
+\begin{enumerate}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item Fyzikální veličina (teplota, tlak, poloha) působí na \textbf{senzor}
+    \item Senzor převede veličinu na elektrický signál (napětí, proud, frekvence)
+    \item Signál je kondicionován (zesílen, filtrován) a převeden A/D převodníkem
+    \item \textbf{Řídicí jednotka} vyhodnotí stav a vypočítá akční zásah
+    \item Akční člen (\textbf{aktuátor}) provede pohyb nebo změnu výkonu
+    \item Nový stav je opět měřen senzorem -- smyčka se uzavírá
+\end{enumerate}
+
+\textbf{Systémový přístup a V-model}\\
+Na rozdíl od tradičního sekvenčního návrhu (nejprve mechanika, pak elektronika,
+nakonec software) systémový přístup navrhuje všechny složky \textit{současně}.
+Standardním postupem je \textbf{V-model}:
+
+\vspace{4pt}
+\begin{center}
+\begin{tikzpicture}[scale=0.85,
+  box/.style={rectangle, draw=accent, fill=lightblue, rounded corners=3pt,
+              minimum width=2.8cm, minimum height=0.6cm, font=\small,
+              text centered}]
+  \node[box] (spec)    at (0,0)    {Specifikace požadavků};
+  \node[box] (arch)    at (2,-1)   {Architektura systému};
+  \node[box] (detail)  at (4,-2)   {Detailní návrh};
+  \node[box] (impl)    at (6,-3)   {Implementace};
+  \node[box] (unit)    at (8,-2)   {Unit testování};
+  \node[box] (integ)   at (10,-1)  {Integrační testy};
+  \node[box] (valid)   at (12,0)   {Validace systému};
+  \draw[>-, accent, thick]
+    (spec) -- (arch) -- (detail) -- (impl) -- (unit) -- (integ) -- (valid);
+  \draw[dashed, medgray]
+    (spec.south east) -- (valid.south west)
+    node[midway, below, font=\scriptsize, color=medgray] {čas / fáze};
+\end{tikzpicture}
+\end{center}
+
+\textbf{Fáze V-modelu v praxi:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Specifikace požadavků} -- co má systém umět (rychlost, přesnost, bezpečnost)
+    \item \textbf{Architektura systému} -- rozdělení na mechaniku, elektroniku, software
+    \item \textbf{Detailní návrh} -- CAD modely, schémata elektroniky, algoritmy
+    \item \textbf{Implementace} -- výroba prototypu, programování, osazování
+    \item \textbf{Unit testování} -- testování jednotlivých komponent
+    \item \textbf{Integrační testy} -- ověření spolupráce všech složek
+    \item \textbf{Validace systému} -- splnění původních požadavků zákazníka
+\end{itemize}
+
+\textbf{SiL a HiL testování}\\
+Moderní vývoj bez fyzického prototypu v raných fázích:
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{SiL} (Software in the Loop) -- software řídicího algoritmu
+          běží na PC a simuluje chování soustavy; testuje logiku bez HW.
+          \textit{Příklad:} Simulace PID regulátoru v MATLAB/Simulink.
+    \item \textbf{HiL} (Hardware in the Loop) -- reálný řídicí HW (PLC, MCU)
+          je připojen k simulátoru fyzikální soustavy; testuje se odezva na
+          reálná vstupní data v reálném čase.
+          \textit{Příklad:} Ověření airbag řídicí jednotky s simulátorem nárazu.
+    \item \textbf{MiL} (Model in the Loop) -- testování matematického modelu
+          proti požadavkům; nejranější fáze verifikace.
+\end{itemize}
+
+\textbf{Příklady mechatronických výrobků}
+
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l X X X @{}}
+    \toprule
+    \textbf{Výrobek} & \textbf{Mechanika} & \textbf{Elektronika}
+                     & \textbf{Řídicí systém} \\
+    \midrule
+    ABS brzdy        & brzdový třmen, pístnice & senzory otáček kol
+                     & ECU, PID regulátor \\
+    Průmyslový robot & kinematický řetězec, klouby & servomotory, enkodéry
+                     & trajektoriový kontrolér \\
+    Pračka           & buben, ložiska, čerpadlo & motor, ventily, senzory
+                     & PLC / MCU, program cyklů \\
+    CNC frézka       & portál, vřeteno, osy & servopohony, čidla polohy
+                     & CNC řídicí systém, G-kód \\
+    \bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Detailní příklad: Antiblokovací brzdový systém (ABS)}\\
+ABS je ukázkový mechatronický systém v automobilu:
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Mechanika:} Brzdový třmen tlačí brzdové destičky na kotouč.
+          Pístnice přenáší sílu z brzdového pedálu.
+    \item \textbf{Elektronika:} Indukční senzory u každého kola měří okamžitou
+          úhlovou rychlost. Při rozdílu otáček kol detekují smyk.
+    \item \textbf{Řízení:} Řídicí jednotka (ECU) vyhodnocuje signály ze senzorů
+          100× za sekundu. Při detekci smyku otevře elektromagnetický ventil,
+          který sníží tlak v brzdovém systému a kolo se opět roztočí.
+\end{itemize}
+
+\textbf{Výhody mechatronického přístupu:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Optimalizace celku} -- lze najít lepší řešení než optimalizací každé části zvlášť
+    \item \textbf{Flexibilita} -- změny ve funkci se často řeší úpravou software
+    \item \textbf{Diagnostika} -- systém umí detekovat poruchy a informovat obsluhu
+    \item \textbf{Adaptivita} -- moderní systémy se učí a přizpůsobují podmínkám
+\end{itemize}
+
+\textbf{Nevýhody a výzvy:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Komplexita} -- těžší pochopení a ladění celého systému
+    \item \textbf{Bezpečnost} -- software může obsahovat chyby s vážnými důsledky
+    \item \textbf{Kyberbezpečnost} -- připojené systémy jsou zranitelné vůči útokům
+    \item \textbf{Odborníci} -- potřeba inženýrů s přesahem do více oborů
+\end{itemize}
+\end{vysvetlenibox}
+
+% ============================================================
+
+% ============================================================
+\end{document}

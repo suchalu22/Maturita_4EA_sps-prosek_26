@@ -1,0 +1,311 @@
+% ============================================================
+%  Příprava na maturitu – Mechatronika
+%  Kompiluj: pdflatex maturita_mechatronika.tex
+%  Kódování: UTF-8
+% ============================================================
+
+\documentclass[a4paper,10pt]{article}
+
+% --- Balíčky ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[left=2.4cm, right=1.8cm, top=1.8cm, bottom=1.8cm]{geometry}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
+
+% --- Barvy ---
+\definecolor{accent}{HTML}{03254E}
+\definecolor{stripeblue}{HTML}{568EA3}
+\definecolor{medgray}{HTML}{888888}
+\definecolor{lightblue}{HTML}{EAF2F8}
+\definecolor{lightyellow}{HTML}{FDFBE4}
+\definecolor{lightgreen}{HTML}{EAF7EA}
+
+% --- Modrý pruh vlevo ---
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[stripeblue]
+      (current page.north west)
+      rectangle
+      ([xshift=10mm] current page.south west);
+    \fill[accent!60]
+      ([xshift=10mm] current page.north west)
+      rectangle
+      ([xshift=12mm] current page.south west);
+  \end{tikzpicture}%
+}
+
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+
+\titleformat{\section}
+  {\large\bfseries\color{accent}}
+  {\thesection.}
+  {0.5em}
+  {}
+  [\color{accent}\titlerule]
+
+\titlespacing{\section}{0pt}{16pt}{6pt}
+
+\newmdenv[
+  backgroundcolor=lightblue,
+  linecolor=stripeblue,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=4pt
+]{pojmybox}
+
+\newmdenv[
+  backgroundcolor=lightyellow,
+  linecolor=accent!40,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vysvetlenibox}
+
+\newmdenv[
+  backgroundcolor=lightgreen,
+  linecolor=accent!30,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vzorcebox}
+
+\pagestyle{plain}
+
+% ============================================================
+\begin{document}
+
+% --- Záhlaví ---
+\begin{minipage}[t]{0.75\textwidth}
+    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
+    {\large\color{stripeblue} Mechatronika}\\[2pt]
+    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.22\textwidth}
+    \raggedleft
+    \begin{tikzpicture}
+        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
+            (0,0) rectangle (3,1.2)
+            node[midway, align=center, color=accent, font=\small\bfseries]
+            {Otázek: 22};
+    \end{tikzpicture}
+\end{minipage}
+
+\vspace{6pt}
+\noindent\color{accent}\rule{\linewidth}{1.5pt}
+\vspace{2pt}
+
+% ============================================================
+\section{Kombinační logické řízení, minimalizace}
+
+\begin{pojmybox}
+\textbf{Klíčové pojmy:}
+kombinační obvod, DNF, KNF, Karnaughova mapa, minterm, maxterm,
+Quine-McCluskey, multiplexer, demultiplexer, dekodér, enkodér, sčítačka
+\end{pojmybox}
+
+\begin{vysvetlenibox}
+\textbf{Kombinační obvod}\\
+Výstup závisí \textit{pouze} na okamžitých vstupech -- obvod nemá paměť.
+Logická funkce se popisuje pravdivostní tabulkou nebo algebraickým výrazem.
+
+\textbf{Příklad: Hlasovací systém}\\
+Mějme 3 členy komise (A, B, C). Návrh projde, když hlasují \textit{alespoň 2} pro.
+\begin{center}
+\begin{tabular}{ccc|c}
+    \toprule
+    A & B & C & Výstup Y \\
+    \midrule
+    0 & 0 & 0 & 0 \\
+    0 & 0 & 1 & 0 \\
+    0 & 1 & 0 & 0 \\
+    0 & 1 & 1 & 1 \\
+    1 & 0 & 0 & 0 \\
+    1 & 0 & 1 & 1 \\
+    1 & 1 & 0 & 1 \\
+    1 & 1 & 1 & 1 \\
+    \bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{DNF a KNF}\\
+Postup vytvoření normálních forem z pravdivostní tabulky:
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{DNF} (Disjunktivní normální forma) -- součet součinů
+          (mintermů); pro každý řádek, kde výstup = 1.
+          \textit{Příklad:} $Y = \overline{A}BC + A\overline{B}C + AB\overline{C} + ABC$
+    \item \textbf{KNF} (Konjunktivní normální forma) -- součin součtů
+          (maxtermů); pro každý řádek, kde výstup = 0.
+          \textit{Příklad:} $Y = (A+B+C)(A+B+\overline{C})(A+\overline{B}+C)(\overline{A}+B+C)$
+\end{itemize}
+
+\textbf{Postup minimalizace pomocí Karnaughovy mapy:}
+\begin{enumerate}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item Sestrojíme K-mapu z pravdivostní tabulky
+    \item Seskupíme jedničky do skupin o velikosti $2^n$ (1, 2, 4, 8\ldots)
+    \item Skupiny mohou přesahovat přes okraje (mapa je "srolovaná")
+    \item Z každé skupiny vyvodíme zjednodušený výraz
+    \item Výsledná funkce je součtem všech skupin
+\end{enumerate}
+
+\textbf{Karnaughova mapa -- postup minimalizace}\\
+Grafická metoda pro minimalizaci až 4 proměnných.
+Sousední buňky se liší v \textit{jedné} proměnné (Grayův kód).
+Seskupujeme jedničky do skupin o velikosti $2^n$ (1, 2, 4, 8\ldots).
+Čím větší skupina, tím jednodušší výsledný výraz.
+
+\textbf{Pravidla pro Karnaughovu mapu:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Počet buněk:} $2^n$ kde $n$ je počet proměnných (2→4, 3→8, 4→16)
+    \item \textbf{Číslování os:} Grayův kód (00, 01, 11, 10) -- sousedi se liší o 1 bit
+    \item \textbf{Seskupování:} skupiny musí být obdélníkové, velikost $2^n$
+    \item \textbf{Přesahy:} mapa je "nekonečná" -- levý okraj sousedí s pravým
+    \item \textbf{Cíl:} co nejméně skupin, každá co největší
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.75]
+  % Karnaughova mapa 3 proměnné (A, BC)
+  \draw[accent, thick] (0,0) grid (4,2);
+  % Záhlaví
+  \node at (-0.6, 1.5) {\small $A=0$};
+  \node at (-0.6, 0.5) {\small $A=1$};
+  \node at (0.5, 2.3)  {\small $BC{=}00$};
+  \node at (1.5, 2.3)  {\small $BC{=}01$};
+  \node at (2.5, 2.3)  {\small $BC{=}11$};
+  \node at (3.5, 2.3)  {\small $BC{=}10$};
+  % Hodnoty (příklad: f = A·B + C)
+  \node at (0.5,1.5) {0};
+  \node at (1.5,1.5) {1};
+  \node at (2.5,1.5) {1};
+  \node at (3.5,1.5) {0};
+  \node at (0.5,0.5) {0};
+  \node at (1.5,0.5) {1};
+  \node at (2.5,0.5) {1};
+  \node at (3.5,0.5) {1};
+  % Skupiny
+  \draw[stripeblue, very thick, rounded corners=4pt]
+    (1.08,0.08) rectangle (2.92,1.92);
+  \draw[red!70!black, very thick, rounded corners=4pt]
+    (2.08,-0.05) rectangle (4.05,0.95);
+  % Popisky skupin
+  \node[color=stripeblue, font=\scriptsize] at (2,2.7) {skupina: $B$};
+  \node[color=red!70!black, font=\scriptsize] at (3.5,-0.4) {skupina: $A\cdot C$};
+\end{tikzpicture}
+\end{center}
+
+\begin{vzorcebox}
+Výsledek minimalizace: $f = B + A \cdot \overline{C}$
+\quad (místo původního rozsáhlého DNF výrazu)
+\end{vzorcebox}
+
+\textbf{Quine-McCluskeyho metoda}\\
+Pro více než 4 proměnné se používá algoritmická metoda:
+\begin{enumerate}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item Seřadíme mintermy podle počtu jedniček v binárním zápisu
+    \item Hledáme dvojice, které se liší v jednom bitu a slučujeme je
+    \item Opakujeme, dokud nelze dále slučovat
+    \item Z výsledných prvočlenů vybereme minimální pokrytí
+\end{enumerate}
+Tato metoda je vhodná pro počítačovou implementaci.
+
+\textbf{Typické kombinační obvody}
+
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l X @{}}
+    \toprule
+    \textbf{Obvod}    & \textbf{Funkce} \\
+    \midrule
+    Multiplexer (MUX) & Vybírá 1 ze $2^n$ vstupů a přepošle na výstup dle adresních vodičů \\
+    Demultiplexer     & Směruje 1 vstup na 1 z $2^n$ výstupů \\
+    Dekodér           & Převádí $n$-bitový kód na $2^n$ výstupů (aktivní vždy jen 1) \\
+    Enkodér           & Opak dekodéru -- $2^n$ vstupů na $n$-bitový kód \\
+    Polosčítačka      & Sčítá 2 bity, výstupy: součet $S$ a přenos $C$ \\
+    Úplná sčítačka    & Sčítá 2 bity + vstupní přenos; základ ALU \\
+    Komparátor        & Porovnává dvě $n$-bitová čísla ($A>B$, $A=B$, $A<B$) \\
+    \bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Multiplexer v praxi}\\
+Multiplexer funguje jako "číselný přepínač". Příklad: 4:1 MUX má 4 datové vstupy
+($D_0$--$D_3$), 2 adresní vstupy ($A_0$, $A_1$) a 1 výstup ($Y$).
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item Pokud $A_1A_0 = 00$, na výstup jde $D_0$
+    \item Pokud $A_1A_0 = 01$, na výstup jde $D_1$
+    \item Pokud $A_1A_0 = 10$, na výstup jde $D_2$
+    \item Pokud $A_1A_0 = 11$, na výstup jde $D_3$
+\end{itemize}
+\textit{Použití:} výběr signálu z více zdrojů, paralelně-sériový převod.
+
+\textbf{Dekodér a enkodér}\\
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Dekodér 3:8} -- 3 bity na vstupu aktivují 1 z 8 výstupů.
+          Použití: adresa paměti, výběr periférie, řízení 7-segmentového displeje.
+    \item \textbf{Enkodér 8:3} -- 8 vstupů, aktivní vždy jen jeden; výstup je 3bitový kód.
+          Prioritní enkodér řeší situaci, kdy je aktivních více vstupů (vybere nejvyšší).
+\end{itemize}
+
+\textbf{Sčítačky a ALU}\\
+Polosčítačka sčítá 2 bity, ale neumí přenos ze sčítání nižšího řádu.
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Polosčítačka} -- 2 vstupy ($A$, $B$), 2 výstupy ($S$, $C_{out}$)
+    \item \textbf{Úplná sčítačka} -- 3 vstupy ($A$, $B$, $C_{in}$), 2 výstupy ($S$, $C_{out}$)
+    \item \textbf{4bitová sčítačka} -- 4 úplné sčítačky za sebou; $C_{out}$ z předchozí jde do $C_{in}$ další
+\end{itemize}
+ALU (Arithmetic Logic Unit) v procesoru obsahuje sčítačky, logické funkce
+a posuvné registry -- vše jsou kombinační obvody.
+
+\begin{vzorcebox}
+Polosčítačka: $S = A \oplus B$, \quad $C = A \cdot B$\\
+Úplná sčítačka: $S = A \oplus B \oplus C_{in}$, \quad
+$C_{out} = A \cdot B + C_{in} \cdot (A \oplus B)$\\
+4bitová sčítačka: $C_{out}$ z bitu 0 jde do $C_{in}$ bitu 1 atd.
+\end{vzorcebox}
+
+\textbf{Komparátor}\\
+Porovnává dvě čísla $A$ a $B$. Výstupy: $A>B$, $A=B$, $A<B$.
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item Rovnost: $A=B$ když všechny bity souhlasí ($XNOR$ každého páru bitů)
+    \item Větší: $A>B$ když nejvyšší neshodný bit je u $A$ roven 1
+\end{itemize}
+\textit{Použití:} řízení procesů, bezpečnostní limity, třídění dat.
+\end{vysvetlenibox}
+
+% ============================================================
+
+% ============================================================
+\end{document}

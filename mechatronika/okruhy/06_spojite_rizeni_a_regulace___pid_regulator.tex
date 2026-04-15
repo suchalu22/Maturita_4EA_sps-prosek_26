@@ -1,0 +1,325 @@
+% ============================================================
+%  Příprava na maturitu – Mechatronika
+%  Kompiluj: pdflatex maturita_mechatronika.tex
+%  Kódování: UTF-8
+% ============================================================
+
+\documentclass[a4paper,10pt]{article}
+
+% --- Balíčky ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[left=2.4cm, right=1.8cm, top=1.8cm, bottom=1.8cm]{geometry}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
+
+% --- Barvy ---
+\definecolor{accent}{HTML}{03254E}
+\definecolor{stripeblue}{HTML}{568EA3}
+\definecolor{medgray}{HTML}{888888}
+\definecolor{lightblue}{HTML}{EAF2F8}
+\definecolor{lightyellow}{HTML}{FDFBE4}
+\definecolor{lightgreen}{HTML}{EAF7EA}
+
+% --- Modrý pruh vlevo ---
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[stripeblue]
+      (current page.north west)
+      rectangle
+      ([xshift=10mm] current page.south west);
+    \fill[accent!60]
+      ([xshift=10mm] current page.north west)
+      rectangle
+      ([xshift=12mm] current page.south west);
+  \end{tikzpicture}%
+}
+
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+
+\titleformat{\section}
+  {\large\bfseries\color{accent}}
+  {\thesection.}
+  {0.5em}
+  {}
+  [\color{accent}\titlerule]
+
+\titlespacing{\section}{0pt}{16pt}{6pt}
+
+\newmdenv[
+  backgroundcolor=lightblue,
+  linecolor=stripeblue,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=4pt
+]{pojmybox}
+
+\newmdenv[
+  backgroundcolor=lightyellow,
+  linecolor=accent!40,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vysvetlenibox}
+
+\newmdenv[
+  backgroundcolor=lightgreen,
+  linecolor=accent!30,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vzorcebox}
+
+\pagestyle{plain}
+
+% ============================================================
+\begin{document}
+
+% --- Záhlaví ---
+\begin{minipage}[t]{0.75\textwidth}
+    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
+    {\large\color{stripeblue} Mechatronika}\\[2pt]
+    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.22\textwidth}
+    \raggedleft
+    \begin{tikzpicture}
+        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
+            (0,0) rectangle (3,1.2)
+            node[midway, align=center, color=accent, font=\small\bfseries]
+            {Otázek: 22};
+    \end{tikzpicture}
+\end{minipage}
+
+\vspace{6pt}
+\noindent\color{accent}\rule{\linewidth}{1.5pt}
+\vspace{2pt}
+
+% ============================================================
+\section{Spojité řízení a regulace -- PID regulátor}
+
+\begin{pojmybox}
+\textbf{Klíčové pojmy:}
+zpětná vazba, odchylka, P, I, D složka, proporcionální zesílení,
+integrační čas, derivační čas, přeregulace, ustálená odchylka,
+ladění (Ziegler-Nichols), přenosová funkce regulátoru
+\end{pojmybox}
+
+\begin{vysvetlenibox}
+\textbf{Princip zpětnovazebního řízení}\\
+Regulace s uzavřenou smyčkou porovnává skutečnou hodnotu $y$ s požadovanou
+hodnotou $w$ a vypočítává akční zásah $u$ tak, aby se odchylka $e = w - y$
+minimalizovala.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9,
+  block/.style={rectangle, draw=accent, fill=lightblue,
+                minimum width=1.8cm, minimum height=0.7cm,
+                text centered, font=\small},
+  sum/.style={circle, draw=accent, fill=lightblue,
+              minimum size=0.5cm, font=\small}]
+  \node[sum]   (sum)  at (1,0)   {$\Sigma$};
+  \node[block] (reg)  at (3,0)   {PID};
+  \node[block] (akt)  at (5.2,0) {Aktuátor};
+  \node[block] (sus)  at (7.4,0) {Soustava};
+  \node[block] (sen)  at (7.4,-1.5) {Senzor};
+  \node (w) at (-0.5, 0) {$w$};
+  \node (y) at (9.2,  0) {$y$};
+  \draw[>-] (w)    -- (sum);
+  \draw[>-] (sum)  -- (reg) node[midway,above,font=\scriptsize]{$e$};
+  \draw[>-] (reg)  -- (akt) node[midway,above,font=\scriptsize]{$u$};
+  \draw[>-] (akt)  -- (sus);
+  \draw[>-] (sus)  -- (y);
+  \draw[>-] (8.3,0) --  (sen);
+  \draw[>-] (sen)   -- (sum) node[near end, left, font=\scriptsize]{$-$};
+\end{tikzpicture}
+\end{center}
+
+\textbf{Typy regulací podle žádané hodnoty:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Stabilizace} -- $w = \text{konst.}$; udržování konstantní teploty, otáček
+    \item \textbf{Sledování} -- $w = f(t)$; robot sleduje trajektorii, anténa sleduje družici
+    \item \textbf{Programová regulace} -- $w$ se mění podle předem daného programu
+          (např. pec: ohřev $\to$ výdrž $\to$ chlazení)
+\end{itemize}
+
+\textbf{Matematický popis PID regulátoru}
+
+\begin{vzorcebox}
+$$u(t) = K_p \left[ e(t) + \frac{1}{T_i}\int_0^t e(\tau)\,d\tau
++ T_d \frac{de(t)}{dt} \right]$$
+Přenosová funkce: $G_R(s) = K_p \left(1 + \frac{1}{T_i s} + T_d s\right)$
+\end{vzorcebox}
+
+\textbf{Fyzikální význam parametrů:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{$K_p$} (proporcionální zesílení) -- určuje sílu reakce na chybu
+    \item \textbf{$T_i$} (integrační čas) -- doba, za kterou I-složka "dohoní" P-složku
+    \item \textbf{$T_d$} (derivační čas) -- jak dopředu se díváme pro predikci
+    \item \textbf{Alternativní zápis:} $K_i = K_p/T_i$, $K_d = K_p \cdot T_d$
+\end{itemize}
+
+\textbf{Vliv jednotlivých složek}
+
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l X X X @{}}
+    \toprule
+    \textbf{Složka} & \textbf{Efekt} & \textbf{Zvyšování}
+                    & \textbf{Nebezpečí} \\
+    \midrule
+    P & Rychlá reakce & Rychlejší odezva & Trvalá odchylka, kmity \\
+    I & Odstraní trvale odchylku & Rychlejší eliminace & Přeregulace, nestabilita \\
+    D & Tlumí kmitání & Méně překmitu & Zesiluje šum \\
+    \bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Projevy jednotlivých složek v čase:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{P-složka} -- reaguje okamžitě na přítomnou chybu;
+          chyba $\to$ akce; problém: zůstává trvalá odchylka
+    \item \textbf{I-složka} -- reaguje na minulost (akumuluje chybu);
+          čím déle trvá chyba, tím větší akce; eliminuje trvalou odchylku
+    \item \textbf{D-složka} -- reaguje na budoucnost (predikce);
+          když chyba rychle roste, D-složka brzdí; tlumí překmit
+\end{itemize}
+
+\textbf{Problémy v praxi:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Derivační ráz} -- skok žádané hodnoty $\to$ D-složka "vyšílí";
+          řeší se derivace podle výstupu $y$ místo chyby $e$
+    \item \textbf{Windup} -- při saturaci se integrátor "nabije";
+          řeší se antiwindup (podmíněná integrace, back-calculation)
+    \item \textbf{Šum} -- D-složka zesiluje vysokofrekvenční šum;
+          řeší se filtrací měřeného signálu
+\end{itemize}
+
+\textbf{Metoda Ziegler-Nichols (oscilační)}\\
+Jedna z nejznámějších metod ladění PID regulátoru, vyvinutá v roce 1942.
+Postup pro určení optimálních parametrů:
+
+\begin{enumerate}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item Nastavit $T_i = \infty$, $T_d = 0$ (čistý P regulátor)
+    \item Zvyšovat $K_p$ až do trvalých nehasících kmitů (hranice stability)
+    \item Odečíst kritické zesílení $K_{kr}$ a kritickou periodu $T_{kr}$
+    \item Vypočítat parametry dle tabulky:
+\end{enumerate}
+
+\begin{center}
+\begin{tabular}{@{} l c c c @{}}
+    \toprule
+    \textbf{Typ} & $K_p$ & $T_i$ & $T_d$ \\
+    \midrule
+    P   & $0{,}50\,K_{kr}$ & $\infty$ & $0$ \\
+    PI  & $0{,}45\,K_{kr}$ & $0{,}83\,T_{kr}$ & $0$ \\
+    PID & $0{,}60\,K_{kr}$ & $0{,}50\,T_{kr}$ & $0{,}125\,T_{kr}$ \\
+    \bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Nevýhody Ziegler-Nichols:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item Systém se musí dostat do kmitů -- nevhodné pro některé provozy
+    \item Výsledek je často příliš "agresivní" (velké překmity)
+    \item Neplatí pro soustavy s velkým dopravním zpožděním
+\end{itemize}
+
+\textbf{Další metody ladění:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Chua-Broida} -- založená na přechodové charakteristice;
+          změříme čas $T_{63\%}$ a $T_{28\%}$, vypočítáme $T_i$, $T_d$
+    \item \textbf{Heuris-tické} -- $T_i \approx 4 \cdot T_{63\%}$, $T_d \approx T_{63\%} / 2$
+    \item \textbf{Auto-tuning} -- moderní regulátory samy najdou parametry
+          (Siemens, ABB, Honeywell mají vestavěné auto-tuning funkce)
+    \item \textbf{Optimalizační} -- minimalizace kritéria (ISE, IAE, ITAE)
+          pomocí numerických metod
+\end{itemize}
+
+\textbf{Kritéria kvality regulace:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{ISE} (Integral of Squared Error) -- $\int e^2 dt$;
+          penalizuje velké chyby
+    \item \textbf{IAE} (Integral of Absolute Error) -- $\int |e| dt$;
+          rovnoměrná penalizace
+    \item \textbf{ITAE} (Integral of Time-weighted AE) -- $\int t \cdot |e| dt$;
+          penalizuje chyby, které přetrvávají dlouho
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+  width=9cm, height=4.5cm,
+  xlabel={Čas $t$ [s]},
+  ylabel={Výstup $y(t)$},
+  xmin=0, xmax=10, ymin=0, ymax=1.5,
+  grid=major, grid style={dotted, medgray},
+  legend pos=south east,
+  legend style={font=\small},
+  tick label style={font=\small},
+  label style={font=\small},
+  title style={font=\small\bfseries},
+  title={Srovnání odezvy regulátorů na skok žádané hodnoty}
+]
+\addplot[accent, thick, domain=0:10, samples=80]
+    {1 - exp(-1.5*x)*(cos(deg(2*x)) + 0.5*sin(deg(2*x)))};
+\addlegendentry{PID}
+\addplot[stripeblue, dashed, thick, domain=0:10, samples=80]
+    {1 - exp(-0.8*x)};
+\addlegendentry{PI}
+\addplot[red!70!black, dotted, thick, domain=0:10, samples=80]
+    {1 - exp(-0.5*x) - 0.1};
+\addlegendentry{P (trvalá odch.)}
+\addplot[medgray, domain=0:10] {1};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\textbf{Příklad z praxe: Regulace teploty v peci}\\
+Máme pec s topným tělesem (0--230\,V) a teploměrem (Pt100).
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Krok 1:} Nastavíme čistý P režim ($T_i=\infty$, $T_d=0$)
+    \item \textbf{Krok 2:} Zvyšujeme $K_p$ od 1 do 50; při $K_p=42$ začne systém
+          kmitat s periodou $T_{kr} = 120$\,s
+    \item \textbf{Krok 3:} Pro PID: $K_p = 0{,}6 \cdot 42 = 25{,}2$,
+          $T_i = 0{,}5 \cdot 120 = 60$\,s, $T_d = 0{,}125 \cdot 120 = 15$\,s
+    \item \textbf{Krok 4:} Ověříme funkčnost, případně doladíme pro menší překmit
+\end{itemize}
+\end{vysvetlenibox}
+
+% ============================================================
+
+% ============================================================
+\end{document}

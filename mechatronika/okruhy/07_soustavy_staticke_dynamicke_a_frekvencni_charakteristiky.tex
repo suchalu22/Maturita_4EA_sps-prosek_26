@@ -1,0 +1,302 @@
+% ============================================================
+%  Příprava na maturitu – Mechatronika
+%  Kompiluj: pdflatex maturita_mechatronika.tex
+%  Kódování: UTF-8
+% ============================================================
+
+\documentclass[a4paper,10pt]{article}
+
+% --- Balíčky ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[left=2.4cm, right=1.8cm, top=1.8cm, bottom=1.8cm]{geometry}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
+
+% --- Barvy ---
+\definecolor{accent}{HTML}{03254E}
+\definecolor{stripeblue}{HTML}{568EA3}
+\definecolor{medgray}{HTML}{888888}
+\definecolor{lightblue}{HTML}{EAF2F8}
+\definecolor{lightyellow}{HTML}{FDFBE4}
+\definecolor{lightgreen}{HTML}{EAF7EA}
+
+% --- Modrý pruh vlevo ---
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[stripeblue]
+      (current page.north west)
+      rectangle
+      ([xshift=10mm] current page.south west);
+    \fill[accent!60]
+      ([xshift=10mm] current page.north west)
+      rectangle
+      ([xshift=12mm] current page.south west);
+  \end{tikzpicture}%
+}
+
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+
+\titleformat{\section}
+  {\large\bfseries\color{accent}}
+  {\thesection.}
+  {0.5em}
+  {}
+  [\color{accent}\titlerule]
+
+\titlespacing{\section}{0pt}{16pt}{6pt}
+
+\newmdenv[
+  backgroundcolor=lightblue,
+  linecolor=stripeblue,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=4pt
+]{pojmybox}
+
+\newmdenv[
+  backgroundcolor=lightyellow,
+  linecolor=accent!40,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vysvetlenibox}
+
+\newmdenv[
+  backgroundcolor=lightgreen,
+  linecolor=accent!30,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vzorcebox}
+
+\pagestyle{plain}
+
+% ============================================================
+\begin{document}
+
+% --- Záhlaví ---
+\begin{minipage}[t]{0.75\textwidth}
+    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
+    {\large\color{stripeblue} Mechatronika}\\[2pt]
+    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.22\textwidth}
+    \raggedleft
+    \begin{tikzpicture}
+        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
+            (0,0) rectangle (3,1.2)
+            node[midway, align=center, color=accent, font=\small\bfseries]
+            {Otázek: 22};
+    \end{tikzpicture}
+\end{minipage}
+
+\vspace{6pt}
+\noindent\color{accent}\rule{\linewidth}{1.5pt}
+\vspace{2pt}
+
+% ============================================================
+\section{Soustavy, statické, dynamické a frekvenční charakteristiky}
+
+\begin{pojmybox}
+\textbf{Klíčové pojmy:}
+přenosová funkce, řádová soustava, přechodová charakteristika,
+impulsní odezva, Bodeův diagram, frekvenční charakteristika,
+fázová bezpečnost, amplitudová bezpečnost, póly, nuly
+\end{pojmybox}
+
+\begin{vysvetlenibox}
+\textbf{Přenosová funkce}\\
+Přenosová funkce je matematický model, který popisuje vstupně-výstupní
+vztah lineární soustavy v komplexní oblasti. Používá se Laplaceova
+transformace, která převádí diferenciální rovnice na algebraické rovnice.
+
+\begin{vzorcebox}
+$$G(s) = \frac{Y(s)}{U(s)} = \frac{b_m s^m + \cdots + b_0}
+{a_n s^n + \cdots + a_0}$$
+kde $s = j\omega$ je komplexní proměnná (Laplaceova transformace).\\
+Soustava 1. řádu: $G(s) = \frac{K}{Ts + 1}$ \quad
+(zesílení $K$, časová konstanta $T$)\\
+Soustava 2. řádu: $G(s) = \frac{\omega_n^2}{s^2 + 2\zeta\omega_n s + \omega_n^2}$
+\quad ($\zeta$ = poměrný útlum)
+\end{vzorcebox}
+
+\textbf{Póly a nuly přenosové funkce:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Nuly} -- kořeny čitatele; frekvence, při kterých je výstup nulový
+    \item \textbf{Póly} -- kořeny jmenovatele; určují stabilitu a dynamiku
+    \item \textbf{Stabilita:} všechny póly musí mít zápornou reálnou část
+          (být v levé polorovině komplexní roviny)
+\end{itemize}
+
+\textbf{Typické soustavy podle řádu:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{0. řád} -- $G(s) = K$; okamžitá odezva bez zpoždění
+          (ideální zesilovač, dělič napětí)
+    \item \textbf{1. řád} -- jeden pól; exponenciální náběh s časovou konstantou $T$
+          (RC článek, ohřev s tělesem, nádrž s odtokem)
+    \item \textbf{2. řád} -- dva póly; může kmitat při nízkém útlumu
+          (pružina-hmota, RLC obvod, kyvadlo)
+    \item \textbf{3. a vyšší řád} -- složené soustavy; často se aproximují
+          na soustavu 1. nebo 2. řádu s dopravním zpožděním
+\end{itemize}
+
+\textbf{Dopravní zpoždění}\\
+Některé systémy mají čisté zpoždění (materiál putuje pásem, signál se
+zpracovává): $G(s) = G_0(s) \cdot e^{-Ls}$, kde $L$ je doba zpoždění.
+Ve frekvenční oblasti: $e^{-j\omega L}$ -- fázový posun lineární s $\omega$.
+
+\textbf{Charakteristiky soustav}
+
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l X X @{}}
+    \toprule
+    \textbf{Charakteristika} & \textbf{Co popisuje} & \textbf{Jak se měří} \\
+    \midrule
+    Statická & Závislost výstupu na vstupu v ustáleném stavu;
+               sklon = statické zesílení $K$
+             & Nastavíme různé vstupy, čekáme na ustálení \\
+    Přechodová & Odezva na jednotkový skok;
+                 odečítáme $T$, $K$, přeregulaci $\sigma$
+              & Skok vstupu, záznam výstupu \\
+    Frekvenční & Bodeův diagram: $|G(j\omega)|$ a $\angle G(j\omega)$ vs. $\omega$
+              & Harmonické buzení různých frekvencí \\
+    Impulsní & Odezva na Diracův impuls; derivace přechodové
+              & Krátký intenzivní zásah, záznam odezvy \\
+    \bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Parametry přechodové charakteristiky:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{$T_{63\%}$} -- čas, za který výstup dosáhne 63\% ustálené hodnoty
+          (pro soustavu 1. řádu: $T_{63\%} = T$)
+    \item \textbf{$T_{95\%}$} -- čas dosažení 95\% (pro 1. řád: $\approx 3T$)
+    \item \textbf{Přeregulace $\sigma$} -- maximální překmit nad ustálenou hodnotu [\%]
+    \item \textbf{Doba ustálení $T_u$} -- čas, kdy se výstup udrží v pásmu $\pm 5\,\%$
+\end{itemize}
+
+\textbf{Bodeův diagram -- princip}\\
+Bodeův diagram se skládá ze dvou grafů:
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Amplitudová charakteristika} -- $|G(j\omega)|$ [dB] vs. $\omega$ [log]
+    \item \textbf{Fázová charakteristika} -- $\angle G(j\omega)$ [°] vs. $\omega$ [log]
+\end{itemize}
+
+\textbf{Asymptotický průběh pro soustavu 1. řádu:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item Pro $\omega < \omega_c$ (lomová frekvence): vodorovná čára na 0\,dB
+    \item Pro $\omega > \omega_c$: klesající čára se sklonem $-20$\,dB/dekádu
+    \item Fáze: přechod od 0° k $-90°$ v okolí $\omega_c$
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{semilogxaxis}[
+  width=9cm, height=4cm,
+  xlabel={Frekvence $\omega$ [rad/s]},
+  ylabel={Zesílení [dB]},
+  xmin=0.01, xmax=100,
+  ymin=-40, ymax=5,
+  grid=major, grid style={dotted,medgray},
+  tick label style={font=\small},
+  label style={font=\small},
+  title={Bodeův diagram $G(s)=\frac{1}{s+1}$},
+  title style={font=\small\bfseries}
+]
+\addplot[accent, thick, domain=0.01:100, samples=200]
+    {-10*log10(1 + x^2)};
+\addplot[stripeblue, dashed, domain=0.01:1] {0};
+\addplot[stripeblue, dashed, domain=1:100]  {-20*(log10(x))};
+\draw[red!70, dashed] (axis cs:1,-40) -- (axis cs:1,5)
+    node[above, font=\scriptsize, color=red!70] {$\omega_c=1/T$};
+\end{semilogxaxis}
+\end{tikzpicture}
+\end{center}
+
+\textbf{Pravidla pro kreslení Bodeova diagramu:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Zesílení $K$} -- posune amplitudu o $20\log_{10}K$ dB
+    \item \textbf{Pól v počátku} ($1/s$) -- sklon $-20$\,dB/dek, fáze $-90°$
+    \item \textbf{Pól reálný} ($1/(Ts+1)$) -- lom při $\omega=1/T$, sklon $-20$\,dB/dek
+    \item \textbf{Dvojice pólů} (2. řád) -- sklon $-40$\,dB/dek, fáze $-180°$
+    \item \textbf{Nula} -- opačný efekt než pól (kladný sklon)
+\end{itemize}
+
+\textbf{Stabilitní kritéria z Bodeova diagramu}
+
+\begin{vzorcebox}
+\textbf{Fázová bezpečnost:} $\varphi_m = 180° + \angle G(j\omega_0)$
+kde $\omega_0$ je frekvence, při níž $|G|=0\,\text{dB}$.
+Požadujeme $\varphi_m > 30°$ (typicky $45°$--$60°$).\\[4pt]
+\textbf{Amplitudová bezpečnost:} $A_m = -|G(j\omega_{\pi})|$
+kde $\omega_{\pi}$ je frekvence, při níž $\angle G = -180°$.
+Požadujeme $A_m > 6\,\text{dB}$.
+\end{vzorcebox}
+
+\textbf{Význam bezpečností:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Fázová bezpečnost} -- jak daleko jsme od vzniku kmitů;
+          malá $\varphi_m$ $\to$ velké překmity, oscilace
+    \item \textbf{Amplitudová bezpečnost} -- jak můžeme zvýšit zesílení,
+          než systém ztratí stabilitu
+    \item \textbf{Typické hodnoty:} $\varphi_m = 45°\text{--}60°$, $A_m = 6\text{--}12$\,dB
+\end{itemize}
+
+\textbf{Nyquistův diagram}\\
+Alternativa k Bodeovu diagramu -- komplexní přenosová funkce
+$G(j\omega)$ se vykreslí do jedné křivky v komplexní rovině.
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item Vzdálenost od bodu $[-1, j0]$ určuje stabilitu
+    \item Kritério: křivka nesmí obklopit bod $[-1, j0]$
+    \item Výhoda: vidíme amplitudu i fázi najednou
+\end{itemize}
+
+\textbf{Identifikace soustavy z měření}\\
+Postup, když neznáme matematický model:
+\begin{enumerate}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item Změříme přechodovou charakteristiku (skok vstupu)
+    \item Odečteme $T_{63\%}$, $T_{28\%}$, přeregulaci $\sigma$
+    \item Typ soustavy: bez přeregulace $\to$ 1. řád; s přeregulací $\to$ 2. řád
+    \item Vypočítáme parametry: $T = T_{63\%}$, $K = y(\infty)/u_{skok}$
+    \item Ověříme na frekvenční charakteristice
+\end{enumerate}
+\end{vysvetlenibox}
+
+% ============================================================
+
+% ============================================================
+\end{document}
