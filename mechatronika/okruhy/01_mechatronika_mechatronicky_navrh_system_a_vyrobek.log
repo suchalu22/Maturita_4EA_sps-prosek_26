@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2026.4.10)  15 APR 2026 15:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2026.4.10)  21 APR 2026 10:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1133,12 +1133,12 @@ File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg)
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg)
-Underfull \hbox (badness 10000) in paragraph at lines 248--248
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
 []|\T1/lmr/m/n/10 (+20) kinematický °e-t¥-zec,
  []
 
 
-Underfull \hbox (badness 2478) in paragraph at lines 248--248
+Underfull \hbox (badness 2478) in paragraph at lines 250--250
 []|\T1/lmr/m/n/10 (+20) servopohony, £i-dla po-
  []
 
@@ -1148,6 +1148,8 @@ Underfull \hbox (badness 2478) in paragraph at lines 248--248
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/
 dvips/lm/lm-ec.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}]
+Package mdframed Info: Not enough space on this page on input line 280.
+
 
 [2] (./01_mechatronika_mechatronicky_navrh_system_a_vyrobek.aux)
  ***********
@@ -1159,11 +1161,11 @@ _vyrobek.out' has not changed.
 (rerunfilecheck)             Checksum: 437C05E16BADD589D246498F7105B1C7;325.
  ) 
 Here is how much of TeX's memory you used:
- 37067 strings out of 473197
- 842040 string characters out of 5718605
- 1438067 words of memory out of 5000000
+ 37063 strings out of 473197
+ 841998 string characters out of 5718605
+ 1426067 words of memory out of 5000000
  59623 multiletter control sequences out of 15000+600000
- 607004 words of font info for 104 fonts, out of 8000000 for 9000
+ 606827 words of font info for 102 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  102i,9n,107p,1181b,986s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/ty
@@ -1173,7 +1175,7 @@ lic/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr7.pfb></usr/share/t
 exmf/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf/fonts/type1/public/lm/lmr
 i10.pfb>
 Output written on 01_mechatronika_mechatronicky_navrh_system_a_vyrobek.pdf (2 p
-ages, 216164 bytes).
+ages, 216181 bytes).
 PDF statistics:
  78 PDF objects out of 1000 (max. 8388607)
  56 compressed objects within 1 object stream

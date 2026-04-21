@@ -27,6 +27,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{pgfplots}
+\usepackage{karnaugh-map}
 \pgfplotsset{compat=1.18}
 \usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
 
@@ -133,9 +134,8 @@
 
 \begin{pojmybox}
 \textbf{Klíčové pojmy:}
-Booleova algebra, logické funkce (AND, OR, NOT, NAND, NOR, XOR),
-pravdivostní tabulka, IEC~61131-3, LD, FBD, IL, ST, SFC,
-funkčně úplný systém
+Booleova algebra, Karnaughova mapa, logické funkce (AND, OR, NOT, NAND, NOR, XOR),
+pravdivostní tabulka, funkčně úplný systém
 \end{pojmybox}
 
 \begin{vysvetlenibox}
@@ -278,6 +278,48 @@ END_IF;
 Různí výrobci PLC (Siemens, Allen-Bradley, Schneider) mají vlastní tradice.
 Norma IEC 61131-3 umožňuje přenositelnost programů mezi platformami a usnadňuje
 komunikaci mezi dodavateli.
+\end{vysvetlenibox}
+
+\newpage
+\begin{vysvetlenibox}
+	\textbf{Příklad}\\
+	Jsou tři větráky a, b, c a alarm x, pokud dva a více větráků nefungují, spustí se alarm
+	
+	\textbf{Pravdivostní tabulka}
+	\[
+	\begin{array}{|c|c|c||c|}
+		\hline
+		A & B & C & X \\
+		\hline
+		0 & 0 & 0 & 1 \\
+		0 & 0 & 1 & 1 \\
+		0 & 1 & 0 & 1 \\
+		0 & 1 & 1 & 0 \\
+		\hline
+		1 & 0 & 0 & 1 \\
+		1 & 0 & 1 & 0 \\
+		1 & 1 & 0 & 0 \\
+		1 & 1 & 1 & 0 \\
+		\hline
+
+	\end{array}
+	\]
+	
+\textbf{Karnaughova mapa}
+\begin{center}
+	\begin{karnaugh-map}[4][2][1][$BA$][$C$]
+		\minterms{0, 1, 2, 4}
+		\maxterms{3, 5, 6, 7}
+		
+		\implicant{0}{4}
+		\implicant{0}{1}
+		\implicantedge{0}{0}{2}{2}
+		
+	\end{karnaugh-map}
+\end{center}
+
+\textbf{Přepis}\\
+	\[x = \neg a \cdot \neg b + \neg a \cdot \neg c + \neg b \cdot \neg c\]
 \end{vysvetlenibox}
 
 % ============================================================
