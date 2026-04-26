@@ -28,6 +28,7 @@
 \usepackage{amssymb}
 \usepackage{pgfplots}
 \usepackage{karnaugh-map}
+\usepackage{circuitikz}
 \pgfplotsset{compat=1.18}
 \usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
 
@@ -139,19 +140,58 @@ pravdivostní tabulka, funkčně úplný systém
 \end{pojmybox}
 
 \begin{vysvetlenibox}
+	\textbf{Úvod do logiky}
+	\begin{itemize}[noitemsep]
+		\item z řeckého slova logos $\Rightarrow$ důvod
+		\item Věda zkoumající způsob vyvozování závěrů a způsob předpokladu
+		\item Myšlenková cesta, která vede k daným závěrům
+	\end{itemize}
+	
+
+	\textbf{Výrok}
+	\begin{itemize}[noitemsep]
+		\item Tvrzení u kterého má smysl ptát se, zda je \textbf{pravdivé} či \textbf{nepravdivé}
+		\item Jednoduchý výrok $\rightarrow$ "Včera tady pršelo"
+		\item Složený výrok $\rightarrow$ "Včera tady pršelo a současně se jmenuji Pepa"
+	\end{itemize}
+	
+\textbf{Logické spojky}
+
+\begin{center}
+	\resizebox{\textwidth}{!}{
+		\begin{tabular}{|l|l|p{4cm}|p{5.5cm}|}
+			\hline
+			\textbf{Operace} & \textbf{Zápis} & \textbf{Význam} & \textbf{Příklad} \\
+			\hline
+			Negace & $\neg A$, NOT A & není pravda A & $\neg(\text{Prší}) = \text{Neprší}$ \\
+			\hline
+			Konjunkce & $A \land B$, $A \cdot B$, A AND B & A a současně B & Nemám vlasy a současně se jmenuji Pepa \\
+			\hline
+			Disjunkce & $A \lor B$, A + B, A OR B & A nebo B & Vlak přijel na 1. nebo 2. kolej \\
+			\hline
+			Implikace & $A \Rightarrow B$ & jestliže A, pak B & Jestliže pršelo, je mokro \\
+			\hline
+			Ekvivalence & $A \Leftrightarrow B$ & A tehdy a jen tehdy B & Číslo je sudé tehdy a jen tehdy, pokud je dělitelné 2 \\
+			\hline
+		\end{tabular}
+	}
+\end{center}
+
+\textbf{Důležité pojmy}
+\begin{itemize}[noitemsep]
+	\item funkce, definiční obor a obor hodnot
+	\item logická proměnná
+	\item hradlo
+	\item logický obvod
+\end{itemize}
+	
 \textbf{Booleova algebra}\\
 Logické řízení pracuje s binárními signály: \textbf{0} (nepravda, vypnuto)
 a \textbf{1} (pravda, zapnuto). Základem je Booleova algebra -- algebraická
 struktura s operacemi součin (AND), součet (OR) a negace (NOT).
 
-\textbf{Historický kontext}\\
-Booleovu algebru vytvořil George Boole v roce 1854 jako matematický systém
-pro logické úsudky. Až v roce 1937 ukázal Claude Shannon, že se dá použít
-pro analýzu elektrických obvodů s relé -- tím vznikla moderna digitální
-technika. Dnes je základem všech počítačů, PLC i mikrokontrolérů.
-
 \textbf{Fyzikální reprezentace logických úrovní}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+\begin{itemize}[noitemsep]
     \item \textbf{TTL logika} (Transistor-Transistor Logic):
           $0 = 0\text{--}0{,}8\,\text{V}$, $1 = 2\text{--}5\,\text{V}$
     \item \textbf{CMOS logika} (Complementary MOS):
@@ -320,6 +360,65 @@ komunikaci mezi dodavateli.
 
 \textbf{Přepis}\\
 	\[x = \neg a \cdot \neg b + \neg a \cdot \neg c + \neg b \cdot \neg c\]
+	
+\textbf{Schéma}\\
+
+\begin{circuitikz}[scale=0.9, transform shape]
+	
+	% NOT hradla
+	\node[not port] (nota) at (2, 6)  {};
+	\node[not port] (notb) at (2, 3)  {};
+	\node[not port] (notc) at (2, 0)  {};
+	
+	% Vstupy
+	\draw (nota.in) -- ++(-1.5,0) node[left] {$a$};
+	\draw (notb.in) -- ++(-1.5,0) node[left] {$b$};
+	\draw (notc.in) -- ++(-1.5,0) node[left] {$c$};
+	
+	% AND hradla
+	\node[and port] (and1) at (6.5, 5)  {};
+	\node[and port] (and2) at (6.5, 3)  {};
+	\node[and port] (and3) at (6.5, 1)  {};
+	
+	% Spoje NOT a -> AND1(in1), AND2(in1)
+	\draw (nota.out) -- ++(0.4,0) coordinate (Ja);
+	\draw (Ja) -- (Ja |- and1.in 1) -- (and1.in 1);
+	\draw (Ja) -- (Ja |- and2.in 1) -- (and2.in 1);
+	\filldraw (Ja) circle (1.5pt);
+	
+	% Spoje NOT b -> AND1(in2), AND3(in1)
+	\draw (notb.out) -- ++(0.2,0) coordinate (Jb);
+	\draw (Jb) -- (Jb |- and1.in 2) -- (and1.in 2);
+	\draw (Jb) -- (Jb |- and3.in 1) -- (and3.in 1);
+	\filldraw (Jb) circle (1.5pt);
+	
+	% Spoje NOT c -> AND2(in2), AND3(in2)
+	\draw (notc.out) -- ++(0.0,0) coordinate (Jc);
+	\draw (Jc) -- (Jc |- and2.in 2) -- (and2.in 2);
+	\draw (Jc) -- (Jc |- and3.in 2) -- (and3.in 2);
+	\filldraw (Jc) circle (1.5pt);
+	
+	% OR hradla
+	\node[or port] (or1) at (10.5, 4) {};
+	\node[or port] (or2) at (14,   2.5) {};
+	
+	% AND -> OR1
+	\draw (and1.out) -- (and1.out |- or1.in 1) -- (or1.in 1);
+	\draw (and2.out) -- (and2.out |- or1.in 2) -- (or1.in 2);
+	
+	% OR1 + AND3 -> OR2
+	\draw (or1.out)  -- (or1.out  |- or2.in 1) -- (or2.in 1);
+	\draw (and3.out) -- (and3.out |- or2.in 2) -- (or2.in 2);
+	
+	% Vystup
+	\draw (or2.out) -- ++(1,0) node[right] {$x$};
+	
+	% Popisky
+	\node[font=\small, above=3pt] at (and1.north) {$\lnot a \cdot \lnot b$};
+	\node[font=\small, above=3pt] at (and2.north) {$\lnot a \cdot \lnot c$};
+	\node[font=\small, below=3pt] at (and3.south) {$\lnot b \cdot \lnot c$};
+	
+\end{circuitikz}
 \end{vysvetlenibox}
 
 % ============================================================

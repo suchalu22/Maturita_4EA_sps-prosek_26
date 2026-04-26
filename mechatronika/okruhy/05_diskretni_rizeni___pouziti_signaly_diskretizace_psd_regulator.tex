@@ -191,12 +191,62 @@ $\Delta U = \frac{3{,}3}{4095} \approx 0{,}806\,\text{mV}$
           pro multimetry a měřicí přístroje
 \end{itemize}
 
+\textbf{Parametry A/D převodníků:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Rozlišení} -- počet bitů ($n$); určuje počet úrovní $2^n$
+          (8 bitů = 256, 10 bitů = 1024, 12 bitů = 4096, 16 bitů = 65\,536)
+    \item \textbf{Vzorkovací frekvence} -- maximální počet převodů za sekotu
+          (kS/s, MS/s); např. Arduino Uno: 10-bitový ADC, 15\,kS/s
+    \item \textbf{Referenční napětí $U_{ref}$} -- určuje rozsah měření;
+          může být interní (např. 1,1\,V, 2,5\,V) nebo externí
+    \item \textbf{Kvantizační chyba} -- $\pm \frac{1}{2}$ LSB (Least Significant Bit);
+          nelze odstranit, je vlastností převodu
+    \item \textbf{Nelinearita} -- INL (Integral Non-Linearity) a DNL (Differential);
+          udává odchylku od ideální přímky
+    \item \textbf{Čas převodu} -- doba mezi startem převodu a platným výstupem
+\end{itemize}
+
+\textbf{Zapojení A/D převodníku v obvodu:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Vstupní impedance} -- ADC zatěžuje zdroj; vysoká impedance zdroje
+          způsobuje chyby (doporučuje se buffer/OP)
+    \item \textbf{Filtr na vstupu} -- RC dolní propust před ADC potlačí vysoké frekvence
+          a sníží aliasing i šum
+    \item \textbf{Stínění} -- analogové vedení vést odděleně od digitálních signálů;
+          zemní plocha jako stínění
+\end{itemize}
+
 \textbf{D/A převodníky}\\
-Pro převod digitálního signálu na analogový (např. řízení motoru):
+Pro převod digitálního signálu na analogový (např. řízení motoru, generování signálů):
+
+\textbf{Princip funkce:}
 \begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
     \item \textbf{R-2R žebřík} -- rezistorová síť, každý bit přispívá proudem
+          podle své váhy; MSB má největší vliv, LSB nejmenší
     \item \textbf{PWM + filtr} -- pulzně šířková modulace s RC filtrem;
-          jednoduché, levné, pro nenáročné aplikace
+          jednoduché, levné, pro nenáročné aplikace (stmívání LED, řízení otáček)
+    \item \textbf{DAC s proudovým výstupem} -- přesné zdroje proudu řízené bity;
+          vyžaduje převodník proudu na napětí (OP)
+\end{itemize}
+
+\textbf{Parametry D/A převodníků:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Rozlišení} -- počet bitů; určuje minimální změnu výstupního napětí
+    \item \textbf{Usazovací čas (settling time)} -- doba, za kterou výstup dosáhne
+          cílové hodnoty s danou přesností (typicky 1--10\,$\mu$s)
+    \item \textbf{Glitch} -- přechodový jev při změně kódu (např. 0111 $\to$ 1000);
+          potlačuje se sample\&hold obvodem na výstupu
+    \item \textbf{Reference} -- interní nebo externí; určuje rozsah výstupního napětí
+\end{itemize}
+
+\textbf{Použití D/A převodníků:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Generování signálů} -- sinus, trojúhelník, pila pro audio,
+          testovací generátory
+    \item \textbf{Řízení pohonů} -- analogový řídicí signál pro frekvenční měniče,
+          servozesilovače
+    \item \textbf{Zdroje napětí} -- programovatelné laboratorní zdroje,
+          kalibrátory měřicích přístrojů
 \end{itemize}
 
 \textbf{PSD regulátor -- diskrétní analogie PID}\\

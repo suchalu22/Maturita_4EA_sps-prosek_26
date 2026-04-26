@@ -27,6 +27,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{pgfplots}
+\usetikzlibrary{circuits.logic.US}
 \pgfplotsset{compat=1.18}
 \usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
 
@@ -167,7 +168,7 @@ Hranové řízení je výhodnější -- zabraňuje vícečetným přepnutím.
     \toprule
     \textbf{Typ} & \textbf{Vstupy} & \textbf{Funkce} & \textbf{Zvláštnost} \\
     \midrule
-    SR  & S, R       & S=1: nastav Q=1; R=1: nastav Q=0
+    RS  & S, R       & S=1: nastav Q=1; R=1: nastav Q=0
                      & Zakázaný stav S=R=1 \\
     D   & D, CLK     & Q přejde na hodnotu D při hraně CLK
                      & Jednoduchý, základ registrů \\
@@ -182,14 +183,25 @@ Hranové řízení je výhodnější -- zabraňuje vícečetným přepnutím.
 
 \textbf{Detailní popis klopných obvodů:}
 \begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{SR klopný obvod} -- nejzákladnější typ; S (Set) nastaví Q=1,
-          R (Reset) nastaví Q=0. Stav S=R=1 je zakázaný (neurčitý výstup).
+    \item \textbf{RS klopný obvod} -- (set-reset) nejzákladnější typ; S (Set) nastaví Q=1,
+          R (Reset) nastaví Q=0. Stav S=R=1 $\rightarrow$ zakázaný stav.
     \item \textbf{D klopný obvod} -- eliminuje zakázaný stav; data (D) se
-          zapíší při hraně CLK. Základ registrů a pamětí.
-    \item \textbf{JK klopný obvod} -- univerzální; J=K=1 přepne stav (toggle).
-          Používá se v čítačích a děličkách frekvence.
+          zapíší při hraně hodinového signálu (CLK). Základ registrů a pamětí.
+    \item \textbf{JK klopný obvod} -- vylepšená verze RS obvodu.
+    \begin{center}
+    \begin{tabular}{|c|c|l|}
+    	\hline
+    	J & K & Výtup\\
+    	\hline
+    	0 & 0 & drží stav\\
+    	0 & 1 & vynuluje\\
+    	1 & 0 & nastaví\\
+    	1 & 1 & překlopí\\
+    	\hline
+    \end{tabular}
+	\end{center}
     \item \textbf{T klopný obvod} -- zjednodušený JK s jedním vstupem;
-          T=1 přepne, T=0 pamatuje.
+          při T=1 a CLK=1, se stav překlopí.
 \end{itemize}
 
 \begin{vzorcebox}
@@ -259,7 +271,6 @@ Hazard je krátký nežádoucí impuls při změně vstupů:
     \item \textbf{Řešení:} synchronní design, redundance v logice, filtry
 \end{itemize}
 \end{vysvetlenibox}
-
 % ============================================================
 
 % ============================================================

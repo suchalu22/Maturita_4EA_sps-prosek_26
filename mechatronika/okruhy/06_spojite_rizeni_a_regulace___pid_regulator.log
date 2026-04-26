@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2026.4.10)  21 APR 2026 14:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2026.4.10)  26 APR 2026 20:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**02_logicke_rizeni___programovaci_jazyky_logicke_funkce.tex
-(./02_logicke_rizeni___programovaci_jazyky_logicke_funkce.tex
+**06_spojite_rizeni_a_regulace___pid_regulator.tex
+(./06_spojite_rizeni_a_regulace___pid_regulator.tex
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
@@ -976,31 +976,6 @@ File: tikzlibraryplotmarks.code.tex 2023-01-15 v3.1.10 (3.1.10)
 de.tex
 File: pgflibraryplotmarks.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )))
-(/usr/share/texlive/texmf-dist/tex/latex/karnaugh-map/karnaugh-map.sty
-Package: karnaugh-map 2022/01/15 v2.0 Draw Karnaugh Maps
-
-(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.sty
-(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.tex
-\xs_counta=\count345
-\xs_countb=\count346
-)
-Package: xstring 2023/08/22 v1.86 String manipulations (CT)
-)
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
-zlibrarycalc.code.tex
-File: tikzlibrarycalc.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
-zlibrarymatrix.code.tex
-File: tikzlibrarymatrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)
-\@karnaughmap@var@colorindex@=\count347
-\@karnaughmap@var@colorindexnext@=\count348
-)
-(/usr/share/texlive/texmf-dist/tex/latex/circuitikz/circuitikz.sty
-Package: circuitikz 2025/01/10{} The CircuiTikz circuit drawing package version
- 1.7.1
-
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.meta.
 code.tex
 File: pgflibraryarrows.meta.code.tex 2023-01-15 v3.1.10 (3.1.10)
@@ -1009,66 +984,6 @@ File: pgflibraryarrows.meta.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfarrowwidth=\dimen317
 \pgfarrowlinewidth=\dimen318
 )
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
-zlibrarybending.code.tex
-File: tikzlibrarybending.code.tex 2023-01-15 v3.1.10 (3.1.10)
-
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmodulebending.code.te
-x
-File: pgfmodulebending.code.tex 2023-01-15 v3.1.10 (3.1.10)
-
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmodulenonlineartransf
-ormations.code.tex
-File: pgfmodulenonlineartransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgftransformnonlinearflatness=\dimen319
-)
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibrarycurvilinear.
-code.tex
-File: pgflibrarycurvilinear.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@curvilinear@time@a=\dimen320
-\pgf@curvilinear@length@a=\dimen321
-\pgf@curvilinear@length@b=\dimen322
-\pgf@curvilinear@length@c=\dimen323
-\pgf@curvilinear@length@d=\dimen324
-)
-\pgf@arrows@the@rigidity=\dimen325
-))
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
-zlibraryfpu.code.tex)
-(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcirc.defines.tex
-\pgf@circ@count@a=\count349
-\pgf@circ@count@b=\count350
-\pgf@circ@count@c=\count351
-\pgf@circ@res@up=\dimen326
-\pgf@circ@res@down=\dimen327
-\pgf@circ@res@zero=\dimen328
-\pgf@circ@res@left=\dimen329
-\pgf@circ@res@right=\dimen330
-\pgf@circ@res@other=\dimen331
-\pgf@circ@res@step=\dimen332
-\pgf@circ@res@temp=\dimen333
-\pgf@circ@Rlen=\dimen334
-\pgf@circ@scaled@Rlen=\dimen335
-\pgfstartlinewidth=\dimen336
-)
-(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircutils.tex
-\ctikz@scratchbox=\box77
-)
-(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircpath.tex)
-(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircshapes.tex)
-(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircmonopoles.tex)
-(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircbipoles.tex)
-(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcirctripoles.tex
-\pgf@circ@res@count=\count352
-)
-(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircquadpoles.tex)
-(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircmultipoles.tex)
-(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcirclabel.tex)
-(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircvoltage.tex
-\pgfcirc@labelshift=\dimen337
-)
-(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcirccurrent.tex)
-(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircflow.tex))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibrarypositioning.code.tex
 File: tikzlibrarypositioning.code.tex 2023-01-15 v3.1.10 (3.1.10)
@@ -1081,33 +996,37 @@ File: tikzlibraryshapes.geometric.code.tex 2023-01-15 v3.1.10 (3.1.10)
 s.geometric.code.tex
 File: pgflibraryshapes.geometric.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ))
-Package hyperref Info: Option `colorlinks' set `true' on input line 57.
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 11
-0.
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarycalc.code.tex
+File: tikzlibrarycalc.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 55.
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 10
+8.
  (/usr/share/texmf/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-(./02_logicke_rizeni___programovaci_jazyky_logicke_funkce.aux)
-\openout1 = `02_logicke_rizeni___programovaci_jazyky_logicke_funkce.aux'.
+(./06_spojite_rizeni_a_regulace___pid_regulator.aux)
+\openout1 = `06_spojite_rizeni_a_regulace___pid_regulator.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 108.
+LaTeX Font Info:    ... okay on input line 108.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1143,22 +1062,22 @@ LaTeX Font Info:    ... okay on input line 110.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \microtypecontext on input line 110.
+LaTeX Info: Redefining \microtypecontext on input line 108.
 
-Package microtype Warning: Unable to apply patch `item' on input line 110.
+Package microtype Warning: Unable to apply patch `item' on input line 108.
 
-Package microtype Info: Applying patch `toc' on input line 110.
-Package microtype Info: Applying patch `eqnum' on input line 110.
-Package microtype Info: Applying patch `footnote' on input line 110.
-Package microtype Info: Applying patch `verbatim' on input line 110.
-LaTeX Info: Redefining \microtypesetup on input line 110.
+Package microtype Info: Applying patch `toc' on input line 108.
+Package microtype Info: Applying patch `eqnum' on input line 108.
+Package microtype Info: Applying patch `footnote' on input line 108.
+Package microtype Info: Applying patch `verbatim' on input line 108.
+LaTeX Info: Redefining \microtypesetup on input line 108.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 110.
+LaTeX Info: Redefining \showhyphens on input line 108.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -1170,16 +1089,16 @@ Couldn't patch \ttl@straight@ii
 Couldn't patch \ttl@straight@ii
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count353
-\scratchdimen=\dimen338
-\scratchbox=\box78
-\nofMPsegments=\count354
-\nofMParguments=\count355
+\scratchcounter=\count345
+\scratchdimen=\dimen319
+\scratchbox=\box77
+\nofMPsegments=\count346
+\nofMParguments=\count347
 \everyMPshowfont=\toks51
-\MPscratchCnt=\count356
-\MPscratchDim=\dimen339
-\MPnumerator=\count357
-\makeMPintoPDFobject=\count358
+\MPscratchCnt=\count348
+\MPscratchDim=\dimen320
+\MPnumerator=\count349
+\makeMPintoPDFobject=\count350
 \everyMPtoPDFconversion=\toks52
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -1190,53 +1109,47 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring ON on input line 110.
+Package hyperref Info: Link coloring ON on input line 108.
 
-(./02_logicke_rizeni___programovaci_jazyky_logicke_funkce.out)
-(./02_logicke_rizeni___programovaci_jazyky_logicke_funkce.out)
+(./06_spojite_rizeni_a_regulace___pid_regulator.out)
+(./06_spojite_rizeni_a_regulace___pid_regulator.out)
 \@outlinefile=\write4
-\openout4 = `02_logicke_rizeni___programovaci_jazyky_logicke_funkce.out'.
+\openout4 = `06_spojite_rizeni_a_regulace___pid_regulator.out'.
 
 
 Package pgfplots notification 'compat/show suggested version=true': document ha
 s been generated with the most recent feature set (\pgfplotsset{compat=1.18}).
 
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
-45.
-(/usr/share/texmf/tex/latex/lm/ts1lmr.fd
-File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
-45.
-
+43.
 (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
-45.
+43.
 
 (/usr/share/texmf/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-145.
+143.
 
 (/usr/share/texmf/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-145.
+143.
 
 (/usr/share/texmf/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 145.
+(Font)              <10> on input line 143.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 145.
+(Font)              <7> on input line 143.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 145.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 145
+(Font)              <5> on input line 143.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 143
 .
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -1245,7 +1158,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 145
+LaTeX Font Info:    Trying to load font information for U+msb on input line 143
 .
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
@@ -1254,92 +1167,59 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-Package mdframed Info: mdframed inside a box 
- mdframed uses option nobreak mdframed on input line 240.
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
-95.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9> on input line 154.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 154.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
+73.
 
-(/usr/share/texmf/tex/latex/lm/t1lmtt.fd
-File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+(/usr/share/texmf/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `lmtt' (encoding: T1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
+Package mdframed Info: mdframed inside a box 
+ mdframed uses option nobreak mdframed on input line 185.
 
 
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/
-dvips/lm/lm-ec.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/share/
-texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-
-mathit.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}]
+dvips/lm/lm-ec.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/sha
+re/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-m
+athsy.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/share/texmf/fon
+ts/enc/dvips/lm/lm-mathex.enc}]
 
-[2]
-
-Package karnaugh-map Warning: The API for specifying variable labels have been 
-updated. You are currently using the old API(v1). In the new API each variable 
-label is specified separately. See the documentation for more details. Backward
- compatibility may disappear in a future release. on input line 351.
-
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 351.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 351.
-\@karnaughmap@local@northwest@=\count359
-\@karnaughmap@local@southeast@=\count360
-\@karnaughmap@local@northwest@=\count361
-\@karnaughmap@local@southeast@=\count362
-\@karnaughmap@local@testcaseone@=\count363
-\@karnaughmap@local@testcasetwo@=\count364
-\@karnaughmap@local@coordinateonecounter@=\count365
-\@karnaughmap@local@coordinatetwocounter@=\count366
-\@karnaughmap@local@coordinateonecounter@=\count367
-\@karnaughmap@local@coordinatetwocounter@=\count368
-
-Underfull \hbox (badness 10000) in paragraph at lines 361--362
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 364--365
-
- []
-
-Package mdframed Info: Not enough space on this page on input line 422.
-
-
-[3] (./02_logicke_rizeni___programovaci_jazyky_logicke_funkce.aux)
+[2] (./06_spojite_rizeni_a_regulace___pid_regulator.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-Package rerunfilecheck Info: File `02_logicke_rizeni___programovaci_jazyky_logi
-cke_funkce.out' has not changed.
-(rerunfilecheck)             Checksum: 579259AD006294A71CA5E3D6508EEFE2;342.
+Package rerunfilecheck Info: File `06_spojite_rizeni_a_regulace___pid_regulator
+.out' has not changed.
+(rerunfilecheck)             Checksum: 6FFD92ED3D5D123BE98BACBDE999C8EF;284.
  ) 
 Here is how much of TeX's memory you used:
- 55343 strings out of 473197
- 1387394 string characters out of 5718605
- 2220380 words of memory out of 5000000
- 77821 multiletter control sequences out of 15000+600000
- 618181 words of font info for 115 fonts, out of 8000000 for 9000
+ 37580 strings out of 473197
+ 855669 string characters out of 5718605
+ 1489974 words of memory out of 5000000
+ 60128 multiletter control sequences out of 15000+600000
+ 613610 words of font info for 114 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 102i,15n,107p,1183b,1271s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 102i,18n,107p,1173b,2357s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/ty
 pe1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx9.pfb></us
-r/share/texmf/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf/fonts/type1/pu
-blic/lm/lmmi9.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share
-/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/
-lmr7.pfb></usr/share/texmf/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf/fon
-ts/type1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pf
-b></usr/share/texmf/fonts/type1/public/lm/lmsy9.pfb></usr/share/texmf/fonts/typ
-e1/public/lm/lmtt10.pfb>
-Output written on 02_logicke_rizeni___programovaci_jazyky_logicke_funkce.pdf (3
- pages, 266710 bytes).
+r/share/texmf/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf/fonts/type1/pu
+blic/lm/lmmi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi5.pfb></usr/shar
+e/texmf/fonts/type1/public/lm/lmmi7.pfb></usr/share/texmf/fonts/type1/public/lm
+/lmmi9.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/
+fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr7.pf
+b></usr/share/texmf/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf/fonts/type
+1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy7.pfb>
+Output written on 06_spojite_rizeni_a_regulace___pid_regulator.pdf (2 pages, 24
+1655 bytes).
 PDF statistics:
- 105 PDF objects out of 1000 (max. 8388607)
- 71 compressed objects within 1 object stream
- 5 named destinations out of 1000 (max. 500000)
- 35349 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 116 PDF objects out of 1000 (max. 8388607)
+ 80 compressed objects within 1 object stream
+ 8 named destinations out of 1000 (max. 500000)
+ 32789 words of extra memory for PDF output out of 35830 (max. 10000000)
 
