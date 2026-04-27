@@ -1,0 +1,191 @@
+% ============================================================
+%  Příprava na maturitu – Mechatronika
+%  Kompiluj: pdflatex maturita_mechatronika.tex
+%  Kódování: UTF-8
+% ============================================================
+
+\documentclass[a4paper,10pt]{article}
+
+% --- Balíčky ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[left=2.4cm, right=1.8cm, top=1.8cm, bottom=1.8cm]{geometry}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
+
+% --- Barvy ---
+\definecolor{accent}{HTML}{03254E}
+\definecolor{stripeblue}{HTML}{568EA3}
+\definecolor{medgray}{HTML}{888888}
+\definecolor{lightblue}{HTML}{EAF2F8}
+\definecolor{lightyellow}{HTML}{FDFBE4}
+\definecolor{lightgreen}{HTML}{EAF7EA}
+
+% --- Modrý pruh vlevo ---
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[stripeblue]
+      (current page.north west)
+      rectangle
+      ([xshift=10mm] current page.south west);
+    \fill[accent!60]
+      ([xshift=10mm] current page.north west)
+      rectangle
+      ([xshift=12mm] current page.south west);
+  \end{tikzpicture}%
+}
+
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+
+\titleformat{\section}
+  {\large\bfseries\color{accent}}
+  {\thesection.}
+  {0.5em}
+  {}
+  [\color{accent}\titlerule]
+
+\titlespacing{\section}{0pt}{16pt}{6pt}
+
+\newmdenv[
+  backgroundcolor=lightblue,
+  linecolor=stripeblue,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=4pt
+]{pojmybox}
+
+\newmdenv[
+  backgroundcolor=lightyellow,
+  linecolor=accent!40,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vysvetlenibox}
+
+\newmdenv[
+  backgroundcolor=lightgreen,
+  linecolor=accent!30,
+  linewidth=1pt,
+  roundcorner=4pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=4pt,
+  skipbelow=8pt
+]{vzorcebox}
+
+\pagestyle{plain}
+
+% ============================================================
+\begin{document}
+
+% --- Záhlaví ---
+\begin{minipage}[t]{0.75\textwidth}
+    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
+    {\large\color{stripeblue} Mechatronika}\\[2pt]
+    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.22\textwidth}
+    \raggedleft
+    \begin{tikzpicture}
+        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
+            (0,0) rectangle (3,1.2)
+            node[midway, align=center, color=accent, font=\small\bfseries]
+            {Otázek: 22};
+    \end{tikzpicture}
+\end{minipage}
+
+\vspace{6pt}
+\noindent\color{accent}\rule{\linewidth}{1.5pt}
+\vspace{2pt}
+
+% ============================================================
+\section{Průmyslové komunikace -- komunikační sběrnice, SCADA systémy}
+
+\begin{pojmybox}
+\textbf{Klíčové pojmy:}
+Profibus, Profinet, EtherCAT, Modbus, CAN, IO-Link,
+OPC-UA, SCADA, HMI, PLC, topologie sítě,
+master/slave, deterministická komunikace, cyklický čas
+\end{pojmybox}
+
+\begin{vysvetlenibox}
+\textbf{Srovnání průmyslových sběrnic}
+
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l l l X @{}}
+    \toprule
+    \textbf{Sběrnice} & \textbf{Přenosová rychlost}
+                      & \textbf{Topologie} & \textbf{Použití} \\
+    \midrule
+    Modbus RTU  & 115 kbps   & linka     & Jednoduchá SCADA, měřicí přístroje \\
+    Modbus TCP  & 100 Mbps   & hvězda    & Ethernet varianta Modbusu \\
+    Profibus DP & 12 Mbps    & linka     & Siemens průmyslová automatizace \\
+    Profinet    & 100 Mbps   & hvězda    & Nástupce Profibus přes Ethernet \\
+    EtherCAT    & 100 Mbps   & prsten    & Ultrarychlé řízení pohonů (\textless{}100\,µs) \\
+    CAN         & 1 Mbps     & linka     & Automobily, průmysl (kratší sítě) \\
+    IO-Link     & 230 kbps   & bod-bod   & Inteligentní senzory/aktuátory \\
+    \bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Model OSI a průmyslové protokoly}\\
+Průmyslové sběrnice obvykle implementují pouze vrstvy 1 (fyzická),
+2 (linková) a 7 (aplikační) -- mezivrstvy jsou vynechány pro minimalizaci
+latence.
+
+\textbf{SCADA systém -- architektura}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85,
+  lvl/.style={rectangle, draw=accent, fill=lightblue, rounded corners=3pt,
+              minimum width=7cm, minimum height=0.65cm,
+              text centered, font=\small}]
+  \node[lvl, fill=lightyellow] (l4) at (0,3)   {Úroveň 4: ERP (podnikové řízení)};
+  \node[lvl]                   (l3) at (0,2.2) {Úroveň 3: MES (řízení výroby)};
+  \node[lvl, fill=lightgreen]  (l2) at (0,1.4) {Úroveň 2: SCADA / HMI (vizualizace)};
+  \node[lvl]                   (l1) at (0,0.6) {Úroveň 1: PLC / DCS (lokální řízení)};
+  \node[lvl, fill=lightyellow] (l0) at (0,-0.2){Úroveň 0: Senzory, aktuátory, pohony};
+  \foreach \a/\b in {l4/l3, l3/l2, l2/l1, l1/l0}
+    \draw[>-, accent] (\a) -- (\b);
+\end{tikzpicture}
+\end{center}
+
+\textbf{OPC-UA} -- moderní, platformově nezávislý komunikační standard
+pro vertikální integraci (od senzoru až po ERP), šifrovaný, s datovými
+modely; základ Industry~4.0 komunikace.
+\end{vysvetlenibox}
+
+% ============================================================
+
+% ============================================================
+\end{document}
