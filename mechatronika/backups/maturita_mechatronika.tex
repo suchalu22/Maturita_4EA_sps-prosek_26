@@ -27,8 +27,6 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{pgfplots}
-\usepackage{karnaugh-map}
-\usepackage{circuitikz}
 \pgfplotsset{compat=1.18}
 \usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
 
@@ -109,28 +107,6 @@
 % ============================================================
 \begin{document}
 
-% --- Záhlaví (pouze na první straně) ---
-\begin{minipage}[t]{0.75\textwidth}
-    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
-    {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.22\textwidth}
-    \raggedleft
-    \begin{tikzpicture}
-        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
-            (0,0) rectangle (3,1.2)
-            node[midway, align=center, color=accent, font=\small\bfseries]
-            {Otázek: 22};
-    \end{tikzpicture}
-\end{minipage}
-
-\vspace{6pt}
-\noindent\color{accent}\rule{\linewidth}{1.5pt}
-\vspace{2pt}
-
-
 % --- Záhlaví ---
 \begin{minipage}[t]{0.75\textwidth}
     {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
@@ -157,7 +133,7 @@
 
 \begin{pojmybox}
 \textbf{Klíčové pojmy:}
-mechatronika, mechanika, elektronika, informatika,
+mechatronika, interdisciplinarita, mechanika, elektronika, informatika,
 senzor, aktuátor, řídící systém, systémový přístup, mechatronický výrobek,
 V-model návrhu, SiL, HiL, zpětná vazba
 \end{pojmybox}
@@ -226,9 +202,7 @@ Standardním postupem je \textbf{V-model}:
     node[midway, below, font=\scriptsize, color=medgray] {čas / fáze};
 \end{tikzpicture}
 \end{center}
-\end{vysvetlenibox}
 
-\begin{vysvetlenibox}
 \textbf{Fáze V-modelu v praxi:}
 \begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
     \item \textbf{Specifikace požadavků} -- co má systém umět (rychlost, přesnost, bezpečnost)
@@ -304,96 +278,29 @@ ABS je ukázkový mechatronický systém v automobilu:
 \end{vysvetlenibox}
 
 % ============================================================
-
-% ============================================================
-
-
-\newpage
-
-
-% --- Záhlaví ---
-\begin{minipage}[t]{0.75\textwidth}
-    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
-    {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.22\textwidth}
-    \raggedleft
-    \begin{tikzpicture}
-        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
-            (0,0) rectangle (3,1.2)
-            node[midway, align=center, color=accent, font=\small\bfseries]
-            {Otázek: 22};
-    \end{tikzpicture}
-\end{minipage}
-
-\vspace{6pt}
-\noindent\color{accent}\rule{\linewidth}{1.5pt}
-\vspace{2pt}
-
-% ============================================================
 \section{Logické řízení -- programovací jazyky, logické funkce}
 
 \begin{pojmybox}
 \textbf{Klíčové pojmy:}
-Booleova algebra, Karnaughova mapa, logické funkce (AND, OR, NOT, NAND, NOR, XOR),
-pravdivostní tabulka, funkčně úplný systém
+Booleova algebra, logické funkce (AND, OR, NOT, NAND, NOR, XOR),
+pravdivostní tabulka, IEC~61131-3, LD, FBD, IL, ST, SFC,
+funkčně úplný systém
 \end{pojmybox}
 
 \begin{vysvetlenibox}
-	\textbf{Úvod do logiky}
-	\begin{itemize}[noitemsep]
-		\item z řeckého slova logos $\Rightarrow$ důvod
-		\item Věda zkoumající způsob vyvozování závěrů a způsob předpokladu
-		\item Myšlenková cesta, která vede k daným závěrům
-	\end{itemize}
-	
-
-	\textbf{Výrok}
-	\begin{itemize}[noitemsep]
-		\item Tvrzení u kterého má smysl ptát se, zda je \textbf{pravdivé} či \textbf{nepravdivé}
-		\item Jednoduchý výrok $\rightarrow$ "Včera tady pršelo"
-		\item Složený výrok $\rightarrow$ "Včera tady pršelo a současně se jmenuji Pepa"
-	\end{itemize}
-	
-\textbf{Logické spojky}
-
-\begin{center}
-	\resizebox{\textwidth}{!}{
-		\begin{tabular}{|l|l|p{4cm}|p{5.5cm}|}
-			\hline
-			\textbf{Operace} & \textbf{Zápis} & \textbf{Význam} & \textbf{Příklad} \\
-			\hline
-			Negace & $\neg A$, NOT A & není pravda A & $\neg(\text{Prší}) = \text{Neprší}$ \\
-			\hline
-			Konjunkce & $A \land B$, $A \cdot B$, A AND B & A a současně B & Nemám vlasy a současně se jmenuji Pepa \\
-			\hline
-			Disjunkce & $A \lor B$, A + B, A OR B & A nebo B & Vlak přijel na 1. nebo 2. kolej \\
-			\hline
-			Implikace & $A \Rightarrow B$ & jestliže A, pak B & Jestliže pršelo, je mokro \\
-			\hline
-			Ekvivalence & $A \Leftrightarrow B$ & A tehdy a jen tehdy B & Číslo je sudé tehdy a jen tehdy, pokud je dělitelné 2 \\
-			\hline
-		\end{tabular}
-	}
-\end{center}
-
-\textbf{Důležité pojmy}
-\begin{itemize}[noitemsep]
-	\item funkce, definiční obor a obor hodnot
-	\item logická proměnná
-	\item hradlo
-	\item logický obvod
-\end{itemize}
-	
 \textbf{Booleova algebra}\\
 Logické řízení pracuje s binárními signály: \textbf{0} (nepravda, vypnuto)
 a \textbf{1} (pravda, zapnuto). Základem je Booleova algebra -- algebraická
 struktura s operacemi součin (AND), součet (OR) a negace (NOT).
 
+\textbf{Historický kontext}\\
+Booleovu algebru vytvořil George Boole v roce 1854 jako matematický systém
+pro logické úsudky. Až v roce 1937 ukázal Claude Shannon, že se dá použít
+pro analýzu elektrických obvodů s relé -- tím vznikla moderna digitální
+technika. Dnes je základem všech počítačů, PLC i mikrokontrolérů.
+
 \textbf{Fyzikální reprezentace logických úrovní}
-\begin{itemize}[noitemsep]
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
     \item \textbf{TTL logika} (Transistor-Transistor Logic):
           $0 = 0\text{--}0{,}8\,\text{V}$, $1 = 2\text{--}5\,\text{V}$
     \item \textbf{CMOS logika} (Complementary MOS):
@@ -521,136 +428,6 @@ Různí výrobci PLC (Siemens, Allen-Bradley, Schneider) mají vlastní tradice.
 Norma IEC 61131-3 umožňuje přenositelnost programů mezi platformami a usnadňuje
 komunikaci mezi dodavateli.
 \end{vysvetlenibox}
-
-\newpage
-\begin{vysvetlenibox}
-	\textbf{Příklad}\\
-	Jsou tři větráky a, b, c a alarm x, pokud dva a více větráků nefungují, spustí se alarm
-	
-	\textbf{Pravdivostní tabulka}
-	\[
-	\begin{array}{|c|c|c||c|}
-		\hline
-		A & B & C & X \\
-		\hline
-		0 & 0 & 0 & 1 \\
-		0 & 0 & 1 & 1 \\
-		0 & 1 & 0 & 1 \\
-		0 & 1 & 1 & 0 \\
-		\hline
-		1 & 0 & 0 & 1 \\
-		1 & 0 & 1 & 0 \\
-		1 & 1 & 0 & 0 \\
-		1 & 1 & 1 & 0 \\
-		\hline
-
-	\end{array}
-	\]
-	
-\textbf{Karnaughova mapa}
-\begin{center}
-	\begin{karnaugh-map}[4][2][1][$BA$][$C$]
-		\minterms{0, 1, 2, 4}
-		\maxterms{3, 5, 6, 7}
-		
-		\implicant{0}{4}
-		\implicant{0}{1}
-		\implicantedge{0}{0}{2}{2}
-		
-	\end{karnaugh-map}
-\end{center}
-
-\textbf{Přepis}\\
-	\[x = \neg a \cdot \neg b + \neg a \cdot \neg c + \neg b \cdot \neg c\]
-	
-\textbf{Schéma}\\
-
-\begin{circuitikz}[scale=0.9, transform shape]
-	
-	% NOT hradla
-	\node[not port] (nota) at (2, 6)  {};
-	\node[not port] (notb) at (2, 3)  {};
-	\node[not port] (notc) at (2, 0)  {};
-	
-	% Vstupy
-	\draw (nota.in) -- ++(-1.5,0) node[left] {$a$};
-	\draw (notb.in) -- ++(-1.5,0) node[left] {$b$};
-	\draw (notc.in) -- ++(-1.5,0) node[left] {$c$};
-	
-	% AND hradla
-	\node[and port] (and1) at (6.5, 5)  {};
-	\node[and port] (and2) at (6.5, 3)  {};
-	\node[and port] (and3) at (6.5, 1)  {};
-	
-	% Spoje NOT a -> AND1(in1), AND2(in1)
-	\draw (nota.out) -- ++(0.4,0) coordinate (Ja);
-	\draw (Ja) -- (Ja |- and1.in 1) -- (and1.in 1);
-	\draw (Ja) -- (Ja |- and2.in 1) -- (and2.in 1);
-	\filldraw (Ja) circle (1.5pt);
-	
-	% Spoje NOT b -> AND1(in2), AND3(in1)
-	\draw (notb.out) -- ++(0.2,0) coordinate (Jb);
-	\draw (Jb) -- (Jb |- and1.in 2) -- (and1.in 2);
-	\draw (Jb) -- (Jb |- and3.in 1) -- (and3.in 1);
-	\filldraw (Jb) circle (1.5pt);
-	
-	% Spoje NOT c -> AND2(in2), AND3(in2)
-	\draw (notc.out) -- ++(0.0,0) coordinate (Jc);
-	\draw (Jc) -- (Jc |- and2.in 2) -- (and2.in 2);
-	\draw (Jc) -- (Jc |- and3.in 2) -- (and3.in 2);
-	\filldraw (Jc) circle (1.5pt);
-	
-	% OR hradla
-	\node[or port] (or1) at (10.5, 4) {};
-	\node[or port] (or2) at (14,   2.5) {};
-	
-	% AND -> OR1
-	\draw (and1.out) -- (and1.out |- or1.in 1) -- (or1.in 1);
-	\draw (and2.out) -- (and2.out |- or1.in 2) -- (or1.in 2);
-	
-	% OR1 + AND3 -> OR2
-	\draw (or1.out)  -- (or1.out  |- or2.in 1) -- (or2.in 1);
-	\draw (and3.out) -- (and3.out |- or2.in 2) -- (or2.in 2);
-	
-	% Vystup
-	\draw (or2.out) -- ++(1,0) node[right] {$x$};
-	
-	% Popisky
-	\node[font=\small, above=3pt] at (and1.north) {$\lnot a \cdot \lnot b$};
-	\node[font=\small, above=3pt] at (and2.north) {$\lnot a \cdot \lnot c$};
-	\node[font=\small, below=3pt] at (and3.south) {$\lnot b \cdot \lnot c$};
-	
-\end{circuitikz}
-\end{vysvetlenibox}
-
-% ============================================================
-
-% ============================================================
-
-
-\newpage
-
-
-% --- Záhlaví ---
-\begin{minipage}[t]{0.75\textwidth}
-    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
-    {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.22\textwidth}
-    \raggedleft
-    \begin{tikzpicture}
-        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
-            (0,0) rectangle (3,1.2)
-            node[midway, align=center, color=accent, font=\small\bfseries]
-            {Otázek: 22};
-    \end{tikzpicture}
-\end{minipage}
-
-\vspace{6pt}
-\noindent\color{accent}\rule{\linewidth}{1.5pt}
-\vspace{2pt}
 
 % ============================================================
 \section{Kombinační logické řízení, minimalizace}
@@ -830,35 +607,6 @@ Porovnává dvě čísla $A$ a $B$. Výstupy: $A>B$, $A=B$, $A<B$.
 \end{vysvetlenibox}
 
 % ============================================================
-
-% ============================================================
-
-
-\newpage
-
-
-% --- Záhlaví ---
-\begin{minipage}[t]{0.75\textwidth}
-    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
-    {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.22\textwidth}
-    \raggedleft
-    \begin{tikzpicture}
-        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
-            (0,0) rectangle (3,1.2)
-            node[midway, align=center, color=accent, font=\small\bfseries]
-            {Otázek: 22};
-    \end{tikzpicture}
-\end{minipage}
-
-\vspace{6pt}
-\noindent\color{accent}\rule{\linewidth}{1.5pt}
-\vspace{2pt}
-
-% ============================================================
 \section{Sekvenční logické řízení, klopné obvody}
 
 \begin{pojmybox}
@@ -897,7 +645,7 @@ Hranové řízení je výhodnější -- zabraňuje vícečetným přepnutím.
     \toprule
     \textbf{Typ} & \textbf{Vstupy} & \textbf{Funkce} & \textbf{Zvláštnost} \\
     \midrule
-    RS  & S, R       & S=1: nastav Q=1; R=1: nastav Q=0
+    SR  & S, R       & S=1: nastav Q=1; R=1: nastav Q=0
                      & Zakázaný stav S=R=1 \\
     D   & D, CLK     & Q přejde na hodnotu D při hraně CLK
                      & Jednoduchý, základ registrů \\
@@ -912,25 +660,14 @@ Hranové řízení je výhodnější -- zabraňuje vícečetným přepnutím.
 
 \textbf{Detailní popis klopných obvodů:}
 \begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{RS klopný obvod} -- (set-reset) nejzákladnější typ; S (Set) nastaví Q=1,
-          R (Reset) nastaví Q=0. Stav S=R=1 $\rightarrow$ zakázaný stav.
+    \item \textbf{SR klopný obvod} -- nejzákladnější typ; S (Set) nastaví Q=1,
+          R (Reset) nastaví Q=0. Stav S=R=1 je zakázaný (neurčitý výstup).
     \item \textbf{D klopný obvod} -- eliminuje zakázaný stav; data (D) se
-          zapíší při hraně hodinového signálu (CLK). Základ registrů a pamětí.
-    \item \textbf{JK klopný obvod} -- vylepšená verze RS obvodu.
-    \begin{center}
-    \begin{tabular}{|c|c|l|}
-    	\hline
-    	J & K & Výtup\\
-    	\hline
-    	0 & 0 & drží stav\\
-    	0 & 1 & vynuluje\\
-    	1 & 0 & nastaví\\
-    	1 & 1 & překlopí\\
-    	\hline
-    \end{tabular}
-	\end{center}
+          zapíší při hraně CLK. Základ registrů a pamětí.
+    \item \textbf{JK klopný obvod} -- univerzální; J=K=1 přepne stav (toggle).
+          Používá se v čítačích a děličkách frekvence.
     \item \textbf{T klopný obvod} -- zjednodušený JK s jedním vstupem;
-          při T=1 a CLK=1, se stav překlopí.
+          T=1 přepne, T=0 pamatuje.
 \end{itemize}
 
 \begin{vzorcebox}
@@ -1000,34 +737,6 @@ Hazard je krátký nežádoucí impuls při změně vstupů:
     \item \textbf{Řešení:} synchronní design, redundance v logice, filtry
 \end{itemize}
 \end{vysvetlenibox}
-% ============================================================
-
-% ============================================================
-
-
-\newpage
-
-
-% --- Záhlaví ---
-\begin{minipage}[t]{0.75\textwidth}
-    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
-    {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.22\textwidth}
-    \raggedleft
-    \begin{tikzpicture}
-        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
-            (0,0) rectangle (3,1.2)
-            node[midway, align=center, color=accent, font=\small\bfseries]
-            {Otázek: 22};
-    \end{tikzpicture}
-\end{minipage}
-
-\vspace{6pt}
-\noindent\color{accent}\rule{\linewidth}{1.5pt}
-\vspace{2pt}
 
 % ============================================================
 \section{Diskrétní řízení -- použití, signály, diskretizace, PSD regulátor}
@@ -1092,62 +801,12 @@ $\Delta U = \frac{3{,}3}{4095} \approx 0{,}806\,\text{mV}$
           pro multimetry a měřicí přístroje
 \end{itemize}
 
-\textbf{Parametry A/D převodníků:}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{Rozlišení} -- počet bitů ($n$); určuje počet úrovní $2^n$
-          (8 bitů = 256, 10 bitů = 1024, 12 bitů = 4096, 16 bitů = 65\,536)
-    \item \textbf{Vzorkovací frekvence} -- maximální počet převodů za sekotu
-          (kS/s, MS/s); např. Arduino Uno: 10-bitový ADC, 15\,kS/s
-    \item \textbf{Referenční napětí $U_{ref}$} -- určuje rozsah měření;
-          může být interní (např. 1,1\,V, 2,5\,V) nebo externí
-    \item \textbf{Kvantizační chyba} -- $\pm \frac{1}{2}$ LSB (Least Significant Bit);
-          nelze odstranit, je vlastností převodu
-    \item \textbf{Nelinearita} -- INL (Integral Non-Linearity) a DNL (Differential);
-          udává odchylku od ideální přímky
-    \item \textbf{Čas převodu} -- doba mezi startem převodu a platným výstupem
-\end{itemize}
-
-\textbf{Zapojení A/D převodníku v obvodu:}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{Vstupní impedance} -- ADC zatěžuje zdroj; vysoká impedance zdroje
-          způsobuje chyby (doporučuje se buffer/OP)
-    \item \textbf{Filtr na vstupu} -- RC dolní propust před ADC potlačí vysoké frekvence
-          a sníží aliasing i šum
-    \item \textbf{Stínění} -- analogové vedení vést odděleně od digitálních signálů;
-          zemní plocha jako stínění
-\end{itemize}
-
 \textbf{D/A převodníky}\\
-Pro převod digitálního signálu na analogový (např. řízení motoru, generování signálů):
-
-\textbf{Princip funkce:}
+Pro převod digitálního signálu na analogový (např. řízení motoru):
 \begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
     \item \textbf{R-2R žebřík} -- rezistorová síť, každý bit přispívá proudem
-          podle své váhy; MSB má největší vliv, LSB nejmenší
     \item \textbf{PWM + filtr} -- pulzně šířková modulace s RC filtrem;
-          jednoduché, levné, pro nenáročné aplikace (stmívání LED, řízení otáček)
-    \item \textbf{DAC s proudovým výstupem} -- přesné zdroje proudu řízené bity;
-          vyžaduje převodník proudu na napětí (OP)
-\end{itemize}
-
-\textbf{Parametry D/A převodníků:}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{Rozlišení} -- počet bitů; určuje minimální změnu výstupního napětí
-    \item \textbf{Usazovací čas (settling time)} -- doba, za kterou výstup dosáhne
-          cílové hodnoty s danou přesností (typicky 1--10\,$\mu$s)
-    \item \textbf{Glitch} -- přechodový jev při změně kódu (např. 0111 $\to$ 1000);
-          potlačuje se sample\&hold obvodem na výstupu
-    \item \textbf{Reference} -- interní nebo externí; určuje rozsah výstupního napětí
-\end{itemize}
-
-\textbf{Použití D/A převodníků:}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{Generování signálů} -- sinus, trojúhelník, pila pro audio,
-          testovací generátory
-    \item \textbf{Řízení pohonů} -- analogový řídicí signál pro frekvenční měniče,
-          servozesilovače
-    \item \textbf{Zdroje napětí} -- programovatelné laboratorní zdroje,
-          kalibrátory měřicích přístrojů
+          jednoduché, levné, pro nenáročné aplikace
 \end{itemize}
 
 \textbf{PSD regulátor -- diskrétní analogie PID}\\
@@ -1220,35 +879,6 @@ Převod mezi spojitým a diskrétním světem:
           zachovává stabilitu, nejpoužívanější
 \end{itemize}
 \end{vysvetlenibox}
-
-% ============================================================
-
-% ============================================================
-
-
-\newpage
-
-
-% --- Záhlaví ---
-\begin{minipage}[t]{0.75\textwidth}
-    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
-    {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.22\textwidth}
-    \raggedleft
-    \begin{tikzpicture}
-        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
-            (0,0) rectangle (3,1.2)
-            node[midway, align=center, color=accent, font=\small\bfseries]
-            {Otázek: 22};
-    \end{tikzpicture}
-\end{minipage}
-
-\vspace{6pt}
-\noindent\color{accent}\rule{\linewidth}{1.5pt}
-\vspace{2pt}
 
 % ============================================================
 \section{Spojité řízení a regulace -- PID regulátor}
@@ -1442,35 +1072,6 @@ Máme pec s topným tělesem (0--230\,V) a teploměrem (Pt100).
 \end{vysvetlenibox}
 
 % ============================================================
-
-% ============================================================
-
-
-\newpage
-
-
-% --- Záhlaví ---
-\begin{minipage}[t]{0.75\textwidth}
-    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
-    {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.22\textwidth}
-    \raggedleft
-    \begin{tikzpicture}
-        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
-            (0,0) rectangle (3,1.2)
-            node[midway, align=center, color=accent, font=\small\bfseries]
-            {Otázek: 22};
-    \end{tikzpicture}
-\end{minipage}
-
-\vspace{6pt}
-\noindent\color{accent}\rule{\linewidth}{1.5pt}
-\vspace{2pt}
-
-% ============================================================
 \section{Soustavy, statické, dynamické a frekvenční charakteristiky}
 
 \begin{pojmybox}
@@ -1639,766 +1240,438 @@ Postup, když neznáme matematický model:
 \end{vysvetlenibox}
 
 % ============================================================
-
-% ============================================================
-
-
-\newpage
-
-
-% ============================================================
-\section{Základy PLC a mikrokontrolérů}
+\section{Základy programování PLC a mikrokontrolérů}
 
 \begin{pojmybox}
-PLC, scan cyklus, I/O, CPU, ladder diagram,
-mikrokontrolér, GPIO, UART, SPI, I2C,
-interrupt, timer, PWM, register, firmware
+\textbf{Klíčové pojmy:}
+PLC, CPU, I/O moduly, scan cyklus, Siemens S7, STEP~7, TIA~Portal,
+mikrokontrolér, AVR, ARM, periferie, přerušení, časovač, UART, SPI,
+I\textsuperscript{2}C, GPIO, PWM
 \end{pojmybox}
 
-% ============================================================
 \begin{vysvetlenibox}
-
-\textbf{PLC (Programmable Logic Controller)}\\
-PLC je průmyslový řídicí systém navržený pro spolehlivý a dlouhodobý provoz.
-
-\textbf{Hlavní vlastnosti:}
-\begin{itemize}
-\item deterministické řízení (stejný čas cyklu)
-\item odolnost vůči rušení (EMC)
-\item modulární struktura
-\item jednoduchá údržba
-\end{itemize}
-
-% -----------------------------
-\textbf{Scan cyklus PLC}
+\textbf{PLC -- Programovatelný logický automat}\\
+PLC je průmyslový počítač navržený pro spolehlivé a deterministické řízení.
+Pracuje v pravidelném \textbf{scan cyklu}:
 
 \begin{center}
 \begin{tikzpicture}[
-node/.style={rectangle, draw=accent, fill=lightblue,
-rounded corners=3pt, minimum width=3.2cm, minimum height=0.6cm, font=\small}
-]
-
-\node[node] (a) {1. Čtení vstupů};
-\node[node, below=of a] (b) {2. Vykonání programu};
-\node[node, below=of b] (c) {3. Zápis výstupů};
-\node[node, below=of c] (d) {4. Diagnostika};
-
-\draw[->] (a)--(b);
-\draw[->] (b)--(c);
-\draw[->] (c)--(d);
-\draw[->] (d.west) -- ++(-1,0) -- (a.west);
-
-\node[right=0.3cm of b, font=\scriptsize] {typicky 1–10 ms};
-
+  node distance=1.2cm,
+  box/.style={rectangle, draw=accent, fill=lightblue, rounded corners=3pt,
+              minimum width=3cm, minimum height=0.6cm, text centered, font=\small}]
+  \node[box] (a) {Čtení vstupů};
+  \node[box] (b) [below of=a] {Vykonání programu};
+  \node[box] (c) [below of=b] {Zápis výstupů};
+  \node[box] (d) [below of=c] {Interní diagnostika};
+  \draw[>-, accent] (a)--(b); \draw[>-, accent] (b)--(c);
+  \draw[>-, accent] (c)--(d);
+  \draw[>-, accent] (d.west) -- ++(-0.8,0) --  (a.west);
+  \node[right=0.2cm of b, font=\scriptsize, color=medgray] {typicky 1--10 ms};
 \end{tikzpicture}
 \end{center}
 
- PLC nepracuje „real-time per event“, ale cyklicky.
+\textbf{Detailní popis scan cyklu:}
+\begin{enumerate}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Čtení vstupů} -- všechny fyzické vstupy se načtou do obrazu vstupů (I-obraz)
+    \item \textbf{Vykonání programu} -- uživatelský program pracuje s I-obrazem a Q-obrazem
+    \item \textbf{Zápis výstupů} -- Q-obraz se zapíše na fyzické výstupy
+    \item \textbf{Diagnostika} -- kontrola watchdogu, komunikace, chybových hlášek
+\end{enumerate}
+Doba cyklu je kritická pro rychlé procesy -- typicky 1--10\,ms.
 
-\textbf{Programovací jazyky PLC (IEC 61131-3)}
+\textbf{Historie PLC:}\\
+První PLC vzniklo v roce 1968 pro General Motors (Modicon 084).
+Důvod: odstranit složité reléové rozvaděče, které se těžko modifikovaly.
+Výhoda PLC: změna funkce přeprogramováním, ne přepojováním drátů.
 
-PLC se programují podle normy IEC 61131-3, která definuje několik jazyků:
-
-\begin{itemize}
-\item \textbf{LD (Ladder Diagram)} – žebříčkový diagram
-\item \textbf{FBD (Function Block Diagram)} – blokové schéma
-\item \textbf{ST (Structured Text)} – textový jazyk podobný Pascalu
-\item \textbf{IL (Instruction List)} – instrukční seznam (historický)
-\item \textbf{SFC (Sequential Function Chart)} – sekvenční grafy
+\textbf{Architektura PLC systému:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{CPU} -- procesor, paměť programu, komunikační rozhraní
+    \item \textbf{Vstupní moduly} -- digitální (24\,V, 230\,V), analogové (0--10\,V, 4--20\,mA)
+    \item \textbf{Výstupní moduly} -- reléové, tranzistorové, triakové
+    \item \textbf{Speciální moduly} -- čítače, enkodéry, PID, komunikace (Profibus, Ethernet)
+    \item \textbf{Zdroj} -- 24\,V DC nebo 230\,V AC s baterijní zálohou
 \end{itemize}
 
-% -----------------------------
-\textbf{LD – Ladder Diagram}
-
-Nejpoužívanější v průmyslu. Vypadá jako elektrické schéma relé.
-
-\begin{itemize}
-\item levá strana = vstupy
-\item pravá strana = výstupy
-\item logika AND/OR pomocí kontaktů
-\end{itemize}
-
-Výhoda: snadné pochopení pro elektrikáře.
-
-% -----------------------------
-\textbf{ST – Structured Text}
-
-Textový jazyk podobný C/Pascalu:
-
-\begin{vzorcebox}
-\begin{verbatim}
-IF temperature > 50 THEN
-    motor := TRUE;
-ELSE
-    motor := FALSE;
-END_IF;
-\end{verbatim}
-\end{vzorcebox}
-
-Výhoda:
-\begin{itemize}
-\item složitější algoritmy
-\item matematika
-\item PID regulace
-\end{itemize}
-
-% -----------------------------
-\textbf{FBD – Function Block Diagram}
-
-Grafické bloky:
-
-\begin{itemize}
-\item AND / OR / NOT bloky
-\item funkční bloky (timer, counter)
-\item propojení signálů mezi bloky
-\end{itemize}
-
-Výhoda: přehlednost u řízení procesů.
-
-% -----------------------------
-\textbf{SFC – Sequential Function Chart}
-
-Řídí sekvence kroků:
-
-\begin{itemize}
-\item kroky (steps)
-\item přechody (transitions)
-\item paralelní větvení
-\end{itemize}
-
-Použití:
-\begin{itemize}
-\item výrobní linky
-\item automatické cykly
-\end{itemize}
-
-% -----------------------------
-\textbf{IL – Instruction List (zastaralý)}
-
-Nízká úroveň, podobná assembleru.
-
-Dnes už se prakticky nepoužívá (deprecated).
-
-
-% ============================================================
-\textbf{Mikrokontrolér (MCU)}\\
-Malý počítač na jednom čipu.
-
-\textbf{Obsahuje:}
-\begin{itemize}
-\item CPU
-\item RAM / Flash
-\item GPIO piny
-\item periferie (UART, SPI, I2C, ADC, timers)
-\end{itemize}
-
-% ============================================================
-\textbf{PLC vs mikrokontrolér}
-
-\begin{tabularx}{\linewidth}{l X X}
-\toprule
- & PLC & Mikrokontrolér \\
-\midrule
-Cíl & průmysl & vestavěné systémy \\
-Cena & vysoká & nízká \\
-Odolnost & velmi vysoká & střední \\
-Programování & IEC 61131-3 & C / C++ \\
-Flexibilita & omezená & vysoká \\
-Reakce & cyklická & event-driven \\
-\bottomrule
-\end{tabularx}
-
-% ============================================================
-\textbf{GPIO (mikrokontrolér)}
-
-\begin{itemize}
-\item vstup = čtení senzoru
-\item výstup = řízení LED, motoru
-\item alternativní funkce = UART/SPI/I2C/PWM
-\end{itemize}
-
-% ============================================================
-\textbf{Interrupts (přerušení)}
-
-Přerušení umožňuje okamžitou reakci na událost.
-
-\begin{itemize}
-\item tlačítko
-\item časovač
-\item UART příjem dat
-\item změna signálu
-\end{itemize}
-
- Výhoda: nemusí se čekat v loop()
-
-% ============================================================
-\textbf{Timers (časovače)}
-
-Použití:
-\begin{itemize}
-\item měření času
-\item PWM generace
-\item periodické úlohy
-\end{itemize}
-
-\[
-f_{out} = \frac{f_{cpu}}{prescaler}
-\]
-
-% ============================================================
-\textbf{PWM}
-
-\begin{vzorcebox}
-\[
-D = \frac{t_{on}}{T} \cdot 100\,\%
-\]
-\end{vzorcebox}
-
-Použití:
-\begin{itemize}
-\item řízení motorů
-\item LED stmívání
-\item regulace výkonu
-\end{itemize}
-
-% ============================================================
-\textbf{Komunikace MCU}
-
-\begin{itemize}
-\item UART – jednoduchá sériová linka
-\item SPI – rychlá synchronní komunikace
-\item I2C – více zařízení na 2 vodičích
-\end{itemize}
-
-% ============================================================
-\textbf{Firmware}
-
-Firmware = program v mikrokontroléru:
-\begin{itemize}
-\item běží přímo na HW
-\item často bez OS
-\item musí být stabilní
-\end{itemize}
-
-% ============================================================
-\end{vysvetlenibox}
-
-
-
-\newpage
-
-
-% ============================================================
-\section{Programování v jazyce C – základy}
-
-\begin{pojmybox}
-datové typy, proměnné, scope, local/global/static,
-podmínky, cykly, funkce, pole
-\end{pojmybox}
-
-% ============================================================
-\begin{vysvetlenibox}
-
-\textbf{Proměnné a datové typy}
-
-Proměnná je místo v paměti, které má jméno a typ.
-
-\begin{vzorcebox}
-\begin{verbatim}
-int a = 10;
-float b = 3.14;
-char c = 'A';
-\end{verbatim}
-\end{vzorcebox}
-
-\textbf{Rozdíl: local / global / static}
-
-\begin{itemize}
-\item \textbf{Local} – existuje jen uvnitř funkce
-\item \textbf{Global} – existuje po celý program
-\item \textbf{Static} – zachovává hodnotu mezi voláními funkce
-\end{itemize}
-
-\begin{vzorcebox}
-\begin{verbatim}
-int global = 5;   // globální
-
-void f() {
-    int local = 10;        // lokální
-    static int count = 0;  // uchovává stav
-    count++;
-}
-\end{verbatim}
-\end{vzorcebox}
-
-% ============================================================
-\textbf{Podmínky (if / else)}
-
-Slouží k rozhodování:
-
-\begin{vzorcebox}
-\begin{verbatim}
-if (x > 10) {
-    printf("větší než 10");
-} else {
-    printf("menší nebo rovno 10");
-}
-\end{verbatim}
-\end{vzorcebox}
-
- Použití:
-\begin{itemize}
-\item řízení logiky programu
-\item reakce na senzory
-\item rozhodování v algoritmech
-\end{itemize}
-
-% ============================================================
-\textbf{Cykly (loops)}
-
-\textbf{For cyklus} – když známe počet opakování:
-
-\begin{vzorcebox}
-\begin{verbatim}
-for (int i = 0; i < 10; i++) {
-    printf("%d", i);
-}
-\end{verbatim}
-\end{vzorcebox}
-
-\textbf{While cyklus} – dokud platí podmínka:
-
-\begin{vzorcebox}
-\begin{verbatim}
-while (x > 0) {
-    x--;
-}
-\end{verbatim}
-\end{vzorcebox}
-
-\textbf{Do-while} – provede se alespoň jednou:
-
-\begin{vzorcebox}
-\begin{verbatim}
-do {
-    x--;
-} while (x > 0);
-\end{verbatim}
-\end{vzorcebox}
-
-% ============================================================
-\textbf{Funkce}
-
-Funkce slouží k opakovanému použití kódu:
-
-\begin{vzorcebox}
-\begin{verbatim}
-int soucet(int a, int b) {
-    return a + b;
-}
-\end{verbatim}
-\end{vzorcebox}
-
- Výhody:
-\begin{itemize}
-\item přehlednost
-\item opakované použití
-\item modularita
-\end{itemize}
-
-% ============================================================
-\textbf{Scope (viditelnost proměnných)}
-
-\begin{itemize}
-\item proměnná existuje jen v bloku { }
-\item mimo blok ji nelze použít
-\end{itemize}
-
-\begin{vzorcebox}
-\begin{verbatim}
-{
-    int x = 5;
-}
-// x zde už neexistuje
-\end{verbatim}
-\end{vzorcebox}
-
-% ============================================================
-\textbf{Shrnutí rozdílů}
-
-\begin{tabularx}{\linewidth}{l X}
-\toprule
-\textbf{Typ} & \textbf{Popis} \\
-\midrule
-local & existuje uvnitř funkce \\
-global & existuje celý program \\
-static & uchovává hodnotu mezi voláními \\
-\bottomrule
-\end{tabularx}
-
-% ============================================================
-\end{vysvetlenibox}
-
-
-
-\newpage
-
-
-% ============================================================
-\section{Průmyslové komunikace}
-
-\begin{pojmybox}
-sběrnice, RS-232, RS-485, Modbus, CAN,
-SPI, I2C, I2S, UART,
-master/slave, diferenciální přenos,
-SCADA, OPC-UA
-\end{pojmybox}
-
-% ============================================================
-\begin{vysvetlenibox}
-
-\textbf{RS-232 vs RS-485}
+\textbf{Srovnání PLC vs. mikrokontrolér}
 
 \begin{center}
-\begin{tabularx}{\linewidth}{l X X}
-\toprule
- & RS-232 & RS-485 \\
-\midrule
-Typ přenosu & nesymetrický & diferenciální \\
-Počet zařízení & 2 (bod-bod) & až 32+ zařízení \\
-Dosah & cca 15 m & až 1200 m \\
-Odolnost rušení & nízká & vysoká \\
-Použití & PC komunikace & průmysl (Modbus RTU) \\
-\bottomrule
+\begin{tabularx}{0.95\linewidth}{@{} l X X @{}}
+    \toprule
+    \textbf{Vlastnost} & \textbf{PLC} & \textbf{Mikrokontrolér} \\
+    \midrule
+    Prostředí        & Průmysl, odolnost & Vestavěné systémy \\
+    Programování     & IEC 61131-3 (LD, ST\ldots) & C, C++, MicroPython \\
+    Cena             & Vyšší & Nízká (\$1--\$50) \\
+    Odolnost         & Vysoká (IP54+, EMC) & Střední \\
+    Real-time        & Deterministický cyklus & Závislé na FW \\
+    Příklady         & Siemens S7-1200, Allen-Bradley & ATmega328, STM32, ESP32 \\
+    Životnost        & 10--20 let & 2--5 let (produktová životnost) \\
+    Servis           & Výměna modulu za chodu & Nutno vypnout \\
+    \bottomrule
 \end{tabularx}
 \end{center}
 
-\textbf{Princip diferenciálního přenosu}
-
-RS-485 používá dva vodiče (A, B):
-\begin{itemize}
-\item logická 1 = rozdíl napětí mezi vodiči
-\item logická 0 = opačný rozdíl
+\textbf{Kdy použít PLC:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item Průmyslové aplikace s vysokými nároky na spolehlivost
+    \item Systémy, které musí běžet roky bez výpadku
+    \item Aplikace s častými změnami -- snadné přeprogramování
+    \item Když je potřeba certifikace (bezpečnostní PLC, SIL)
 \end{itemize}
 
-Výhoda:
-\begin{itemize}
-\item vysoká odolnost proti rušení
-\item vhodné pro dlouhé kabely
+\textbf{Kdy použít mikrokontrolér:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item Masově produkovaná zařízení (nízká cena)
+    \item Bateriové aplikace (nízká spotřeba)
+    \item Složité algoritmy (AI, zpracování obrazu)
+    \item Když je důležitá velikost a hmotnost
 \end{itemize}
 
-% ============================================================
-\textbf{Průmyslové sběrnice}
+\textbf{Komunikační rozhraní mikrokontroléru}
 
-\begin{tabularx}{\linewidth}{l X}
-\toprule
-Sběrnice & Použití \\
-\midrule
-Modbus & jednoduchá komunikace PLC \\
-CAN & automobily, robustní komunikace \\
-Profibus & starší Siemens systémy \\
-Profinet & průmyslový Ethernet \\
-EtherCAT & velmi rychlé řízení pohonů \\
-\bottomrule
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l l X @{}}
+    \toprule
+    \textbf{Rozhraní} & \textbf{Vodiče} & \textbf{Použití} \\
+    \midrule
+    UART & TX, RX, GND & Sériová komunikace, GPS, GSM, Bluetooth \\
+    SPI & MOSI, MISO, SCK, CS & SD karty, displeje, flash paměti \\
+    I\textsuperscript{2}C & SDA, SCL, GND & Sensory, EEPROM, RTC moduly \\
+    1-Wire & DQ, GND & Teploměry (DS18B20), iButton \\
+    CAN & CAN\_H, CAN\_L & Automobily, průmyslová automatizace \\
+    USB & D+, D-, VCC, GND & PC periférie, programování \\
+    \bottomrule
 \end{tabularx}
+\end{center}
 
-% ============================================================
-\textbf{Komunikace mikrokontrolérů}
+\textbf{Detailní popis rozhraní:}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{UART} (Universal Asynchronous Receiver-Transmitter) --
+          asynchronní sériová komunikace; rychlost (baud rate) musí být
+          shodná na obou stranách; typicky 9600--115200 Bd.
+          \textit{Výhody:} jednoduchost, 2 vodiče. \textit{Nevýhody:} bod-bod,
+          žádná adresace, náchylné k chybám při dlouhých kabelech.
 
-\textbf{UART}
-\begin{itemize}
-\item asynchronní komunikace
-\item 2 vodiče (TX, RX)
-\item nutná shodná rychlost (baud rate)
+    \item \textbf{SPI} (Serial Peripheral Interface) --
+          synchronní full-duplex komunikace; master voluje slave pomocí CS
+          (Chip Select); rychlosti až desítky MHz.
+          \textit{Výhody:} vysoká rychlost, jednoduchý protokol.
+          \textit{Nevýhody:} 4 vodiče na slave, žádná detekce chyb.
+
+    \item \textbf{I\textsuperscript{2}C} (Inter-Integrated Circuit) --
+          synchronní half-duplex; open-drain sběrnice s pull-up rezistory;
+          každý slave má 7bitovou adresu; rychlosti: 100 kHz (standard),
+          400 kHz (fast), 3.4 MHz (high-speed).
+          \textit{Výhody:} 2 vodiče, více slaveů. \textit{Nevýhody:} pomalejší,
+          složitější protokol, omezená délka kabelu.
+
+    \item \textbf{PWM} (Pulse Width Modulation) --
+          digitální generování analogové hodnoty pomocí střídy;
+          filtrací vznikne střední hodnota napětí.
 \end{itemize}
 
-\textbf{SPI}
-\begin{itemize}
-\item synchronní komunikace
-\item vodiče: MOSI, MISO, SCK, CS
-\item velmi vysoká rychlost
-\item master řídí komunikaci
+\begin{vzorcebox}
+PWM střída: $D = \frac{t_{on}}{T} \cdot 100\,\%$, \quad
+průměrné napětí: $\overline{U} = D \cdot U_{max}$\\
+Příklad: $U_{max}=5\,\text{V}$, $D=60\,\%$ $\Rightarrow$ $\overline{U}=3\,\text{V}$
+\end{vzorcebox}
+
+\textbf{Přerušení (Interrupts)}\\
+Mechanismus, který umožňuje reakci na událost okamžitě, bez čekání ve smyčce:
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Zdroje přerušení} -- časovače, UART (přijatý znak),
+          změna úrovně na pinu (INT0, INT1), A/D převod dokončen
+    \item \textbf{Obsluha přerušení (ISR)} -- krátká funkce, která se vykoná;
+          nesmí blokovat, neměla by používat delay()
+    \item \textbf{Priorita} -- některá přerušení mohou přerušit jiná
+    \item \textbf{Maskování} -- přerušení lze dočasně zakázat (CLI) a povolit (SEI)
 \end{itemize}
 
-\textbf{I2C}
-\begin{itemize}
-\item 2 vodiče (SDA, SCL)
-\item adresování zařízení
-\item více zařízení na sběrnici
-\item pomalejší než SPI
+\textbf{Časovače a čítače}\\
+Vestavěné periferie pro měření času, generování PWM, počítání impulsů:
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Časovač} -- počítá interní takty MCU; pro měření času
+    \item \textbf{Čítač} -- počítá externí impulsy na pinu; pro enkodéry, otáčky
+    \item \textbf{Režimy:} normální (přetečení), CTC (porovnání), PWM,
+          input capture (měření periody)
+    \item \textbf{Prescaler} -- dělička vstupní frekvence (1, 8, 64, 256, 1024)
 \end{itemize}
 
-\textbf{I2S}
-\begin{itemize}
-\item přenos digitálního audia
-\item používá se pro DAC/ADC
-\item synchronní datový tok
+\textbf{GPIO piny -- General Purpose Input/Output}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Výstup} -- push-pull (aktivně 0 nebo 1), open-drain (jen 0)
+    \item \textbf{Vstup} -- high-impedance (tri-state), s pull-up/pull-down
+    \item \textbf{Alternativní funkce} -- UART, SPI, I\textsuperscript{2}C, PWM, přerušení
+    \item \textbf{Omezení:} max. proud na pin (20--50\,mA), celkový proud MCU
 \end{itemize}
 
-% ============================================================
-\textbf{Master/Slave komunikace}
-
-\begin{itemize}
-\item master řídí komunikaci
-\item slave odpovídá na požadavky
-\item příklad: Modbus
+\textbf{Příklad: Arduino -- populární platforma pro MCU}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{ATmega328P} -- 8bitový AVR, 16\,MHz, 32\,kB Flash, 2\,kB SRAM
+    \item \textbf{Piny:} 14 digitálních (6 PWM), 6 analogových vstupů (ADC)
+    \item \textbf{Komunikace:} UART, SPI, I\textsuperscript{2}C
+    \item \textbf{Prostředí:} Arduino IDE (C++ s knihovnami)
 \end{itemize}
-
-% ============================================================
-\textbf{SCADA systém}
-
-SCADA slouží k:
-\begin{itemize}
-\item vizualizaci dat
-\item ovládání procesu
-\item archivaci a diagnostice
-\end{itemize}
-
-% ============================================================
-\textbf{OPC-UA}
-
-Moderní komunikační standard:
-\begin{itemize}
-\item platformově nezávislý
-\item zabezpečený (šifrování)
-\item propojuje PLC, SCADA a IT systémy
-\end{itemize}
-
-% ============================================================
 \end{vysvetlenibox}
 
+% ============================================================
+\section{Programování v jazyce C}
 
+\begin{pojmybox}
+\textbf{Klíčové pojmy:}
+datové typy, proměnná, pole, ukazatel, funkce, rekurze,
+struktura, preprocesor, dynamická paměť, kompilace, makefile,
+zásobník (stack), halda (heap)
+\end{pojmybox}
 
-\newpage
+\begin{vysvetlenibox}
+\textbf{Datové typy a paměť}
 
+\begin{center}
+\begin{tabular}{@{} l l l l @{}}
+    \toprule
+    \textbf{Typ} & \textbf{Velikost} & \textbf{Rozsah} & \textbf{Použití} \\
+    \midrule
+    \texttt{uint8\_t}  & 1\,B & 0 -- 255              & registry MCU \\
+    \texttt{int16\_t}  & 2\,B & $-32768$ -- $32767$   & rychlé výpočty \\
+    \texttt{int32\_t}  & 4\,B & $\pm 2 \times 10^9$   & čítače, čas \\
+    \texttt{float}     & 4\,B & $\pm 3{,}4\times10^{38}$ & měření, regulace \\
+    \texttt{double}    & 8\,B & $\pm 1{,}8\times10^{308}$ & přesné výpočty \\
+    \bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Ukazatele -- princip}
+
+\begin{vzorcebox}
+\begin{verbatim}
+int x = 42;
+int *p = &x;   // p obsahuje adresu proměnné x
+*p = 100;      // dereferencing -- změní hodnotu x na 100
+printf("%d", x); // vypíše 100
+\end{verbatim}
+\end{vzorcebox}
+
+\textbf{Dynamická paměť (heap)}
+
+\begin{vzorcebox}
+\begin{verbatim}
+int *pole = malloc(10 * sizeof(int));  // alokace 10 intů
+if (pole == NULL) { /* chyba! */ }
+pole[0] = 5;
+free(pole);   // VŽDY uvolnit, jinak memory leak!
+\end{verbatim}
+\end{vzorcebox}
+
+\textbf{Struktura paměti programu}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.7,
+  blk/.style={rectangle, draw=accent, fill=lightblue,
+              minimum width=3cm, minimum height=0.6cm,
+              text centered, font=\small}]
+  \node[blk, fill=lightgreen]  at (0, 3)   {Stack (zásobník)};
+  \node[blk, fill=lightyellow] at (0, 2.2) {Heap (halda)};
+  \node[blk]                   at (0, 1.4) {BSS (neinic. data)};
+  \node[blk]                   at (0, 0.6) {Data (init. data)};
+  \node[blk, fill=lightblue]   at (0,-0.2) {Text (kód programu)};
+  \draw[>-, accent] (-1.8,3) -- (-1.8,2.4)
+      node[midway,left,font=\scriptsize]{roste dolů};
+  \draw[>-, stripeblue] (-1.8,2) -- (-1.8,2.6)
+      node[midway,left,font=\scriptsize]{roste nahoru};
+\end{tikzpicture}
+\end{center}
+
+\textbf{Preprocesor -- direktiva \texttt{\#define}}\\
+Makra se nahrazují \textit{před} kompilací -- nulová režie za běhu:
+\begin{vzorcebox}
+\begin{verbatim}
+#define PI        3.14159f
+#define MAX(a,b)  ((a) > (b) ? (a) : (b))
+#define LED_PIN   13
+\end{verbatim}
+\end{vzorcebox}
+\end{vysvetlenibox}
+
+% ============================================================
+\section{Průmyslové komunikace -- komunikační sběrnice, SCADA systémy}
+
+\begin{pojmybox}
+\textbf{Klíčové pojmy:}
+Profibus, Profinet, EtherCAT, Modbus, CAN, IO-Link,
+OPC-UA, SCADA, HMI, PLC, topologie sítě,
+master/slave, deterministická komunikace, cyklický čas
+\end{pojmybox}
+
+\begin{vysvetlenibox}
+\textbf{Srovnání průmyslových sběrnic}
+
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l l l X @{}}
+    \toprule
+    \textbf{Sběrnice} & \textbf{Přenosová rychlost}
+                      & \textbf{Topologie} & \textbf{Použití} \\
+    \midrule
+    Modbus RTU  & 115 kbps   & linka     & Jednoduchá SCADA, měřicí přístroje \\
+    Modbus TCP  & 100 Mbps   & hvězda    & Ethernet varianta Modbusu \\
+    Profibus DP & 12 Mbps    & linka     & Siemens průmyslová automatizace \\
+    Profinet    & 100 Mbps   & hvězda    & Nástupce Profibus přes Ethernet \\
+    EtherCAT    & 100 Mbps   & prsten    & Ultrarychlé řízení pohonů (\textless{}100\,µs) \\
+    CAN         & 1 Mbps     & linka     & Automobily, průmysl (kratší sítě) \\
+    IO-Link     & 230 kbps   & bod-bod   & Inteligentní senzory/aktuátory \\
+    \bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Model OSI a průmyslové protokoly}\\
+Průmyslové sběrnice obvykle implementují pouze vrstvy 1 (fyzická),
+2 (linková) a 7 (aplikační) -- mezivrstvy jsou vynechány pro minimalizaci
+latence.
+
+\textbf{SCADA systém -- architektura}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85,
+  lvl/.style={rectangle, draw=accent, fill=lightblue, rounded corners=3pt,
+              minimum width=7cm, minimum height=0.65cm,
+              text centered, font=\small}]
+  \node[lvl, fill=lightyellow] (l4) at (0,3)   {Úroveň 4: ERP (podnikové řízení)};
+  \node[lvl]                   (l3) at (0,2.2) {Úroveň 3: MES (řízení výroby)};
+  \node[lvl, fill=lightgreen]  (l2) at (0,1.4) {Úroveň 2: SCADA / HMI (vizualizace)};
+  \node[lvl]                   (l1) at (0,0.6) {Úroveň 1: PLC / DCS (lokální řízení)};
+  \node[lvl, fill=lightyellow] (l0) at (0,-0.2){Úroveň 0: Senzory, aktuátory, pohony};
+  \foreach \a/\b in {l4/l3, l3/l2, l2/l1, l1/l0}
+    \draw[>-, accent] (\a) -- (\b);
+\end{tikzpicture}
+\end{center}
+
+\textbf{OPC-UA} -- moderní, platformově nezávislý komunikační standard
+pro vertikální integraci (od senzoru až po ERP), šifrovaný, s datovými
+modely; základ Industry~4.0 komunikace.
+\end{vysvetlenibox}
 
 % ============================================================
 \section{Senzorika -- poloha, rychlost, zrychlení, průtok, hladina}
 
 \begin{pojmybox}
-enkodér, LVDT, Hallův jev, MEMS, akcelerometr,
-tachogenerátor, průtokoměr, hladinoměr,
-citlivost, přesnost, rozlišení, linearita
+\textbf{Klíčové pojmy:}
+enkodér, resolver, induktivní snímač, kapacitní snímač,
+ultrazvuk, radar, tachogenerátor, akcelerometr, MEMS,
+průtokoměr, plovoucí spínač, citlivost, rozlišení, přesnost
 \end{pojmybox}
 
-% ============================================================
 \begin{vysvetlenibox}
-
 \textbf{Parametry senzorů}
 
 \begin{vzorcebox}
-\[
-S = \frac{\Delta y}{\Delta x}
-\]
+Citlivost: $S = \frac{\Delta y}{\Delta x}$ [výstup/vstup]\\
+Rozlišení: nejmenší detekovatelná změna měřené veličiny\\
+Přesnost: odchylka od skutečné hodnoty (systematická + náhodná chyba)\\
+Linearita: maximální odchylka od přímkové charakteristiky [\%~FSR]
 \end{vzorcebox}
 
-\begin{itemize}
-\item \textbf{Citlivost} – změna výstupu na změnu vstupu
-\item \textbf{Rozlišení} – nejmenší měřitelná změna
-\item \textbf{Přesnost} – odchylka od skutečné hodnoty
-\item \textbf{Linearita} – odchylka od ideální přímky
-\end{itemize}
-
-% ============================================================
 \textbf{Snímače polohy}
 
-\begin{tabularx}{\linewidth}{l X}
-\toprule
-Typ & Princip \\
-\midrule
-Inkrementální enkodér & počítá impulzy (relativní poloha) \\
-Absolutní enkodér & každá poloha má unikátní kód \\
-Potenciometr & změna odporu dle polohy \\
-LVDT & změna indukčnosti (lineární posuv) \\
-Hallův snímač & detekce magnetického pole \\
-\bottomrule
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l X l @{}}
+    \toprule
+    \textbf{Typ} & \textbf{Princip} & \textbf{Přesnost} \\
+    \midrule
+    Inkrementální enkodér & Optický disk s drážkami; počítá impulzy & 0,001° \\
+    Absolutní enkodér     & Kódovaný disk; udává polohu přímo & 0,001° \\
+    Potenciometr          & Odporový dělič; napětí = poloha & 0,1\,mm \\
+    LVDT                  & Indukčnostní transformátor; lineární pohyb & 1\,µm \\
+    Magnetický (Hall)     & Hallův jev; bezdotykové měření & 0,1\,mm \\
+    \bottomrule
 \end{tabularx}
+\end{center}
 
-% ============================================================
-\textbf{Rychlost a zrychlení}
-
-\begin{vzorcebox}
-\[
-v = \frac{ds}{dt}, \quad a = \frac{dv}{dt}
-\]
-\end{vzorcebox}
-
-\begin{itemize}
-\item \textbf{Tachogenerátor} – napětí úměrné otáčkám:
-\[
-U = k \cdot n
-\]
-
-\item \textbf{Enkodér} – rychlost z impulzů:
-\[
-\omega = \frac{\Delta \varphi}{\Delta t}
-\]
-
-\item \textbf{Akcelerometr (MEMS)}
-princip: malá hmotnost se při zrychlení posune → změna kapacity nebo odporu
+\textbf{Snímače rychlosti a zrychlení}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Tachogenerátor} -- generuje napětí úměrné otáčkám:
+          $U = k \cdot n$
+    \item \textbf{Enkodér + diferenciace} -- $\omega = \Delta\varphi / \Delta t$
+    \item \textbf{Akcelerometr MEMS} -- piezorezistivní nebo kapacitní;
+          měří zrychlení v 1--3 osách; princip: posun seizmické hmoty
 \end{itemize}
 
-% ============================================================
 \textbf{Průtokoměry}
 
-\begin{tabularx}{\linewidth}{l X}
-\toprule
-Typ & Princip \\
-\midrule
-Elektromagnetický & indukce napětí ve vodivé kapalině \\
-Ultrazvukový & měření doby průchodu signálu \\
-Vortex & vznik vírů za překážkou \\
-Coriolis & měření hmotnostního průtoku (setrvačné síly) \\
-\bottomrule
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l X l @{}}
+    \toprule
+    \textbf{Typ} & \textbf{Princip} & \textbf{Aplikace} \\
+    \midrule
+    Elektromagnetický & Faradayův zákon indukce; vodivé kapaliny & Voda, kaly \\
+    Ultrazvukový      & Doba letu nebo Doppler; bezdotykové & Plyny, kapaliny \\
+    Vortex            & Kármánovy víry za obtékáním překážky & Pára, plyny \\
+    Coriolis          & Torzní síla v kmitající trubici & Přesné měření hmotnosti \\
+    \bottomrule
 \end{tabularx}
-
-% ============================================================
-\textbf{Snímače hladiny}
-
-\begin{tabularx}{\linewidth}{l X}
-\toprule
-Typ & Princip \\
-\midrule
-Plovákový & mechanický plovák kopíruje hladinu \\
-Kapacitní & změna kapacity dle hladiny \\
-Ultrazvukový & měření vzdálenosti od hladiny \\
-Tlakový & hydrostatický tlak: $p = \rho g h$ \\
-\bottomrule
-\end{tabularx}
-
-% ============================================================
+\end{center}
 \end{vysvetlenibox}
 
-
-
-\newpage
-
-
-\section{Senzorika -- teplota, síla, hmotnost, deformace, tlak}
+% ============================================================
+\section{Senzorika -- teplota, síla, hmotnost, deformace, napětí, tlak}
 
 \begin{pojmybox}
 \textbf{Klíčové pojmy:}
-termistor NTC/PTC, termočlánek, RTD (Pt100),
-IR teploměr, tenzometr, Wheatstoneův můstek,
-piezorezistivní senzor, piezoelektrický jev,
-absolutní tlak, přetlak, podtlak
+termistor NTC/PTC, termoelektrický článek, RTD (Pt100),
+IR teploměr, tenzometr, Wheatstoneův můstek, piezoelektrický senzor,
+tlakový senzor, snímač síly
 \end{pojmybox}
 
 \begin{vysvetlenibox}
-
-% ------------------------------------------------------------
 \textbf{Teplotní senzory}
 
 \begin{center}
-\begin{tabularx}{0.95\linewidth}{l X l l}
-Typ & Princip & Rozsah & Přesnost \\
-\hline
-Pt100 & Odpor platiny roste s teplotou & $-200$ až $+850$ °C & $\pm0{,}1$ °C \\
-Termočlánek & Seebeckův jev (2 kovy) & $-270$ až $+2300$ °C & $\pm1$ °C \\
-NTC & Odpor klesá s teplotou & $-50$ až $+150$ °C & $\pm0{,}5$ °C \\
-IR senzor & Infračervené záření & $-50$ až $+2000$ °C & $\pm2$ °C \\
+\begin{tabularx}{0.95\linewidth}{@{} l X l l @{}}
+    \toprule
+    \textbf{Typ} & \textbf{Princip} & \textbf{Rozsah} & \textbf{Přesnost} \\
+    \midrule
+    Pt100/Pt1000 & Odporová závislost platiny na teplotě & $-200$ až $+850$\,°C & $\pm0{,}1$\,°C \\
+    Termočlánek & Seebeckův jev -- 2 různé kovy & $-270$ až $+2300$\,°C & $\pm1$\,°C \\
+    NTC termistor & Záporný teplotní koeficient odporu & $-50$ až $+150$\,°C & $\pm0{,}5$\,°C \\
+    IR bezdotykový & Záření černého tělesa & $-50$ až $+2000$\,°C & $\pm2$\,°C \\
+    \bottomrule
 \end{tabularx}
 \end{center}
 
 \begin{vzorcebox}
-Pt100: $R(T) = R_0 (1 + AT + BT^2)$
-
-Seebeckův jev: $U = S \cdot (T_1 - T_2)$
+Pt100: $R(T) = R_0 \left(1 + AT + BT^2\right)$,
+kde $R_0 = 100\,\Omega$ při $0\,°C$, $A = 3{,}9083\times10^{-3}$\,°C$^{-1}$\\
+Seebeckův jev: $U = S_{AB} \cdot (T_1 - T_2)$,
+kde $S_{AB}$ je Seebeckův koeficient [µV/°C]
 \end{vzorcebox}
 
-% ------------------------------------------------------------
-\textbf{Síla, hmotnost a deformace}
-
-\textbf{Základ:}
-\begin{itemize}
-\item Síla: $F = m \cdot g$
-\item Hmotnost se měří nepřímo přes sílu (váhy)
-\end{itemize}
-
-\textbf{Tenzometr:}
-\begin{itemize}
-\item mění odpor při deformaci
-\item nalepený na pružném materiálu
-\end{itemize}
+\textbf{Tenzometr a Wheatstoneův můstek}\\
+Tenzometr mění odpor při mechanické deformaci:
 
 \begin{vzorcebox}
-$GF = \frac{\Delta R / R}{\varepsilon}$
-
-$\varepsilon = \frac{\Delta l}{l}$
+$$GF = \frac{\Delta R / R}{\varepsilon}$$
+kde $GF$ je gauge factor (typicky 2--2,5 pro kovové tenzometry),
+$\varepsilon = \Delta l / l$ je relativní deformace.
 \end{vzorcebox}
 
-% ------------------------------------------------------------
-\textbf{Wheatstoneův můstek}
-
-Používá se pro přesné měření malých změn odporu:
+Tenzometry se zapojují do \textbf{Wheatstoneova můstku} pro eliminaci
+teplotní chyby a zvýšení citlivosti:
 
 \begin{vzorcebox}
-$U_{out} = U_{in} \cdot \frac{R_1 R_3 - R_2 R_4}{(R_1+R_2)(R_3+R_4)}$
+$$U_{out} = U_{in} \cdot \frac{R_1 R_3 - R_2 R_4}{(R_1+R_2)(R_3+R_4)}$$
+Plný můstek (4 aktivní tenzometry): 4× vyšší citlivost než čtvrtmůstek.
 \end{vzorcebox}
 
-\begin{itemize}
-\item čtvrtmůstek -- 1 tenzometr
-\item půlmůstek -- 2 tenzometry
-\item plný můstek -- 4 tenzometry (nejvyšší citlivost)
-\end{itemize}
-
-% ------------------------------------------------------------
 \textbf{Tlakové senzory}
-
-\begin{center}
-\begin{tabularx}{0.95\linewidth}{l X}
-Typ & Princip \\
-\hline
-Piezorezistivní & deformace membrány → změna odporu \\
-Kapacitní & změna vzdálenosti elektrod → změna kapacity \\
-Piezoelektrický & generuje napětí při deformaci \\
-\end{tabularx}
-\end{center}
-
-\textbf{Typy tlaku:}
-\begin{itemize}
-\item absolutní (vůči vakuu)
-\item relativní (přetlak vůči atmosféře)
-\item podtlak (nižší než atmosférický)
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Piezorezistivní} -- tenzometry na membráně;
+          statický i dynamický tlak; nejčastější typ
+    \item \textbf{Kapacitní} -- deformace membrány mění kapacitu;
+          velmi přesné, vhodné pro nízké tlaky
+    \item \textbf{Piezoelektrický} -- generuje náboj při tlaku;
+          pouze dynamické měření (nárazy, hluk)
 \end{itemize}
-
-% ------------------------------------------------------------
-\textbf{Shrnutí principů}
-
-\begin{itemize}
-\item Teplota → změna odporu nebo napětí
-\item Síla → deformace → změna odporu
-\item Tlak → deformace membrány
-\item Hmotnost → síla (gravitační)
-\end{itemize}
-
 \end{vysvetlenibox}
-
-
-
-\newpage
-
-
-% --- Záhlaví ---
-\begin{minipage}[t]{0.75\textwidth}
-    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
-    {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.22\textwidth}
-    \raggedleft
-    \begin{tikzpicture}
-        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
-            (0,0) rectangle (3,1.2)
-            node[midway, align=center, color=accent, font=\small\bfseries]
-            {Otázek: 22};
-    \end{tikzpicture}
-\end{minipage}
-
-\vspace{6pt}
-\noindent\color{accent}\rule{\linewidth}{1.5pt}
-\vspace{2pt}
 
 % ============================================================
 \section{Akční členy -- elektrické, pneumatické a hydraulické mechanismy}
@@ -2471,89 +1744,8 @@ $F = 200 \times 10^5 \cdot 50 \times 10^{-4} = 100\,\text{kN}$
     Čistota         & Čistý & Čistý & Riziko úniku oleje \\
     \bottomrule
 \end{tabular}
-
-\textbf{Řízení elektrických pohonů}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{PWM regulace} -- změna střídy řídí napětí a tím otáčky
-    \item \textbf{H-můstek} -- umožňuje změnu směru otáčení DC motoru
-    \item \textbf{FOC (Field Oriented Control)} -- pokročilé řízení BLDC
-    \item \textbf{Driver} -- výkonový stupeň mezi MCU a motorem
-\end{itemize}
-
-\textbf{Krokový motor -- režimy řízení}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item Full-step -- celý krok (největší moment)
-    \item Half-step -- poloviční krok (vyšší rozlišení)
-    \item Microstepping -- plynulý pohyb, menší vibrace
-\end{itemize}
-
-\textbf{Servosystém (uzavřená smyčka)}\\
-Servomotor pracuje v regulační smyčce:
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item snímač polohy (enkodér)
-    \item regulátor (PID)
-    \item výkonový měnič
-\end{itemize}
-Výhoda: vysoká přesnost, žádná ztráta kroku.
-
-\textbf{Pneumatické válce}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{Jednočinný} -- návrat pružinou
-    \item \textbf{Dvojčinný} -- tlak na obě strany (větší síla)
-    \item \textbf{Tlumení} -- zpomalení na konci zdvihu
-\end{itemize}
-
-\textbf{Hydraulika -- hlavní části}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item čerpadlo -- vytváří tlak
-    \item nádrž -- zásoba oleje
-    \item ventil -- řízení směru a průtoku
-    \item válec / motor -- vykonává práci
-\end{itemize}
-
-\textbf{Výhody hydrauliky}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item extrémně vysoké síly (lisy, bagry)
-    \item plynulé řízení
-\end{itemize}
-
-\textbf{Nevýhody hydrauliky}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item únik oleje (ekologie)
-    \item složitější údržba
-\end{itemize}
-
 \end{center}
 \end{vysvetlenibox}
-
-% ============================================================
-
-% ============================================================
-
-
-\newpage
-
-
-% --- Záhlaví ---
-\begin{minipage}[t]{0.75\textwidth}
-    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
-    {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.22\textwidth}
-    \raggedleft
-    \begin{tikzpicture}
-        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
-            (0,0) rectangle (3,1.2)
-            node[midway, align=center, color=accent, font=\small\bfseries]
-            {Otázek: 22};
-    \end{tikzpicture}
-\end{minipage}
-
-\vspace{6pt}
-\noindent\color{accent}\rule{\linewidth}{1.5pt}
-\vspace{2pt}
 
 % ============================================================
 \section{Průmyslové roboty a manipulátory}
@@ -2566,156 +1758,52 @@ Denavit-Hartenberg, singularita, pracovní prostor
 \end{pojmybox}
 
 \begin{vysvetlenibox}
-
-\textbf{Co je průmyslový robot}\\
-Průmyslový robot je programovatelný manipulátor, který automaticky
-provádí pohybové úlohy (např. svařování, montáž, balení).
-Skládá se z mechanické části (rameno), pohonů (motory), senzorů
-a řídicí jednotky.
-
-Základní vlastnost robota je \textbf{stupňů volnosti (DOF)}.
-
 \textbf{Stupně volnosti (DOF)}\\
-DOF říká, kolik nezávislých pohybů robot má.
-Typický průmyslový robot má \textbf{6 DOF}:
+Průmyslový robot má typicky 6 DOF (jako lidská ruka + zápěstí),
+což umožňuje dosáhnout libovolné polohy a orientace v prostoru.
 
-\begin{itemize}[noitemsep, leftmargin=1.4em]
-    \item 3 DOF pro polohu (X, Y, Z)
-    \item 3 DOF pro orientaci (naklopení a otočení nástroje)
-\end{itemize}
-
-Díky tomu dokáže robot umístit nástroj do libovolné polohy a směru,
-podobně jako lidská ruka.
-
-\textbf{Kinematika robota}\\
-Kinematika řeší pohyb robota bez ohledu na síly.
+\textbf{Kinematika}
 
 \begin{vzorcebox}
-
-\textbf{Přímá kinematika}\\
-Známe úhly kloubů a chceme zjistit polohu nástroje (TCP):
-
-\[
-\mathbf{T} = A_1(\theta_1) \cdot A_2(\theta_2) \cdots A_n(\theta_n)
-\]
-
-Výstupem je poloha a orientace TCP (Tool Center Point).
-
-\vspace{4pt}
-
-\textbf{Inverzní kinematika}\\
-Známe cílovou polohu TCP a hledáme úhly kloubů $\theta_i$.
-
-Tento problém je složitější, protože:
-\begin{itemize}[noitemsep]
-    \item může existovat více řešení
-    \item někdy neexistuje žádné řešení
-    \item používají se numerické metody (iterace, Jacobian)
-\end{itemize}
-
+\textbf{Přímá kinematika:} ze známých úhlů kloubů $(\theta_1,\ldots,\theta_n)$
+vypočítáme polohu a orientaci TCP (Tool Center Point):\\
+$\mathbf{T} = A_1(\theta_1) \cdot A_2(\theta_2) \cdots A_n(\theta_n)$
+\quad (D-H matice 4×4)\\[4pt]
+\textbf{Inverzní kinematika:} ze známé cílové polohy hledáme $\theta_i$ --
+numerické metody (Jacobian inverze), nebo analytické řešení.
 \end{vzorcebox}
-
-\textbf{Co je TCP}\\
-TCP (Tool Center Point) je bod na konci robota, který se sleduje
-a programuje. Například špička svařovacího hořáku nebo uchopovač.
-
-\textbf{Pracovní prostor robota}\\
-Je to objem, kam robot dosáhne.
-Závisí na:
-\begin{itemize}[noitemsep]
-    \item délce ramen
-    \item konstrukci (SCARA, delta, artikulovaný)
-    \item omezeních kloubů
-\end{itemize}
 
 \textbf{Typy průmyslových robotů}
 
 \begin{center}
 \begin{tabularx}{0.95\linewidth}{@{} l X l @{}}
-\toprule
-\textbf{Typ} & \textbf{Charakteristika} & \textbf{Použití} \\
-\midrule
-
-Artikulovaný (6-DOF) &
-Nejvíce podobný lidské ruce, velmi flexibilní,
-umožňuje složité pohyby ve 3D prostoru &
-Svařování, lakování, manipulace \\
-
-SCARA (4-DOF) &
-Rychlý pohyb v rovině XY, velmi tuhý ve vertikále,
-ideální pro montáž &
-Montáž elektroniky, pick\&place \\
-
-Delta robot (3-DOF) &
-Paralelní konstrukce, extrémně rychlý a lehký,
-malá hmotnost pohyblivých částí &
-Balení, farmaceutický průmysl \\
-
-Kartézský robot (3-DOF) &
-Pohyby v osách X, Y, Z (lineární vedení),
-jednoduchá konstrukce &
-CNC stroje, 3D tisk \\
-
-Cobot (kolaborativní robot) &
-Navržen pro práci s člověkem,
-má omezení síly a rychlosti pro bezpečnost &
-Montáž, asistovaná výroba \\
-
-\bottomrule
+    \toprule
+    \textbf{Typ} & \textbf{Vlastnosti} & \textbf{Aplikace} \\
+    \midrule
+    Artikulovaný (6-DOF) & Největší pracovní prostor, plná flexibilita
+                         & Svařování, lakování \\
+    SCARA (4-DOF)        & Rychlý vodorovný pohyb, tuhý ve svislém směru
+                         & Montáž, pick\&place \\
+    Delta (3-DOF)        & Velmi rychlý (\textgreater3\,m/s), lehký; paralelní kinematika
+                         & Balení, farmaceutika \\
+    Kartézský (3-DOF)    & Jednoduchá kinematika, velký rozměr
+                         & 3D tiskárny, CNC portály \\
+    Cobot                & Silové omezení, bezpečná spolupráce s člověkem
+                         & Montáž, šroubování \\
+    \bottomrule
 \end{tabularx}
 \end{center}
 
-\textbf{Trajektorie pohybu}\\
-Trajektorie říká, jak se robot pohybuje mezi body:
-
-\begin{itemize}[noitemsep, leftmargin=1.4em]
-    \item \textbf{PTP (Point-to-Point)} -- robot jede nejrychlejší cestou,
-    dráha mezi body není důležitá
-    \item \textbf{CP (Continuous Path)} -- důležitá je přesná dráha
-    (např. svařování nebo lakování)
-    \item \textbf{Trapézový profil rychlosti} -- pohyb má 3 fáze:
-    zrychlení, konstantní rychlost, zpomalení
+\textbf{Trajektoriové plánování}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{PTP} (Point-to-Point) -- rychlý přesun z A do B,
+          nezáleží na dráze; každá osa se pohybuje nezávisle
+    \item \textbf{CP} (Continuous Path) -- lineární nebo kruhová interpolace;
+          nutné pro svařování a lakování
+    \item \textbf{Trapézový profil rychlosti} -- fáze rozjezdu,
+          konstantní rychlosti a zpomalení
 \end{itemize}
-
-\textbf{Singularita (důležitý pojem)}\\
-Singularita nastává, když robot ztrácí jeden stupeň volnosti
-a nemůže se pohybovat určitým směrem.
-V praxi to může způsobit:
-\begin{itemize}[noitemsep]
-    \item náhlé zrychlení kloubů
-    \item ztrátu kontroly trajektorie
-\end{itemize}
-
 \end{vysvetlenibox}
-
-% ============================================================
-
-% ============================================================
-
-
-\newpage
-
-
-% --- Záhlaví ---
-\begin{minipage}[t]{0.75\textwidth}
-    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
-    {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.22\textwidth}
-    \raggedleft
-    \begin{tikzpicture}
-        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
-            (0,0) rectangle (3,1.2)
-            node[midway, align=center, color=accent, font=\small\bfseries]
-            {Otázek: 22};
-    \end{tikzpicture}
-\end{minipage}
-
-\vspace{6pt}
-\noindent\color{accent}\rule{\linewidth}{1.5pt}
-\vspace{2pt}
 
 % ============================================================
 \section{Automatizované výrobní a nevýrobní systémy}
@@ -2761,492 +1849,195 @@ Světová třída: $OEE > 85\,\%$
     \item \textbf{Autonomní roboty} -- spolupráce s člověkem, učení
 \end{itemize}
 
-\textbf{Struktura výrobní buňky (FMC)}\\
-Typická výrobní buňka obsahuje:
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item CNC stroj(e) -- obrábění součástí
-    \item Robot -- manipulace s obrobky
-    \item Zásobník (magazín) -- ukládání polotovarů a výrobků
-    \item Dopravník -- přesun materiálu
-    \item PLC -- řízení celé buňky
-\end{itemize}
-
-\textbf{Řízení výroby -- MES vs ERP}\\
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{ERP} -- plánování výroby, finance, logistika (úroveň firmy)
-    \item \textbf{MES} -- řízení výroby v reálném čase (zakázky, stroje, data)
-    \item \textbf{SCADA} -- vizualizace a dohled nad procesem
-\end{itemize}
-
-\textbf{Lean manufacturing (štíhlá výroba)}\\
-Cílem je eliminace plýtvání:
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item nadprodukce
-    \item čekání
-    \item zbytečný pohyb
-    \item vady (zmetky)
-    \item nadbytečné zásoby
-\end{itemize}
-
-\textbf{Výhody automatizace}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item vyšší produktivita a kvalita
-    \item menší chybovost (eliminace lidského faktoru)
-    \item možnost nepřetržitého provozu (24/7)
-\end{itemize}
-
-\textbf{Nevýhody automatizace}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item vysoké pořizovací náklady
-    \item složitější údržba a servis
-    \item menší flexibilita u tuhých systémů
-\end{itemize}
-
 \textbf{AGV} (Automated Guided Vehicle) -- autonomní vozidla pro dopravu
 materiálu; navigace: laserová, magnetická dráha, vizuální (kamera + AI).
 \end{vysvetlenibox}
 
 % ============================================================
-
-% ============================================================
-
-
-\newpage
-
-
-% ============================================================
 \section{Umělá inteligence}
 
 \begin{pojmybox}
-strojové učení, neuronová síť, hluboké učení, CNN, RNN, transformer,
-predikátová logika, fuzzy logika, inference, dataset, trénování modelu
+\textbf{Klíčové pojmy:}
+strojové učení, neuronová síť, hluboké učení, CNN, RNN, LSTM,
+regrese, klasifikace, trénovací/validační/testovací data,
+overfitting, přeučení, aktivační funkce, zpětná propagace
 \end{pojmybox}
 
-% ============================================================
 \begin{vysvetlenibox}
-
-\textbf{Základní rozdělení AI}
-
-\begin{itemize}
-\item \textbf{Symbolická AI} – expertní systémy, pravidla IF-THEN
-\item \textbf{Datová AI} – strojové učení, neuronové sítě
-\end{itemize}
-
-% ============================================================
-\textbf{Neuron – základní stavební jednotka AI}
-
-Neuron simuluje chování biologického neuronu. Zpracovává vstupy,
-váží je, přičítá bias a aplikuje aktivační funkci.
+\textbf{Rozdělení metod AI}
 
 \begin{center}
-\begin{tikzpicture}[node distance=1.3cm]
-
-\node (x1) at (0,1.2) {$x_1$};
-\node (x2) at (0,0.4) {$x_2$};
-\node (x3) at (0,-0.4) {$x_3$};
-
-\node[circle, draw, minimum size=1.4cm] (sum) at (2,0.4) {$\Sigma$};
-
-\node (f) at (3.8,0.4) {f(x)};
-\node (y) at (5.2,0.4) {$y$};
-
-\draw[->] (x1) -- node[above] {$w_1$} (sum);
-\draw[->] (x2) -- node[above] {$w_2$} (sum);
-\draw[->] (x3) -- node[below] {$w_3$} (sum);
-
-\draw[->] (sum) -- node[above] {$+b$} (f);
-\draw[->] (f) -- (y);
-
+\begin{tikzpicture}[scale=0.85,
+  node/.style={rectangle, draw=accent, fill=lightblue, rounded corners=3pt,
+               minimum width=3cm, minimum height=0.55cm,
+               text centered, font=\small}]
+  \node[node, fill=lightyellow] (ai) at (0,3) {Umělá inteligence};
+  \node[node] (ml) at (-3,2)  {Strojové učení};
+  \node[node] (es) at (0,2)   {Expert. systémy};
+  \node[node] (cv) at (3,2)   {Poč. vidění};
+  \node[node] (sup)  at (-4.5,1)  {Superv.};
+  \node[node] (uns)  at (-3,1)    {Nesuperv.};
+  \node[node] (rl)   at (-1.5,1)  {Posilovací};
+  \node[node] (dl)   at (-3,0)    {Hluboké učení};
+  \node[node] (cnn)  at (-4.2,-0.8) {CNN};
+  \node[node] (rnn)  at (-3,-0.8)   {RNN/LSTM};
+  \node[node] (tr)   at (-1.8,-0.8) {Transformer};
+  \draw[>-,accent] (ai)--(ml);
+  \draw[>-,accent] (ai)--(es);
+  \draw[>-,accent] (ai)--(cv);
+  \draw[>-,accent] (ml)--(sup);
+  \draw[>-,accent] (ml)--(uns);
+  \draw[>-,accent] (ml)--(rl);
+  \draw[>-,accent] (sup)--(dl);
+  \draw[>-,accent] (dl)--(cnn);
+  \draw[>-,accent] (dl)--(rnn);
+  \draw[>-,accent] (dl)--(tr);
 \end{tikzpicture}
 \end{center}
 
+\textbf{Neuronová síť -- princip}
+
 \begin{vzorcebox}
-\[
-y = f\left(\sum_{i=1}^{n} w_i x_i + b\right)
-\]
+Jeden neuron: $y = f\!\left(\sum_{i=1}^{n} w_i x_i + b\right)$\\
+Aktivační funkce: ReLU: $f(x) = \max(0,x)$; \quad
+Sigmoid: $f(x) = \frac{1}{1+e^{-x}}$\\
+Zpětná propagace: $w \leftarrow w - \eta \frac{\partial L}{\partial w}$
+\quad ($\eta$ = rychlost učení, $L$ = ztrátová funkce)
 \end{vzorcebox}
 
-\textbf{Co neuron obsahuje:}
-\begin{itemize}
-\item vstupy $x_i$ – data (např. senzory)
-\item váhy $w_i$ – důležitost vstupu
-\item bias $b$ – posun rozhodnutí
-\item sumační funkce $\Sigma$
-\item aktivační funkce $f(x)$
-\end{itemize}
+\textbf{Použití AI v mechatronice}
 
-% ============================================================
-\textbf{Aktivační funkce}
-
-\begin{itemize}
-\item ReLU: $f(x)=\max(0,x)$
-\item Sigmoid: $f(x)=\frac{1}{1+e^{-x}}$
-\item Tanh: škála -1 až 1
-\end{itemize}
-
-% ============================================================
-\textbf{Neuronová síť}
-
-Více neuronů tvoří vrstvy:
-\begin{itemize}
-\item vstupní vrstva
-\item skryté vrstvy
-\item výstupní vrstva
-\end{itemize}
-
-Učí se pomocí zpětné propagace chyby (backpropagation).
-
-% ============================================================
-\textbf{Predikátová logika}
-
-Pracuje s proměnnými a kvantifikátory:
-
-\[
-\forall x \, (\text{člověk}(x) \Rightarrow \text{smrtelný}(x))
-\]
-
-Použití:
-\begin{itemize}
-\item expertní systémy
-\item automatické dokazování
-\end{itemize}
-
-% ============================================================
-\textbf{Fuzzy logika}
-
-Na rozdíl od klasické logiky nepracuje jen s 0/1.
-
-\[
-\mu(x) \in [0,1]
-\]
-
-Příklad:
-\begin{itemize}
-\item teplota = "vysoká" → 0.7
-\item rychlost = "střední" → 0.5
-\end{itemize}
-
-Použití:
-\begin{itemize}
-\item řízení klimatizace
-\item pračky, robotika
-\end{itemize}
-
-% ============================================================
-\textbf{ML vs expertní systémy}
-
-\begin{tabularx}{\linewidth}{l X X}
-\toprule
- & Strojové učení & Expertní systémy \\
-\midrule
-Znalosti & učí se z dat & ručně zadaná pravidla \\
-Učení & ano & ne \\
-Flexibilita & vysoká & nízká \\
-Úprava & automatická & manuální \\
-Použití & predikce, klasifikace & rozhodovací pravidla \\
-\bottomrule
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l X l @{}}
+    \toprule
+    \textbf{Aplikace} & \textbf{Popis} & \textbf{Metoda} \\
+    \midrule
+    Detekce vad    & Rozpoznání defektů na výrobku z kamery & CNN \\
+    Predikce poruch & Předpověď poruchy z vibrací a teplot & LSTM \\
+    Autonomní robot & Navigace, vyhýbání překážkám & Posilovací učení \\
+    Kvalita svaru  & Klasifikace kvality z obrazu & CNN \\
+    Digitální dvojče & Aktualizace modelu dle měření & Hybridní \\
+    \bottomrule
 \end{tabularx}
-
-% ============================================================
+\end{center}
 \end{vysvetlenibox}
 
-
-
-\newpage
-
-
+% ============================================================
 \section{Nové materiály a technologie v mechatronice}
 
 \begin{pojmybox}
 \textbf{Klíčové pojmy:}
-kompozity, uhlíková vlákna, SMA, piezoelektrika,
-MEMS, nanomateriály, 3D tisk,
-FDM, SLA, SLS, DMLS, smart materiály
+kompozity, uhlíková vlákna, tvarová paměť (SMA), piezoelektrické materiály,
+MEMS, aditivní výroba (3D tisk), nanomateriály, smart materiály,
+FDM, SLA, SLS, DMLS
 \end{pojmybox}
 
 \begin{vysvetlenibox}
-
-% ------------------------------------------------------------
 \textbf{Konstrukční materiály -- srovnání}
 
 \begin{center}
-\begin{tabular}{l r r r r}
-Materiál & $\rho$ & $E$ & $R_m$ & $E/\rho$ \\
- & [g/cm³] & [GPa] & [MPa] & \\
-\hline
-Ocel S235 & 7,85 & 210 & 360 & 26,8 \\
-Al 7075   & 2,81 & 72  & 570 & 25,6 \\
-CFRP      & 1,55 & 135 & 1500 & 87,1 \\
-Titan     & 4,43 & 114 & 950 & 25,7 \\
+\begin{tabular}{@{} l r r r r @{}}
+    \toprule
+    \textbf{Materiál} & $\rho$ [g/cm³] & $E$ [GPa]
+                      & $R_m$ [MPa] & $E/\rho$ (tuhost/hm.) \\
+    \midrule
+    Ocel S235       & 7,85 & 210 & 360 & 26,8 \\
+    Al slitina 7075 & 2,81 & 72  & 570 & 25,6 \\
+    CFRP (lamina)   & 1,55 & 135 & 1500 & \textbf{87,1} \\
+    Titan Ti-6Al-4V & 4,43 & 114 & 950 & 25,7 \\
+    \bottomrule
 \end{tabular}
 \end{center}
 
-\textbf{Shrnutí:}
-\begin{itemize}
-\item Kompozity (CFRP) mají nejlepší poměr pevnost/hmotnost
-\item Ocel je levná a pevná, ale těžká
-\item Hliník je lehký, ale méně tuhý
-\end{itemize}
-
-% ------------------------------------------------------------
 \textbf{Smart materiály}
-
-\begin{itemize}
-\item \textbf{SMA (tvarová paměť)}
-    \begin{itemize}
-    \item materiál si „pamatuje“ původní tvar
-    \item při zahřátí se vrací zpět
-    \item použití: aktuátory, medicína
-    \end{itemize}
-
-\item \textbf{Piezoelektrika}
-    \begin{itemize}
-    \item tlak → napětí (senzor)
-    \item napětí → deformace (aktuátor)
-    \item velmi rychlá odezva
-    \end{itemize}
-
-\begin{vzorcebox}
-Piezo jev: $Q = d \cdot F$
-\end{vzorcebox}
-
-\item \textbf{Magnetoreologické kapaliny}
-    \begin{itemize}
-    \item mění viskozitu v magnetickém poli
-    \item použití: tlumiče (auta, robotika)
-    \end{itemize}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{SMA} (Shape Memory Alloy) -- nitinol (NiTi); pamatuje si tvar
+          po deformaci a vrátí se při ohřevu nad $A_f$ (tepl. transformace);
+          využití: stenty, aktuátory, spoje
+    \item \textbf{Piezoelektrika} -- PZT (Pb-Zr-Ti); přímý jev:
+          tlak $\to$ napětí (senzor); inverzní jev: napětí $\to$ deformace
+          (aktuátor); frekvenčně velmi rychlé (\textgreater100\,kHz)
+    \item \textbf{Magnetoreologické kapaliny} -- mění viskozitu v mag. poli;
+          rychlé tlumení (automobily, protézy)
 \end{itemize}
 
-% ------------------------------------------------------------
-\textbf{MEMS (Micro-Electro-Mechanical Systems)}
-
-Miniaturní mechanické struktury na čipu:
-
-\begin{itemize}
-\item akcelerometry (mobil, drony)
-\item gyroskopy
-\item tlakové senzory
-\end{itemize}
-
-\textbf{Výhody:}
-\begin{itemize}
-\item malé rozměry
-\item nízká cena
-\item integrace s elektronikou
-\end{itemize}
-
-% ------------------------------------------------------------
-\textbf{Nanomateriály}
-
-\begin{itemize}
-\item struktury v měřítku nm ($10^{-9}$ m)
-\item extrémní vlastnosti:
-\begin{itemize}
-\item vysoká pevnost
-\item vysoká vodivost
-\end{itemize}
-\item příklad: grafen, nanotrubice
-\end{itemize}
-
-% ------------------------------------------------------------
-\textbf{3D tisk (aditivní výroba)}
+\textbf{Technologie 3D tisku -- srovnání}
 
 \begin{center}
-\begin{tabularx}{0.95\linewidth}{l X l}
-Metoda & Princip & Materiál \\
-\hline
-FDM  & tavení plastu & PLA, ABS \\
-SLA  & UV vytvrzení & pryskyřice \\
-SLS  & spékání prášku & nylon \\
-DMLS & tavení kovu & ocel, titan \\
+\begin{tabularx}{0.95\linewidth}{@{} l X l l @{}}
+    \toprule
+    \textbf{Metoda} & \textbf{Princip} & \textbf{Materiál}
+                    & \textbf{Přesnost} \\
+    \midrule
+    FDM  & Tavení a nanášení vlákna & PLA, PETG, ABS & $\pm0{,}2$\,mm \\
+    SLA  & UV vytvrzení pryskyřice & Fotopolymer     & $\pm0{,}05$\,mm \\
+    SLS  & Spékání prášku laserem  & Nylon, TPU      & $\pm0{,}1$\,mm \\
+    DMLS & Tavení kovového prášku  & Ocel, titan, Al & $\pm0{,}05$\,mm \\
+    \bottomrule
 \end{tabularx}
 \end{center}
-
-\textbf{Výhody:}
-\begin{itemize}
-\item složité tvary bez obrábění
-\item rychlé prototypování
-\end{itemize}
-
-\textbf{Nevýhody:}
-\begin{itemize}
-\item horší mechanické vlastnosti (hlavně FDM)
-\item vyšší cena u kovového tisku
-\end{itemize}
-
-% ------------------------------------------------------------
-\textbf{Shrnutí}
-
-\begin{itemize}
-\item Kompozity → lehké a pevné konstrukce
-\item Smart materiály → senzory + aktuátory
-\item MEMS → miniaturizace
-\item 3D tisk → rychlá výroba
-\end{itemize}
-
 \end{vysvetlenibox}
 
-
-
-\newpage
-
-
+% ============================================================
 \section{Metody technické diagnostiky}
 
 \begin{pojmybox}
 \textbf{Klíčové pojmy:}
 prediktivní údržba, vibrodiagnostika, termodiagnostika,
-tribodiagnostika, akustická emise, NDT,
+tribodiagnostika, akustická emise, endoskopie, NDT,
 spolehlivost, MTBF, MTTR, Weibullovo rozdělení
 \end{pojmybox}
 
 \begin{vysvetlenibox}
-
-% ------------------------------------------------------------
 \textbf{Strategie údržby}
 
 \begin{center}
-\begin{tabularx}{0.95\linewidth}{l X X}
-Strategie & Popis & Náklady \\
-\hline
-Reaktivní & oprava až po poruše & velmi vysoké \\
-Preventivní & pravidelná výměna & střední \\
-Prediktivní & dle stavu zařízení & nejnižší \\
+\begin{tabularx}{0.95\linewidth}{@{} l X X @{}}
+    \toprule
+    \textbf{Strategie} & \textbf{Popis} & \textbf{Náklady} \\
+    \midrule
+    Reaktivní (po poruše) & Oprava až po selhání & Velmi vysoké (prostoje) \\
+    Preventivní (plánovaná) & Výměna v pevných intervalech & Střední \\
+    Prediktivní (CBM) & Na základě stavu a dat & Nejnižší celkové \\
+    \bottomrule
 \end{tabularx}
 \end{center}
 
-\textbf{Shrnutí:}
-\begin{itemize}
-\item cílem je přejít z reaktivní → prediktivní údržbu
-\item využívají se senzory + analýza dat
-\end{itemize}
-
-% ------------------------------------------------------------
 \textbf{Ukazatele spolehlivosti}
 
 \begin{vzorcebox}
-$MTBF = \frac{t_{provoz}}{N_{poruch}}$
-
-$MTTR = \frac{t_{opravy}}{N_{oprav}}$
-
-$A = \frac{MTBF}{MTBF + MTTR}$
+$MTBF = \frac{\text{celková doba provozu}}{\text{počet poruch}}$
+\quad (Mean Time Between Failures)\\
+$MTTR = \frac{\text{celková doba oprav}}{\text{počet oprav}}$
+\quad (Mean Time To Repair)\\
+Dostupnost: $A = \frac{MTBF}{MTBF + MTTR}$
 \end{vzorcebox}
 
-\textbf{Význam:}
-\begin{itemize}
-\item MTBF = jak často se to rozbije
-\item MTTR = jak dlouho to opravuješ
-\item dostupnost = jak moc je stroj „k dispozici“
-\end{itemize}
-
-% ------------------------------------------------------------
-\textbf{Vibrodiagnostika}
-
-\begin{itemize}
-\item měření vibrací (akcelerometr)
-\item analýza frekvence (FFT)
-\item každá porucha má typický signál
-\end{itemize}
+\textbf{Vibrodiagnostika}\\
+Měříme vibrace akcelerometrem, analyzujeme frekvenční spektrum (FFT).
+Každá závada má charakteristickou frekvenci:
 
 \begin{center}
-\begin{tabularx}{0.95\linewidth}{l X}
-Závada & Projev \\
-\hline
-Nevyváženost & 1× otáčky \\
-Nesouosost & 2× otáčky \\
-Ložiska & specifické frekvence (BPFO, BPFI) \\
-Ozubená kola & násobky zubů \\
+\begin{tabularx}{0.95\linewidth}{@{} l X @{}}
+    \toprule
+    \textbf{Závada} & \textbf{Charakteristická frekvence} \\
+    \midrule
+    Nevyváženost    & $1\times$ otáčková frekvence $f_r$ \\
+    Nesouosost      & $2\times f_r$ \\
+    Opotřebení ložiska & BPFO, BPFI, BSF (dle rozměrů ložiska) \\
+    Ozubené kolo    & $z \times f_r$ (počet zubů $\times$ otáčková) \\
+    \bottomrule
 \end{tabularx}
 \end{center}
 
-% ------------------------------------------------------------
-\textbf{Termodiagnostika}
-
-\begin{itemize}
-\item měření teploty (IR kamera)
-\item odhaluje:
-\begin{itemize}
-\item přehřáté ložiska
-\item špatné kontakty (elektrika)
-\item tření
+\textbf{NDT metody}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Rentgen (RT)} -- odhalí vnitřní vady, póry ve svarech
+    \item \textbf{Ultrazvuk (UT)} -- měření tloušťky stěny, trhliny
+    \item \textbf{Magnetická prášková met. (MT)} -- povrchové trhliny ve ferromagnetech
+    \item \textbf{Penetrační zkoušení (PT)} -- povrchové trhliny v libovolném materiálu
 \end{itemize}
-\end{itemize}
-
-% ------------------------------------------------------------
-\textbf{Tribodiagnostika}
-
-Analýza oleje:
-
-\begin{itemize}
-\item obsah kovových částic → opotřebení
-\item viskozita → degradace oleje
-\item voda → porucha těsnění
-\end{itemize}
-
-% ------------------------------------------------------------
-\textbf{NDT metody (nedestruktivní testování)}
-
-\begin{itemize}
-\item RT (rentgen) → vnitřní vady
-\item UT (ultrazvuk) → trhliny, tloušťka
-\item MT → feromagnetické materiály
-\item PT → povrchové trhliny
-\end{itemize}
-
-% ------------------------------------------------------------
-\textbf{Weibullovo rozdělení}
-
-Používá se pro modelování poruch:
-
-\begin{itemize}
-\item rané poruchy (výrobní vady)
-\item náhodné poruchy
-\item opotřebení (stárnutí)
-\end{itemize}
-
-\textbf{Tzv. vanová křivka (bathtub curve):}
-\begin{itemize}
-\item začátek → vysoká poruchovost
-\item střed → stabilní provoz
-\item konec → opotřebení
-\end{itemize}
-
-% ------------------------------------------------------------
-\textbf{Shrnutí}
-
-\begin{itemize}
-\item cílem diagnostiky je zabránit poruchám
-\item využívá se měření (vibrace, teplota, olej)
-\item moderní trend = prediktivní údržba + data
-\end{itemize}
-
 \end{vysvetlenibox}
-
-
-
-\newpage
-
-
-% --- Záhlaví ---
-\begin{minipage}[t]{0.75\textwidth}
-    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
-    {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Straka Jakub, Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.22\textwidth}
-    \raggedleft
-    \begin{tikzpicture}
-        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
-            (0,0) rectangle (3,1.2)
-            node[midway, align=center, color=accent, font=\small\bfseries]
-            {Otázek: 22};
-    \end{tikzpicture}
-\end{minipage}
-
-\vspace{6pt}
-\noindent\color{accent}\rule{\linewidth}{1.5pt}
-\vspace{2pt}
 
 % ============================================================
 \section{Převody točivého pohybu (ozubené, řetězové, řemenové)}
@@ -3278,7 +2069,7 @@ $a = \frac{m(z_1 + z_2)}{2}$
     \toprule
     \textbf{Typ} & \textbf{Vlastnosti} & \textbf{Účinnost} \\
     \midrule
-    Čelní přímé    & Jednoduché, hlučnější, riziko kavitace & 97--99\,\% \\
+    Čelní přímé    & Jednoduché, hlučnější & 97--99\,\% \\
     Čelní šikmé    & Tišší, větší axiální síla & 97--99\,\% \\
     Kuželové       & Změna osy rotace (90°) & 96--98\,\% \\
     Šneková        & Velký převodový poměr, samosvornost & 50--90\,\% \\
@@ -3304,58 +2095,7 @@ $a = \frac{m(z_1 + z_2)}{2}$
     \bottomrule
 \end{tabularx}
 \end{center}
-
-\textbf{Základní typy převodovek}
-\begin{center}
-\begin{tabular}{|l|c|c|c|c|}
-\hline
- & Běžná (čelní) & Planetární & Harmonická & Cykloidní \\
-\hline
-Princip & Ozubená kola & Kolo + satelity & Pružná deformace & Excentrický kotouč \\
-\hline
-Převod & Nízký--střední & Střední--vysoký & Velmi vysoký & Velmi vysoký \\
-\hline
-Kompaktnost & Nízká & Vysoká & Velmi vysoká & Vysoká \\
-\hline
-Vůle & Střední & Nízká & Velmi nízká & Velmi nízká \\
-\hline
-Účinnost & 95--98\,\% & 95--97\,\% & 75--90\,\% & 85--95\,\% \\
-\hline
-Použití & Stroje & Robotika & Přesné pohony & Reduktory \\
-\hline
-\end{tabular}
-\end{center}
-
 \end{vysvetlenibox}
-
-% ============================================================
-
-% ============================================================
-
-
-\newpage
-
-
-% --- Záhlaví ---
-\begin{minipage}[t]{0.75\textwidth}
-    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
-    {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Straka Jakub, Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.22\textwidth}
-    \raggedleft
-    \begin{tikzpicture}
-        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
-            (0,0) rectangle (3,1.2)
-            node[midway, align=center, color=accent, font=\small\bfseries]
-            {Otázek: 22};
-    \end{tikzpicture}
-\end{minipage}
-
-\vspace{6pt}
-\noindent\color{accent}\rule{\linewidth}{1.5pt}
-\vspace{2pt}
 
 % ============================================================
 \section{Mechanismy obecného pohybu a tvrdá automatizace}
@@ -3413,35 +2153,6 @@ Maximální produktivita, ale nulová flexibilita při změně výrobku.
 \end{vysvetlenibox}
 
 % ============================================================
-
-% ============================================================
-
-
-\newpage
-
-
-% --- Záhlaví ---
-\begin{minipage}[t]{0.75\textwidth}
-    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
-    {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Straka Jakub, Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.22\textwidth}
-    \raggedleft
-    \begin{tikzpicture}
-        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
-            (0,0) rectangle (3,1.2)
-            node[midway, align=center, color=accent, font=\small\bfseries]
-            {Otázek: 22};
-    \end{tikzpicture}
-\end{minipage}
-
-\vspace{6pt}
-\noindent\color{accent}\rule{\linewidth}{1.5pt}
-\vspace{2pt}
-
-% ============================================================
 \section{Číslicově řízené stroje (CNC) a jejich programování}
 
 \begin{pojmybox}
@@ -3452,11 +2163,9 @@ interpolace, posuvová rychlost, otáčky vřetena
 \end{pojmybox}
 
 \begin{vysvetlenibox}
-\textbf{Princip CNC stroje}\\
-Existují primárně 3 druhy CNC strojů - 3 osy, 4 osy, 5 os, a jejich kombinace (např 3+1 znamený tří-osý se čtvrtou osou přidanou)
 \textbf{Souřadnicový systém CNC stroje}\\
 Pravotočivý kartézský systém (X, Y, Z + rotační osy A, B, C).
-Nulový bod obrobku (WPZ) se nastavuje před obráběním. Nulový bod stroje (MZ) se nastaví hned po zapnutí stroje například koncovými spínači a bez jeho nastavení jede stroj na slepo, jelikož neví kde se nachází.
+Nulový bod obrobku (WCS) se nastavuje před obráběním.
 
 \textbf{Přehled G-kódů}
 
@@ -3505,8 +2214,9 @@ N90 M05 M30             ; Stop vřetena, konec
 \end{vzorcebox}
 
 \textbf{CAM -- Computer Aided Manufacturing}\\
-CAM software (Fusion 360, Mastercam, NX, SolidCAM, FreeCAD CAM) generuje G-kód z nakreslených/navrhlých cest. Postprocesor převede neutrální CLData na G-kód specifický
-pro daný řídicí systém (Fanuc, Siemens Sinumerik, Heidenhain, GRBL, Hase).
+CAM software (Fusion 360, Mastercam, NX) generuje G-kód automaticky
+z 3D modelu. Postprocesor převede neutrální CLData na G-kód specifický
+pro daný řídicí systém (Fanuc, Siemens Sinumerik, Heidenhain).
 
 \begin{vzorcebox}
 Řezná rychlost: $v_c = \frac{\pi \cdot d \cdot n}{1000}$ [m/min]\\
@@ -3517,42 +2227,13 @@ Minutový posuv: $v_f = f_z \cdot z \cdot n$ [mm/min]
 \end{vysvetlenibox}
 
 % ============================================================
-
-% ============================================================
-
-
-\newpage
-
-
-% --- Záhlaví ---
-\begin{minipage}[t]{0.75\textwidth}
-    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
-    {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Straka jakub, Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.22\textwidth}
-    \raggedleft
-    \begin{tikzpicture}
-        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
-            (0,0) rectangle (3,1.2)
-            node[midway, align=center, color=accent, font=\small\bfseries]
-            {Otázek: 22};
-    \end{tikzpicture}
-\end{minipage}
-
-\vspace{6pt}
-\noindent\color{accent}\rule{\linewidth}{1.5pt}
-\vspace{2pt}
-
-% ============================================================
 \section{CAx systémy a Rapid prototyping}
 
 \begin{pojmybox}
 \textbf{Klíčové pojmy:}
-CAD, CAM, CAE, FEM simulace, Fusion~360, SolidWorks, CATIA,
+CAD, CAM, CAE, FEM, simulace, Fusion~360, SolidWorks, CATIA,
 Rapid prototyping, FDM, SLA, SLS, DMLS, postprocesor,
-STL formát, 3MF formát, optimalizace topologie
+STL formát, topologická optimalizace
 \end{pojmybox}
 
 \begin{vysvetlenibox}
@@ -3564,9 +2245,8 @@ STL formát, 3MF formát, optimalizace topologie
     \textbf{Zkratka} & \textbf{Název} & \textbf{Funkce} \\
     \midrule
     CAD & Computer Aided Design      & 3D parametrické modelování geometrie \\
-    CAM & Computer Aided Manufacturing & Návrh a generování gcode drah z modelu za použití postprocesoru\\
+    CAM & Computer Aided Manufacturing & Generování obráběcích drah z modelu \\
     CAE & Computer Aided Engineering & Simulace a analýza (FEM, CFD, MBS) \\
-    FEM & Finite Element Method      & Simulace pevnosti, slabých bodů a ohybu modelu \\
     CAPP& Aided Process Planning     & Plánování výrobního procesu \\
     PDM & Product Data Management    & Správa dat a verzí modelu \\
     \bottomrule
@@ -3574,8 +2254,8 @@ STL formát, 3MF formát, optimalizace topologie
 \end{center}
 
 \textbf{Metoda konečných prvků (FEM)}\\
-Z modelu se vytvoří mřížka z mnoha trojúhelníků (mesh). Pro každý trojúhelník se zapíše
-rovnice tuhosti. Soustava rovnic se řeší numericky. Přidají se tažné, tlačné, střihové a otočné síly, a hledají se ohniska tažných a tlačivých sil či vysokou lokální zátěží (neboli slabé body).
+Soustava se rozdělí na malé prvky (mesh). Pro každý prvek se zapíše
+rovnice tuhosti. Soustava rovnic se řeší numericky.
 
 \begin{vzorcebox}
 Maticová forma: $[K]\{u\} = \{F\}$\\
@@ -3591,8 +2271,8 @@ Napětí: $\sigma = E \cdot \varepsilon = E \cdot \frac{\Delta l}{l_0}$
   step/.style={rectangle, draw=accent, fill=lightblue, rounded corners=3pt,
                minimum width=2.3cm, minimum height=0.6cm,
                text centered, font=\small}]
-  \node[inner sep=2pt,rectangle,draw,fill=blue!20] (cad)  at (-2,0)    {3D model (CAD) a FEM};
-  \node[inner sep=2pt,rectangle,draw,fill=blue!20] (stl)  at (3,0)    {Export STL/3MF};
+  \node[inner sep=2pt,rectangle,draw,fill=blue!20] (cad)  at (0,0)    {3D model (CAD)};
+  \node[inner sep=2pt,rectangle,draw,fill=blue!20] (stl)  at (3,0)    {Export STL};
   \node[inner sep=2pt,rectangle,draw,fill=blue!20] (slic) at (6,0)    {Slicování};
   \node[inner sep=2pt,rectangle,draw,fill=blue!20] (tisk) at (6,-1.2) {Tisk / výroba};
   \node[inner sep=2pt,rectangle,draw,fill=blue!20] (post) at (3,-1.2) {Post-processing};
@@ -3614,8 +2294,8 @@ Typicky se kombinuje s DMLS tiskem (nelze vyrobit klasickým obráběním).
     \textbf{Metoda} & \textbf{Výhody} & \textbf{Nevýhody} \\
     \midrule
     FDM  & Levná, dostupná, velký sortiment materiálů
-         & Viditelné vrstvy, nižší přesnost, každá vrstva je potencionální slabý bod \\
-    SLA  & Hladký povrch, vysoká přesnost, potencionálně rychlá při paralelním tisku
+         & Viditelné vrstvy, nižší přesnost \\
+    SLA  & Hladký povrch, vysoká přesnost
          & Drahá pryskyřice, křehké \\
     SLS  & Bez podpor, funkční díly z nylonu
          & Drahý stroj, prašné \\
@@ -3631,6 +2311,5 @@ Typicky se kombinuje s DMLS tiskem (nelze vyrobit klasickým obráběním).
 \noindent\textcolor{medgray}{\small
 Souhlasím se zpracováním osobních údajů pro účely náboru v souladu s GDPR.}
 
-
-% ============================================================
 \end{document}
+```
