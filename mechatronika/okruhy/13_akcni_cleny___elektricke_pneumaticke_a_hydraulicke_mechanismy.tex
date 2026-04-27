@@ -199,6 +199,58 @@ $F = 200 \times 10^5 \cdot 50 \times 10^{-4} = 100\,\text{kN}$
     Čistota         & Čistý & Čistý & Riziko úniku oleje \\
     \bottomrule
 \end{tabular}
+
+\textbf{Řízení elektrických pohonů}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{PWM regulace} -- změna střídy řídí napětí a tím otáčky
+    \item \textbf{H-můstek} -- umožňuje změnu směru otáčení DC motoru
+    \item \textbf{FOC (Field Oriented Control)} -- pokročilé řízení BLDC
+    \item \textbf{Driver} -- výkonový stupeň mezi MCU a motorem
+\end{itemize}
+
+\textbf{Krokový motor -- režimy řízení}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item Full-step -- celý krok (největší moment)
+    \item Half-step -- poloviční krok (vyšší rozlišení)
+    \item Microstepping -- plynulý pohyb, menší vibrace
+\end{itemize}
+
+\textbf{Servosystém (uzavřená smyčka)}\\
+Servomotor pracuje v regulační smyčce:
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item snímač polohy (enkodér)
+    \item regulátor (PID)
+    \item výkonový měnič
+\end{itemize}
+Výhoda: vysoká přesnost, žádná ztráta kroku.
+
+\textbf{Pneumatické válce}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item \textbf{Jednočinný} -- návrat pružinou
+    \item \textbf{Dvojčinný} -- tlak na obě strany (větší síla)
+    \item \textbf{Tlumení} -- zpomalení na konci zdvihu
+\end{itemize}
+
+\textbf{Hydraulika -- hlavní části}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item čerpadlo -- vytváří tlak
+    \item nádrž -- zásoba oleje
+    \item ventil -- řízení směru a průtoku
+    \item válec / motor -- vykonává práci
+\end{itemize}
+
+\textbf{Výhody hydrauliky}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item extrémně vysoké síly (lisy, bagry)
+    \item plynulé řízení
+\end{itemize}
+
+\textbf{Nevýhody hydrauliky}
+\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
+    \item únik oleje (ekologie)
+    \item složitější údržba
+\end{itemize}
+
 \end{center}
 \end{vysvetlenibox}
 

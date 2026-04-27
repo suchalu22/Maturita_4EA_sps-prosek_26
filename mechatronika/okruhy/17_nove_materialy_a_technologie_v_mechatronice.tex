@@ -1,7 +1,5 @@
 % ============================================================
 %  Příprava na maturitu – Mechatronika
-%  Kompiluj: pdflatex maturita_mechatronika.tex
-%  Kódování: UTF-8
 % ============================================================
 
 \documentclass[a4paper,10pt]{article}
@@ -19,16 +17,12 @@
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{tabularx}
-\usepackage{booktabs}
 \usepackage{array}
 \usepackage{tikz}
 \usepackage{eso-pic}
 \usepackage{mdframed}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.18}
-\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
 
 % --- Barvy ---
 \definecolor{accent}{HTML}{03254E}
@@ -38,8 +32,8 @@
 \definecolor{lightyellow}{HTML}{FDFBE4}
 \definecolor{lightgreen}{HTML}{EAF7EA}
 
-% --- Modrý pruh vlevo ---
-\AddToShipoutPictureBG{%
+% --- Levý pruh ---
+\AddToShipoutPictureBG{
   \begin{tikzpicture}[remember picture, overlay]
     \fill[stripeblue]
       (current page.north west)
@@ -49,142 +43,152 @@
       ([xshift=10mm] current page.north west)
       rectangle
       ([xshift=12mm] current page.south west);
-  \end{tikzpicture}%
+  \end{tikzpicture}
 }
-
-\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
 
 \titleformat{\section}
   {\large\bfseries\color{accent}}
-  {\thesection.}
-  {0.5em}
-  {}
-  [\color{accent}\titlerule]
+  {\thesection.}{0.5em}{}[\color{accent}\titlerule]
 
 \titlespacing{\section}{0pt}{16pt}{6pt}
 
-\newmdenv[
-  backgroundcolor=lightblue,
-  linecolor=stripeblue,
-  linewidth=1pt,
-  roundcorner=4pt,
-  innerleftmargin=8pt,
-  innerrightmargin=8pt,
-  innertopmargin=6pt,
-  innerbottommargin=6pt,
-  skipabove=4pt,
-  skipbelow=4pt
-]{pojmybox}
-
-\newmdenv[
-  backgroundcolor=lightyellow,
-  linecolor=accent!40,
-  linewidth=1pt,
-  roundcorner=4pt,
-  innerleftmargin=8pt,
-  innerrightmargin=8pt,
-  innertopmargin=6pt,
-  innerbottommargin=6pt,
-  skipabove=4pt,
-  skipbelow=8pt
-]{vysvetlenibox}
-
-\newmdenv[
-  backgroundcolor=lightgreen,
-  linecolor=accent!30,
-  linewidth=1pt,
-  roundcorner=4pt,
-  innerleftmargin=8pt,
-  innerrightmargin=8pt,
-  innertopmargin=6pt,
-  innerbottommargin=6pt,
-  skipabove=4pt,
-  skipbelow=8pt
-]{vzorcebox}
-
-\pagestyle{plain}
+% --- Boxy ---
+\newmdenv[backgroundcolor=lightblue,linecolor=stripeblue]{pojmybox}
+\newmdenv[backgroundcolor=lightyellow,linecolor=accent!40]{vysvetlenibox}
+\newmdenv[backgroundcolor=lightgreen,linecolor=accent!30]{vzorcebox}
 
 % ============================================================
 \begin{document}
 
-% --- Záhlaví ---
-\begin{minipage}[t]{0.75\textwidth}
-    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
-    {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.22\textwidth}
-    \raggedleft
-    \begin{tikzpicture}
-        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
-            (0,0) rectangle (3,1.2)
-            node[midway, align=center, color=accent, font=\small\bfseries]
-            {Otázek: 22};
-    \end{tikzpicture}
-\end{minipage}
-
-\vspace{6pt}
-\noindent\color{accent}\rule{\linewidth}{1.5pt}
-\vspace{2pt}
-
-% ============================================================
 \section{Nové materiály a technologie v mechatronice}
 
 \begin{pojmybox}
 \textbf{Klíčové pojmy:}
-kompozity, uhlíková vlákna, tvarová paměť (SMA), piezoelektrické materiály,
-MEMS, aditivní výroba (3D tisk), nanomateriály, smart materiály,
-FDM, SLA, SLS, DMLS
+kompozity, uhlíková vlákna, SMA, piezoelektrika,
+MEMS, nanomateriály, 3D tisk,
+FDM, SLA, SLS, DMLS, smart materiály
 \end{pojmybox}
 
 \begin{vysvetlenibox}
+
+% ------------------------------------------------------------
 \textbf{Konstrukční materiály -- srovnání}
 
 \begin{center}
-\begin{tabular}{@{} l r r r r @{}}
-    \toprule
-    \textbf{Materiál} & $\rho$ [g/cm³] & $E$ [GPa]
-                      & $R_m$ [MPa] & $E/\rho$ (tuhost/hm.) \\
-    \midrule
-    Ocel S235       & 7,85 & 210 & 360 & 26,8 \\
-    Al slitina 7075 & 2,81 & 72  & 570 & 25,6 \\
-    CFRP (lamina)   & 1,55 & 135 & 1500 & \textbf{87,1} \\
-    Titan Ti-6Al-4V & 4,43 & 114 & 950 & 25,7 \\
-    \bottomrule
+\begin{tabular}{l r r r r}
+Materiál & $\rho$ & $E$ & $R_m$ & $E/\rho$ \\
+ & [g/cm³] & [GPa] & [MPa] & \\
+\hline
+Ocel S235 & 7,85 & 210 & 360 & 26,8 \\
+Al 7075   & 2,81 & 72  & 570 & 25,6 \\
+CFRP      & 1,55 & 135 & 1500 & 87,1 \\
+Titan     & 4,43 & 114 & 950 & 25,7 \\
 \end{tabular}
 \end{center}
 
-\textbf{Smart materiály}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{SMA} (Shape Memory Alloy) -- nitinol (NiTi); pamatuje si tvar
-          po deformaci a vrátí se při ohřevu nad $A_f$ (tepl. transformace);
-          využití: stenty, aktuátory, spoje
-    \item \textbf{Piezoelektrika} -- PZT (Pb-Zr-Ti); přímý jev:
-          tlak $\to$ napětí (senzor); inverzní jev: napětí $\to$ deformace
-          (aktuátor); frekvenčně velmi rychlé (\textgreater100\,kHz)
-    \item \textbf{Magnetoreologické kapaliny} -- mění viskozitu v mag. poli;
-          rychlé tlumení (automobily, protézy)
+\textbf{Shrnutí:}
+\begin{itemize}
+\item Kompozity (CFRP) mají nejlepší poměr pevnost/hmotnost
+\item Ocel je levná a pevná, ale těžká
+\item Hliník je lehký, ale méně tuhý
 \end{itemize}
 
-\textbf{Technologie 3D tisku -- srovnání}
+% ------------------------------------------------------------
+\textbf{Smart materiály}
+
+\begin{itemize}
+\item \textbf{SMA (tvarová paměť)}
+    \begin{itemize}
+    \item materiál si „pamatuje“ původní tvar
+    \item při zahřátí se vrací zpět
+    \item použití: aktuátory, medicína
+    \end{itemize}
+
+\item \textbf{Piezoelektrika}
+    \begin{itemize}
+    \item tlak → napětí (senzor)
+    \item napětí → deformace (aktuátor)
+    \item velmi rychlá odezva
+    \end{itemize}
+
+\begin{vzorcebox}
+Piezo jev: $Q = d \cdot F$
+\end{vzorcebox}
+
+\item \textbf{Magnetoreologické kapaliny}
+    \begin{itemize}
+    \item mění viskozitu v magnetickém poli
+    \item použití: tlumiče (auta, robotika)
+    \end{itemize}
+\end{itemize}
+
+% ------------------------------------------------------------
+\textbf{MEMS (Micro-Electro-Mechanical Systems)}
+
+Miniaturní mechanické struktury na čipu:
+
+\begin{itemize}
+\item akcelerometry (mobil, drony)
+\item gyroskopy
+\item tlakové senzory
+\end{itemize}
+
+\textbf{Výhody:}
+\begin{itemize}
+\item malé rozměry
+\item nízká cena
+\item integrace s elektronikou
+\end{itemize}
+
+% ------------------------------------------------------------
+\textbf{Nanomateriály}
+
+\begin{itemize}
+\item struktury v měřítku nm ($10^{-9}$ m)
+\item extrémní vlastnosti:
+\begin{itemize}
+\item vysoká pevnost
+\item vysoká vodivost
+\end{itemize}
+\item příklad: grafen, nanotrubice
+\end{itemize}
+
+% ------------------------------------------------------------
+\textbf{3D tisk (aditivní výroba)}
 
 \begin{center}
-\begin{tabularx}{0.95\linewidth}{@{} l X l l @{}}
-    \toprule
-    \textbf{Metoda} & \textbf{Princip} & \textbf{Materiál}
-                    & \textbf{Přesnost} \\
-    \midrule
-    FDM  & Tavení a nanášení vlákna & PLA, PETG, ABS & $\pm0{,}2$\,mm \\
-    SLA  & UV vytvrzení pryskyřice & Fotopolymer     & $\pm0{,}05$\,mm \\
-    SLS  & Spékání prášku laserem  & Nylon, TPU      & $\pm0{,}1$\,mm \\
-    DMLS & Tavení kovového prášku  & Ocel, titan, Al & $\pm0{,}05$\,mm \\
-    \bottomrule
+\begin{tabularx}{0.95\linewidth}{l X l}
+Metoda & Princip & Materiál \\
+\hline
+FDM  & tavení plastu & PLA, ABS \\
+SLA  & UV vytvrzení & pryskyřice \\
+SLS  & spékání prášku & nylon \\
+DMLS & tavení kovu & ocel, titan \\
 \end{tabularx}
 \end{center}
+
+\textbf{Výhody:}
+\begin{itemize}
+\item složité tvary bez obrábění
+\item rychlé prototypování
+\end{itemize}
+
+\textbf{Nevýhody:}
+\begin{itemize}
+\item horší mechanické vlastnosti (hlavně FDM)
+\item vyšší cena u kovového tisku
+\end{itemize}
+
+% ------------------------------------------------------------
+\textbf{Shrnutí}
+
+\begin{itemize}
+\item Kompozity → lehké a pevné konstrukce
+\item Smart materiály → senzory + aktuátory
+\item MEMS → miniaturizace
+\item 3D tisk → rychlá výroba
+\end{itemize}
+
 \end{vysvetlenibox}
 
-% ============================================================
-
-% ============================================================
 \end{document}

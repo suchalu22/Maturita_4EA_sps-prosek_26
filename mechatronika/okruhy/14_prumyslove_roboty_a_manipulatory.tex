@@ -139,51 +139,126 @@ Denavit-Hartenberg, singularita, pracovní prostor
 \end{pojmybox}
 
 \begin{vysvetlenibox}
-\textbf{Stupně volnosti (DOF)}\\
-Průmyslový robot má typicky 6 DOF (jako lidská ruka + zápěstí),
-což umožňuje dosáhnout libovolné polohy a orientace v prostoru.
 
-\textbf{Kinematika}
+\textbf{Co je průmyslový robot}\\
+Průmyslový robot je programovatelný manipulátor, který automaticky
+provádí pohybové úlohy (např. svařování, montáž, balení).
+Skládá se z mechanické části (rameno), pohonů (motory), senzorů
+a řídicí jednotky.
+
+Základní vlastnost robota je \textbf{stupňů volnosti (DOF)}.
+
+\textbf{Stupně volnosti (DOF)}\\
+DOF říká, kolik nezávislých pohybů robot má.
+Typický průmyslový robot má \textbf{6 DOF}:
+
+\begin{itemize}[noitemsep, leftmargin=1.4em]
+    \item 3 DOF pro polohu (X, Y, Z)
+    \item 3 DOF pro orientaci (naklopení a otočení nástroje)
+\end{itemize}
+
+Díky tomu dokáže robot umístit nástroj do libovolné polohy a směru,
+podobně jako lidská ruka.
+
+\textbf{Kinematika robota}\\
+Kinematika řeší pohyb robota bez ohledu na síly.
 
 \begin{vzorcebox}
-\textbf{Přímá kinematika:} ze známých úhlů kloubů $(\theta_1,\ldots,\theta_n)$
-vypočítáme polohu a orientaci TCP (Tool Center Point):\\
-$\mathbf{T} = A_1(\theta_1) \cdot A_2(\theta_2) \cdots A_n(\theta_n)$
-\quad (D-H matice 4×4)\\[4pt]
-\textbf{Inverzní kinematika:} ze známé cílové polohy hledáme $\theta_i$ --
-numerické metody (Jacobian inverze), nebo analytické řešení.
+
+\textbf{Přímá kinematika}\\
+Známe úhly kloubů a chceme zjistit polohu nástroje (TCP):
+
+\[
+\mathbf{T} = A_1(\theta_1) \cdot A_2(\theta_2) \cdots A_n(\theta_n)
+\]
+
+Výstupem je poloha a orientace TCP (Tool Center Point).
+
+\vspace{4pt}
+
+\textbf{Inverzní kinematika}\\
+Známe cílovou polohu TCP a hledáme úhly kloubů $\theta_i$.
+
+Tento problém je složitější, protože:
+\begin{itemize}[noitemsep]
+    \item může existovat více řešení
+    \item někdy neexistuje žádné řešení
+    \item používají se numerické metody (iterace, Jacobian)
+\end{itemize}
+
 \end{vzorcebox}
+
+\textbf{Co je TCP}\\
+TCP (Tool Center Point) je bod na konci robota, který se sleduje
+a programuje. Například špička svařovacího hořáku nebo uchopovač.
+
+\textbf{Pracovní prostor robota}\\
+Je to objem, kam robot dosáhne.
+Závisí na:
+\begin{itemize}[noitemsep]
+    \item délce ramen
+    \item konstrukci (SCARA, delta, artikulovaný)
+    \item omezeních kloubů
+\end{itemize}
 
 \textbf{Typy průmyslových robotů}
 
 \begin{center}
 \begin{tabularx}{0.95\linewidth}{@{} l X l @{}}
-    \toprule
-    \textbf{Typ} & \textbf{Vlastnosti} & \textbf{Aplikace} \\
-    \midrule
-    Artikulovaný (6-DOF) & Největší pracovní prostor, plná flexibilita
-                         & Svařování, lakování \\
-    SCARA (4-DOF)        & Rychlý vodorovný pohyb, tuhý ve svislém směru
-                         & Montáž, pick\&place \\
-    Delta (3-DOF)        & Velmi rychlý (\textgreater3\,m/s), lehký; paralelní kinematika
-                         & Balení, farmaceutika \\
-    Kartézský (3-DOF)    & Jednoduchá kinematika, velký rozměr
-                         & 3D tiskárny, CNC portály \\
-    Cobot                & Silové omezení, bezpečná spolupráce s člověkem
-                         & Montáž, šroubování \\
-    \bottomrule
+\toprule
+\textbf{Typ} & \textbf{Charakteristika} & \textbf{Použití} \\
+\midrule
+
+Artikulovaný (6-DOF) &
+Nejvíce podobný lidské ruce, velmi flexibilní,
+umožňuje složité pohyby ve 3D prostoru &
+Svařování, lakování, manipulace \\
+
+SCARA (4-DOF) &
+Rychlý pohyb v rovině XY, velmi tuhý ve vertikále,
+ideální pro montáž &
+Montáž elektroniky, pick\&place \\
+
+Delta robot (3-DOF) &
+Paralelní konstrukce, extrémně rychlý a lehký,
+malá hmotnost pohyblivých částí &
+Balení, farmaceutický průmysl \\
+
+Kartézský robot (3-DOF) &
+Pohyby v osách X, Y, Z (lineární vedení),
+jednoduchá konstrukce &
+CNC stroje, 3D tisk \\
+
+Cobot (kolaborativní robot) &
+Navržen pro práci s člověkem,
+má omezení síly a rychlosti pro bezpečnost &
+Montáž, asistovaná výroba \\
+
+\bottomrule
 \end{tabularx}
 \end{center}
 
-\textbf{Trajektoriové plánování}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{PTP} (Point-to-Point) -- rychlý přesun z A do B,
-          nezáleží na dráze; každá osa se pohybuje nezávisle
-    \item \textbf{CP} (Continuous Path) -- lineární nebo kruhová interpolace;
-          nutné pro svařování a lakování
-    \item \textbf{Trapézový profil rychlosti} -- fáze rozjezdu,
-          konstantní rychlosti a zpomalení
+\textbf{Trajektorie pohybu}\\
+Trajektorie říká, jak se robot pohybuje mezi body:
+
+\begin{itemize}[noitemsep, leftmargin=1.4em]
+    \item \textbf{PTP (Point-to-Point)} -- robot jede nejrychlejší cestou,
+    dráha mezi body není důležitá
+    \item \textbf{CP (Continuous Path)} -- důležitá je přesná dráha
+    (např. svařování nebo lakování)
+    \item \textbf{Trapézový profil rychlosti} -- pohyb má 3 fáze:
+    zrychlení, konstantní rychlost, zpomalení
 \end{itemize}
+
+\textbf{Singularita (důležitý pojem)}\\
+Singularita nastává, když robot ztrácí jeden stupeň volnosti
+a nemůže se pohybovat určitým směrem.
+V praxi to může způsobit:
+\begin{itemize}[noitemsep]
+    \item náhlé zrychlení kloubů
+    \item ztrátu kontroly trajektorie
+\end{itemize}
+
 \end{vysvetlenibox}
 
 % ============================================================

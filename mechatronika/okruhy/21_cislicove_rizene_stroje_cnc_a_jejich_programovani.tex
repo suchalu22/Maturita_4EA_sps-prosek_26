@@ -111,7 +111,7 @@
 \begin{minipage}[t]{0.75\textwidth}
     {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
     {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
+    \textcolor{medgray}{\small Straka Jakub, Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.22\textwidth}
@@ -139,9 +139,11 @@ interpolace, posuvová rychlost, otáčky vřetena
 \end{pojmybox}
 
 \begin{vysvetlenibox}
+\textbf{Princip CNC stroje}\\
+Existují primárně 3 druhy CNC strojů - 3 osy, 4 osy, 5 os, a jejich kombinace (např 3+1 znamený tří-osý se čtvrtou osou přidanou)
 \textbf{Souřadnicový systém CNC stroje}\\
 Pravotočivý kartézský systém (X, Y, Z + rotační osy A, B, C).
-Nulový bod obrobku (WCS) se nastavuje před obráběním.
+Nulový bod obrobku (WPZ) se nastavuje před obráběním. Nulový bod stroje (MZ) se nastaví hned po zapnutí stroje například koncovými spínači a bez jeho nastavení jede stroj na slepo, jelikož neví kde se nachází.
 
 \textbf{Přehled G-kódů}
 
@@ -190,9 +192,8 @@ N90 M05 M30             ; Stop vřetena, konec
 \end{vzorcebox}
 
 \textbf{CAM -- Computer Aided Manufacturing}\\
-CAM software (Fusion 360, Mastercam, NX) generuje G-kód automaticky
-z 3D modelu. Postprocesor převede neutrální CLData na G-kód specifický
-pro daný řídicí systém (Fanuc, Siemens Sinumerik, Heidenhain).
+CAM software (Fusion 360, Mastercam, NX, SolidCAM, FreeCAD CAM) generuje G-kód z nakreslených/navrhlých cest. Postprocesor převede neutrální CLData na G-kód specifický
+pro daný řídicí systém (Fanuc, Siemens Sinumerik, Heidenhain, GRBL, Hase).
 
 \begin{vzorcebox}
 Řezná rychlost: $v_c = \frac{\pi \cdot d \cdot n}{1000}$ [m/min]\\

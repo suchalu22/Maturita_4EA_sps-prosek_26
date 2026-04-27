@@ -1,7 +1,5 @@
 % ============================================================
 %  Příprava na maturitu – Mechatronika
-%  Kompiluj: pdflatex maturita_mechatronika.tex
-%  Kódování: UTF-8
 % ============================================================
 
 \documentclass[a4paper,10pt]{article}
@@ -26,9 +24,6 @@
 \usepackage{mdframed}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.18}
-\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
 
 % --- Barvy ---
 \definecolor{accent}{HTML}{03254E}
@@ -38,8 +33,8 @@
 \definecolor{lightyellow}{HTML}{FDFBE4}
 \definecolor{lightgreen}{HTML}{EAF7EA}
 
-% --- Modrý pruh vlevo ---
-\AddToShipoutPictureBG{%
+% --- Levý pruh ---
+\AddToShipoutPictureBG{
   \begin{tikzpicture}[remember picture, overlay]
     \fill[stripeblue]
       (current page.north west)
@@ -49,147 +44,132 @@
       ([xshift=10mm] current page.north west)
       rectangle
       ([xshift=12mm] current page.south west);
-  \end{tikzpicture}%
+  \end{tikzpicture}
 }
-
-\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
 
 \titleformat{\section}
   {\large\bfseries\color{accent}}
-  {\thesection.}
-  {0.5em}
-  {}
-  [\color{accent}\titlerule]
+  {\thesection.}{0.5em}{}[\color{accent}\titlerule]
 
 \titlespacing{\section}{0pt}{16pt}{6pt}
 
+% --- Boxy ---
 \newmdenv[
   backgroundcolor=lightblue,
   linecolor=stripeblue,
-  linewidth=1pt,
-  roundcorner=4pt,
-  innerleftmargin=8pt,
-  innerrightmargin=8pt,
-  innertopmargin=6pt,
-  innerbottommargin=6pt,
-  skipabove=4pt,
-  skipbelow=4pt
 ]{pojmybox}
 
 \newmdenv[
   backgroundcolor=lightyellow,
   linecolor=accent!40,
-  linewidth=1pt,
-  roundcorner=4pt,
-  innerleftmargin=8pt,
-  innerrightmargin=8pt,
-  innertopmargin=6pt,
-  innerbottommargin=6pt,
-  skipabove=4pt,
-  skipbelow=8pt
 ]{vysvetlenibox}
 
 \newmdenv[
   backgroundcolor=lightgreen,
   linecolor=accent!30,
-  linewidth=1pt,
-  roundcorner=4pt,
-  innerleftmargin=8pt,
-  innerrightmargin=8pt,
-  innertopmargin=6pt,
-  innerbottommargin=6pt,
-  skipabove=4pt,
-  skipbelow=8pt
 ]{vzorcebox}
-
-\pagestyle{plain}
 
 % ============================================================
 \begin{document}
 
-% --- Záhlaví ---
-\begin{minipage}[t]{0.75\textwidth}
-    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
-    {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.22\textwidth}
-    \raggedleft
-    \begin{tikzpicture}
-        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
-            (0,0) rectangle (3,1.2)
-            node[midway, align=center, color=accent, font=\small\bfseries]
-            {Otázek: 22};
-    \end{tikzpicture}
-\end{minipage}
-
-\vspace{6pt}
-\noindent\color{accent}\rule{\linewidth}{1.5pt}
-\vspace{2pt}
-
-% ============================================================
-\section{Senzorika -- teplota, síla, hmotnost, deformace, napětí, tlak}
+\section{Senzorika -- teplota, síla, hmotnost, deformace, tlak}
 
 \begin{pojmybox}
 \textbf{Klíčové pojmy:}
-termistor NTC/PTC, termoelektrický článek, RTD (Pt100),
-IR teploměr, tenzometr, Wheatstoneův můstek, piezoelektrický senzor,
-tlakový senzor, snímač síly
+termistor NTC/PTC, termočlánek, RTD (Pt100),
+IR teploměr, tenzometr, Wheatstoneův můstek,
+piezorezistivní senzor, piezoelektrický jev,
+absolutní tlak, přetlak, podtlak
 \end{pojmybox}
 
 \begin{vysvetlenibox}
+
+% ------------------------------------------------------------
 \textbf{Teplotní senzory}
 
 \begin{center}
-\begin{tabularx}{0.95\linewidth}{@{} l X l l @{}}
-    \toprule
-    \textbf{Typ} & \textbf{Princip} & \textbf{Rozsah} & \textbf{Přesnost} \\
-    \midrule
-    Pt100/Pt1000 & Odporová závislost platiny na teplotě & $-200$ až $+850$\,°C & $\pm0{,}1$\,°C \\
-    Termočlánek & Seebeckův jev -- 2 různé kovy & $-270$ až $+2300$\,°C & $\pm1$\,°C \\
-    NTC termistor & Záporný teplotní koeficient odporu & $-50$ až $+150$\,°C & $\pm0{,}5$\,°C \\
-    IR bezdotykový & Záření černého tělesa & $-50$ až $+2000$\,°C & $\pm2$\,°C \\
-    \bottomrule
+\begin{tabularx}{0.95\linewidth}{l X l l}
+Typ & Princip & Rozsah & Přesnost \\
+\hline
+Pt100 & Odpor platiny roste s teplotou & $-200$ až $+850$ °C & $\pm0{,}1$ °C \\
+Termočlánek & Seebeckův jev (2 kovy) & $-270$ až $+2300$ °C & $\pm1$ °C \\
+NTC & Odpor klesá s teplotou & $-50$ až $+150$ °C & $\pm0{,}5$ °C \\
+IR senzor & Infračervené záření & $-50$ až $+2000$ °C & $\pm2$ °C \\
 \end{tabularx}
 \end{center}
 
 \begin{vzorcebox}
-Pt100: $R(T) = R_0 \left(1 + AT + BT^2\right)$,
-kde $R_0 = 100\,\Omega$ při $0\,°C$, $A = 3{,}9083\times10^{-3}$\,°C$^{-1}$\\
-Seebeckův jev: $U = S_{AB} \cdot (T_1 - T_2)$,
-kde $S_{AB}$ je Seebeckův koeficient [µV/°C]
+Pt100: $R(T) = R_0 (1 + AT + BT^2)$
+
+Seebeckův jev: $U = S \cdot (T_1 - T_2)$
 \end{vzorcebox}
 
-\textbf{Tenzometr a Wheatstoneův můstek}\\
-Tenzometr mění odpor při mechanické deformaci:
+% ------------------------------------------------------------
+\textbf{Síla, hmotnost a deformace}
 
-\begin{vzorcebox}
-$$GF = \frac{\Delta R / R}{\varepsilon}$$
-kde $GF$ je gauge factor (typicky 2--2,5 pro kovové tenzometry),
-$\varepsilon = \Delta l / l$ je relativní deformace.
-\end{vzorcebox}
-
-Tenzometry se zapojují do \textbf{Wheatstoneova můstku} pro eliminaci
-teplotní chyby a zvýšení citlivosti:
-
-\begin{vzorcebox}
-$$U_{out} = U_{in} \cdot \frac{R_1 R_3 - R_2 R_4}{(R_1+R_2)(R_3+R_4)}$$
-Plný můstek (4 aktivní tenzometry): 4× vyšší citlivost než čtvrtmůstek.
-\end{vzorcebox}
-
-\textbf{Tlakové senzory}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{Piezorezistivní} -- tenzometry na membráně;
-          statický i dynamický tlak; nejčastější typ
-    \item \textbf{Kapacitní} -- deformace membrány mění kapacitu;
-          velmi přesné, vhodné pro nízké tlaky
-    \item \textbf{Piezoelektrický} -- generuje náboj při tlaku;
-          pouze dynamické měření (nárazy, hluk)
+\textbf{Základ:}
+\begin{itemize}
+\item Síla: $F = m \cdot g$
+\item Hmotnost se měří nepřímo přes sílu (váhy)
 \end{itemize}
+
+\textbf{Tenzometr:}
+\begin{itemize}
+\item mění odpor při deformaci
+\item nalepený na pružném materiálu
+\end{itemize}
+
+\begin{vzorcebox}
+$GF = \frac{\Delta R / R}{\varepsilon}$
+
+$\varepsilon = \frac{\Delta l}{l}$
+\end{vzorcebox}
+
+% ------------------------------------------------------------
+\textbf{Wheatstoneův můstek}
+
+Používá se pro přesné měření malých změn odporu:
+
+\begin{vzorcebox}
+$U_{out} = U_{in} \cdot \frac{R_1 R_3 - R_2 R_4}{(R_1+R_2)(R_3+R_4)}$
+\end{vzorcebox}
+
+\begin{itemize}
+\item čtvrtmůstek -- 1 tenzometr
+\item půlmůstek -- 2 tenzometry
+\item plný můstek -- 4 tenzometry (nejvyšší citlivost)
+\end{itemize}
+
+% ------------------------------------------------------------
+\textbf{Tlakové senzory}
+
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{l X}
+Typ & Princip \\
+\hline
+Piezorezistivní & deformace membrány → změna odporu \\
+Kapacitní & změna vzdálenosti elektrod → změna kapacity \\
+Piezoelektrický & generuje napětí při deformaci \\
+\end{tabularx}
+\end{center}
+
+\textbf{Typy tlaku:}
+\begin{itemize}
+\item absolutní (vůči vakuu)
+\item relativní (přetlak vůči atmosféře)
+\item podtlak (nižší než atmosférický)
+\end{itemize}
+
+% ------------------------------------------------------------
+\textbf{Shrnutí principů}
+
+\begin{itemize}
+\item Teplota → změna odporu nebo napětí
+\item Síla → deformace → změna odporu
+\item Tlak → deformace membrány
+\item Hmotnost → síla (gravitační)
+\end{itemize}
+
 \end{vysvetlenibox}
 
-% ============================================================
-
-% ============================================================
 \end{document}

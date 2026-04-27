@@ -1,12 +1,9 @@
 % ============================================================
-%  Příprava na maturitu – Mechatronika
-%  Kompiluj: pdflatex maturita_mechatronika.tex
-%  Kódování: UTF-8
+%  Příprava na maturitu – Mechatronikaa
 % ============================================================
 
 \documentclass[a4paper,10pt]{article}
 
-% --- Balíčky ---
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[czech]{babel}
@@ -15,296 +12,264 @@
 \usepackage{microtype}
 \usepackage{parskip}
 \usepackage{titlesec}
-\usepackage{enumitem}
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{tabularx}
 \usepackage{booktabs}
-\usepackage{array}
 \usepackage{tikz}
-\usepackage{eso-pic}
 \usepackage{mdframed}
 \usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.18}
-\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
+
+\usetikzlibrary{arrows.meta, positioning}
 
 % --- Barvy ---
 \definecolor{accent}{HTML}{03254E}
-\definecolor{stripeblue}{HTML}{568EA3}
-\definecolor{medgray}{HTML}{888888}
 \definecolor{lightblue}{HTML}{EAF2F8}
 \definecolor{lightyellow}{HTML}{FDFBE4}
 \definecolor{lightgreen}{HTML}{EAF7EA}
 
-% --- Modrý pruh vlevo ---
-\AddToShipoutPictureBG{%
-  \begin{tikzpicture}[remember picture, overlay]
-    \fill[stripeblue]
-      (current page.north west)
-      rectangle
-      ([xshift=10mm] current page.south west);
-    \fill[accent!60]
-      ([xshift=10mm] current page.north west)
-      rectangle
-      ([xshift=12mm] current page.south west);
-  \end{tikzpicture}%
-}
+% --- Boxy ---
+\newmdenv[backgroundcolor=lightblue,linecolor=accent!40,linewidth=1pt,roundcorner=4pt]{pojmybox}
+\newmdenv[backgroundcolor=lightyellow,linecolor=accent!30,linewidth=1pt,roundcorner=4pt]{vysvetlenibox}
+\newmdenv[backgroundcolor=lightgreen,linecolor=accent!30,linewidth=1pt,roundcorner=4pt]{vzorcebox}
 
-\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
-
-\titleformat{\section}
-  {\large\bfseries\color{accent}}
-  {\thesection.}
-  {0.5em}
-  {}
-  [\color{accent}\titlerule]
-
-\titlespacing{\section}{0pt}{16pt}{6pt}
-
-\newmdenv[
-  backgroundcolor=lightblue,
-  linecolor=stripeblue,
-  linewidth=1pt,
-  roundcorner=4pt,
-  innerleftmargin=8pt,
-  innerrightmargin=8pt,
-  innertopmargin=6pt,
-  innerbottommargin=6pt,
-  skipabove=4pt,
-  skipbelow=4pt
-]{pojmybox}
-
-\newmdenv[
-  backgroundcolor=lightyellow,
-  linecolor=accent!40,
-  linewidth=1pt,
-  roundcorner=4pt,
-  innerleftmargin=8pt,
-  innerrightmargin=8pt,
-  innertopmargin=6pt,
-  innerbottommargin=6pt,
-  skipabove=4pt,
-  skipbelow=8pt
-]{vysvetlenibox}
-
-\newmdenv[
-  backgroundcolor=lightgreen,
-  linecolor=accent!30,
-  linewidth=1pt,
-  roundcorner=4pt,
-  innerleftmargin=8pt,
-  innerrightmargin=8pt,
-  innertopmargin=6pt,
-  innerbottommargin=6pt,
-  skipabove=4pt,
-  skipbelow=8pt
-]{vzorcebox}
-
-\pagestyle{plain}
-
-% ============================================================
 \begin{document}
 
-% --- Záhlaví ---
-\begin{minipage}[t]{0.75\textwidth}
-    {\Huge\bfseries\color{accent} Příprava na maturitu}\\[4pt]
-    {\large\color{stripeblue} Mechatronika}\\[2pt]
-    \textcolor{medgray}{\small Suchánek Lukáš \quad SPŠ Prosek \quad 2026}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.22\textwidth}
-    \raggedleft
-    \begin{tikzpicture}
-        \draw[color=stripeblue, rounded corners=4pt, line width=1pt]
-            (0,0) rectangle (3,1.2)
-            node[midway, align=center, color=accent, font=\small\bfseries]
-            {Otázek: 22};
-    \end{tikzpicture}
-\end{minipage}
-
-\vspace{6pt}
-\noindent\color{accent}\rule{\linewidth}{1.5pt}
-\vspace{2pt}
-
 % ============================================================
-\section{Základy programování PLC a mikrokontrolérů}
+\section{Základy PLC a mikrokontrolérů}
 
 \begin{pojmybox}
-\textbf{Klíčové pojmy:}
-PLC, CPU, I/O moduly, scan cyklus, Siemens S7, STEP~7, TIA~Portal,
-mikrokontrolér, AVR, ARM, periferie, přerušení, časovač, UART, SPI,
-I\textsuperscript{2}C, GPIO, PWM
+PLC, scan cyklus, I/O, CPU, ladder diagram,
+mikrokontrolér, GPIO, UART, SPI, I2C,
+interrupt, timer, PWM, register, firmware
 \end{pojmybox}
 
+% ============================================================
 \begin{vysvetlenibox}
-\textbf{PLC -- Programovatelný logický automat}\\
-PLC je průmyslový počítač navržený pro spolehlivé a deterministické řízení.
-Pracuje v pravidelném \textbf{scan cyklu}:
+
+\textbf{PLC (Programmable Logic Controller)}\\
+PLC je průmyslový řídicí systém navržený pro spolehlivý a dlouhodobý provoz.
+
+\textbf{Hlavní vlastnosti:}
+\begin{itemize}
+\item deterministické řízení (stejný čas cyklu)
+\item odolnost vůči rušení (EMC)
+\item modulární struktura
+\item jednoduchá údržba
+\end{itemize}
+
+% -----------------------------
+\textbf{Scan cyklus PLC}
 
 \begin{center}
 \begin{tikzpicture}[
-  node distance=1.2cm,
-  box/.style={rectangle, draw=accent, fill=lightblue, rounded corners=3pt,
-              minimum width=3cm, minimum height=0.6cm, text centered, font=\small}]
-  \node[box] (a) {Čtení vstupů};
-  \node[box] (b) [below of=a] {Vykonání programu};
-  \node[box] (c) [below of=b] {Zápis výstupů};
-  \node[box] (d) [below of=c] {Interní diagnostika};
-  \draw[>-, accent] (a)--(b); \draw[>-, accent] (b)--(c);
-  \draw[>-, accent] (c)--(d);
-  \draw[>-, accent] (d.west) -- ++(-0.8,0) --  (a.west);
-  \node[right=0.2cm of b, font=\scriptsize, color=medgray] {typicky 1--10 ms};
+node/.style={rectangle, draw=accent, fill=lightblue,
+rounded corners=3pt, minimum width=3.2cm, minimum height=0.6cm, font=\small}
+]
+
+\node[node] (a) {1. Čtení vstupů};
+\node[node, below=of a] (b) {2. Vykonání programu};
+\node[node, below=of b] (c) {3. Zápis výstupů};
+\node[node, below=of c] (d) {4. Diagnostika};
+
+\draw[->] (a)--(b);
+\draw[->] (b)--(c);
+\draw[->] (c)--(d);
+\draw[->] (d.west) -- ++(-1,0) -- (a.west);
+
+\node[right=0.3cm of b, font=\scriptsize] {typicky 1–10 ms};
+
 \end{tikzpicture}
 \end{center}
 
-\textbf{Detailní popis scan cyklu:}
-\begin{enumerate}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{Čtení vstupů} -- všechny fyzické vstupy se načtou do obrazu vstupů (I-obraz)
-    \item \textbf{Vykonání programu} -- uživatelský program pracuje s I-obrazem a Q-obrazem
-    \item \textbf{Zápis výstupů} -- Q-obraz se zapíše na fyzické výstupy
-    \item \textbf{Diagnostika} -- kontrola watchdogu, komunikace, chybových hlášek
-\end{enumerate}
-Doba cyklu je kritická pro rychlé procesy -- typicky 1--10\,ms.
+ PLC nepracuje „real-time per event“, ale cyklicky.
 
-\textbf{Historie PLC:}\\
-První PLC vzniklo v roce 1968 pro General Motors (Modicon 084).
-Důvod: odstranit složité reléové rozvaděče, které se těžko modifikovaly.
-Výhoda PLC: změna funkce přeprogramováním, ne přepojováním drátů.
+\textbf{Programovací jazyky PLC (IEC 61131-3)}
 
-\textbf{Architektura PLC systému:}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{CPU} -- procesor, paměť programu, komunikační rozhraní
-    \item \textbf{Vstupní moduly} -- digitální (24\,V, 230\,V), analogové (0--10\,V, 4--20\,mA)
-    \item \textbf{Výstupní moduly} -- reléové, tranzistorové, triakové
-    \item \textbf{Speciální moduly} -- čítače, enkodéry, PID, komunikace (Profibus, Ethernet)
-    \item \textbf{Zdroj} -- 24\,V DC nebo 230\,V AC s baterijní zálohou
+PLC se programují podle normy IEC 61131-3, která definuje několik jazyků:
+
+\begin{itemize}
+\item \textbf{LD (Ladder Diagram)} – žebříčkový diagram
+\item \textbf{FBD (Function Block Diagram)} – blokové schéma
+\item \textbf{ST (Structured Text)} – textový jazyk podobný Pascalu
+\item \textbf{IL (Instruction List)} – instrukční seznam (historický)
+\item \textbf{SFC (Sequential Function Chart)} – sekvenční grafy
 \end{itemize}
 
-\textbf{Srovnání PLC vs. mikrokontrolér}
+% -----------------------------
+\textbf{LD – Ladder Diagram}
 
-\begin{center}
-\begin{tabularx}{0.95\linewidth}{@{} l X X @{}}
-    \toprule
-    \textbf{Vlastnost} & \textbf{PLC} & \textbf{Mikrokontrolér} \\
-    \midrule
-    Prostředí        & Průmysl, odolnost & Vestavěné systémy \\
-    Programování     & IEC 61131-3 (LD, ST\ldots) & C, C++, MicroPython \\
-    Cena             & Vyšší & Nízká (\$1--\$50) \\
-    Odolnost         & Vysoká (IP54+, EMC) & Střední \\
-    Real-time        & Deterministický cyklus & Závislé na FW \\
-    Příklady         & Siemens S7-1200, Allen-Bradley & ATmega328, STM32, ESP32 \\
-    Životnost        & 10--20 let & 2--5 let (produktová životnost) \\
-    Servis           & Výměna modulu za chodu & Nutno vypnout \\
-    \bottomrule
-\end{tabularx}
-\end{center}
+Nejpoužívanější v průmyslu. Vypadá jako elektrické schéma relé.
 
-\textbf{Kdy použít PLC:}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item Průmyslové aplikace s vysokými nároky na spolehlivost
-    \item Systémy, které musí běžet roky bez výpadku
-    \item Aplikace s častými změnami -- snadné přeprogramování
-    \item Když je potřeba certifikace (bezpečnostní PLC, SIL)
+\begin{itemize}
+\item levá strana = vstupy
+\item pravá strana = výstupy
+\item logika AND/OR pomocí kontaktů
 \end{itemize}
 
-\textbf{Kdy použít mikrokontrolér:}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item Masově produkovaná zařízení (nízká cena)
-    \item Bateriové aplikace (nízká spotřeba)
-    \item Složité algoritmy (AI, zpracování obrazu)
-    \item Když je důležitá velikost a hmotnost
-\end{itemize}
+Výhoda: snadné pochopení pro elektrikáře.
 
-\textbf{Komunikační rozhraní mikrokontroléru}
+% -----------------------------
+\textbf{ST – Structured Text}
 
-\begin{center}
-\begin{tabularx}{0.95\linewidth}{@{} l l X @{}}
-    \toprule
-    \textbf{Rozhraní} & \textbf{Vodiče} & \textbf{Použití} \\
-    \midrule
-    UART & TX, RX, GND & Sériová komunikace, GPS, GSM, Bluetooth \\
-    SPI & MOSI, MISO, SCK, CS & SD karty, displeje, flash paměti \\
-    I\textsuperscript{2}C & SDA, SCL, GND & Sensory, EEPROM, RTC moduly \\
-    1-Wire & DQ, GND & Teploměry (DS18B20), iButton \\
-    CAN & CAN\_H, CAN\_L & Automobily, průmyslová automatizace \\
-    USB & D+, D-, VCC, GND & PC periférie, programování \\
-    \bottomrule
-\end{tabularx}
-\end{center}
-
-\textbf{Detailní popis rozhraní:}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{UART} (Universal Asynchronous Receiver-Transmitter) --
-          asynchronní sériová komunikace; rychlost (baud rate) musí být
-          shodná na obou stranách; typicky 9600--115200 Bd.
-          \textit{Výhody:} jednoduchost, 2 vodiče. \textit{Nevýhody:} bod-bod,
-          žádná adresace, náchylné k chybám při dlouhých kabelech.
-
-    \item \textbf{SPI} (Serial Peripheral Interface) --
-          synchronní full-duplex komunikace; master voluje slave pomocí CS
-          (Chip Select); rychlosti až desítky MHz.
-          \textit{Výhody:} vysoká rychlost, jednoduchý protokol.
-          \textit{Nevýhody:} 4 vodiče na slave, žádná detekce chyb.
-
-    \item \textbf{I\textsuperscript{2}C} (Inter-Integrated Circuit) --
-          synchronní half-duplex; open-drain sběrnice s pull-up rezistory;
-          každý slave má 7bitovou adresu; rychlosti: 100 kHz (standard),
-          400 kHz (fast), 3.4 MHz (high-speed).
-          \textit{Výhody:} 2 vodiče, více slaveů. \textit{Nevýhody:} pomalejší,
-          složitější protokol, omezená délka kabelu.
-
-    \item \textbf{PWM} (Pulse Width Modulation) --
-          digitální generování analogové hodnoty pomocí střídy;
-          filtrací vznikne střední hodnota napětí.
-\end{itemize}
+Textový jazyk podobný C/Pascalu:
 
 \begin{vzorcebox}
-PWM střída: $D = \frac{t_{on}}{T} \cdot 100\,\%$, \quad
-průměrné napětí: $\overline{U} = D \cdot U_{max}$\\
-Příklad: $U_{max}=5\,\text{V}$, $D=60\,\%$ $\Rightarrow$ $\overline{U}=3\,\text{V}$
+\begin{verbatim}
+IF temperature > 50 THEN
+    motor := TRUE;
+ELSE
+    motor := FALSE;
+END_IF;
+\end{verbatim}
 \end{vzorcebox}
 
-\textbf{Přerušení (Interrupts)}\\
-Mechanismus, který umožňuje reakci na událost okamžitě, bez čekání ve smyčce:
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{Zdroje přerušení} -- časovače, UART (přijatý znak),
-          změna úrovně na pinu (INT0, INT1), A/D převod dokončen
-    \item \textbf{Obsluha přerušení (ISR)} -- krátká funkce, která se vykoná;
-          nesmí blokovat, neměla by používat delay()
-    \item \textbf{Priorita} -- některá přerušení mohou přerušit jiná
-    \item \textbf{Maskování} -- přerušení lze dočasně zakázat (CLI) a povolit (SEI)
+Výhoda:
+\begin{itemize}
+\item složitější algoritmy
+\item matematika
+\item PID regulace
 \end{itemize}
 
-\textbf{Časovače a čítače}\\
-Vestavěné periferie pro měření času, generování PWM, počítání impulsů:
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{Časovač} -- počítá interní takty MCU; pro měření času
-    \item \textbf{Čítač} -- počítá externí impulsy na pinu; pro enkodéry, otáčky
-    \item \textbf{Režimy:} normální (přetečení), CTC (porovnání), PWM,
-          input capture (měření periody)
-    \item \textbf{Prescaler} -- dělička vstupní frekvence (1, 8, 64, 256, 1024)
+% -----------------------------
+\textbf{FBD – Function Block Diagram}
+
+Grafické bloky:
+
+\begin{itemize}
+\item AND / OR / NOT bloky
+\item funkční bloky (timer, counter)
+\item propojení signálů mezi bloky
 \end{itemize}
 
-\textbf{GPIO piny -- General Purpose Input/Output}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{Výstup} -- push-pull (aktivně 0 nebo 1), open-drain (jen 0)
-    \item \textbf{Vstup} -- high-impedance (tri-state), s pull-up/pull-down
-    \item \textbf{Alternativní funkce} -- UART, SPI, I\textsuperscript{2}C, PWM, přerušení
-    \item \textbf{Omezení:} max. proud na pin (20--50\,mA), celkový proud MCU
+Výhoda: přehlednost u řízení procesů.
+
+% -----------------------------
+\textbf{SFC – Sequential Function Chart}
+
+Řídí sekvence kroků:
+
+\begin{itemize}
+\item kroky (steps)
+\item přechody (transitions)
+\item paralelní větvení
 \end{itemize}
 
-\textbf{Příklad: Arduino -- populární platforma pro MCU}
-\begin{itemize}[noitemsep, leftmargin=1.4em, topsep=4pt]
-    \item \textbf{ATmega328P} -- 8bitový AVR, 16\,MHz, 32\,kB Flash, 2\,kB SRAM
-    \item \textbf{Piny:} 14 digitálních (6 PWM), 6 analogových vstupů (ADC)
-    \item \textbf{Komunikace:} UART, SPI, I\textsuperscript{2}C
-    \item \textbf{Prostředí:} Arduino IDE (C++ s knihovnami)
+Použití:
+\begin{itemize}
+\item výrobní linky
+\item automatické cykly
 \end{itemize}
+
+% -----------------------------
+\textbf{IL – Instruction List (zastaralý)}
+
+Nízká úroveň, podobná assembleru.
+
+Dnes už se prakticky nepoužívá (deprecated).
+
+
+% ============================================================
+\textbf{Mikrokontrolér (MCU)}\\
+Malý počítač na jednom čipu.
+
+\textbf{Obsahuje:}
+\begin{itemize}
+\item CPU
+\item RAM / Flash
+\item GPIO piny
+\item periferie (UART, SPI, I2C, ADC, timers)
+\end{itemize}
+
+% ============================================================
+\textbf{PLC vs mikrokontrolér}
+
+\begin{tabularx}{\linewidth}{l X X}
+\toprule
+ & PLC & Mikrokontrolér \\
+\midrule
+Cíl & průmysl & vestavěné systémy \\
+Cena & vysoká & nízká \\
+Odolnost & velmi vysoká & střední \\
+Programování & IEC 61131-3 & C / C++ \\
+Flexibilita & omezená & vysoká \\
+Reakce & cyklická & event-driven \\
+\bottomrule
+\end{tabularx}
+
+% ============================================================
+\textbf{GPIO (mikrokontrolér)}
+
+\begin{itemize}
+\item vstup = čtení senzoru
+\item výstup = řízení LED, motoru
+\item alternativní funkce = UART/SPI/I2C/PWM
+\end{itemize}
+
+% ============================================================
+\textbf{Interrupts (přerušení)}
+
+Přerušení umožňuje okamžitou reakci na událost.
+
+\begin{itemize}
+\item tlačítko
+\item časovač
+\item UART příjem dat
+\item změna signálu
+\end{itemize}
+
+ Výhoda: nemusí se čekat v loop()
+
+% ============================================================
+\textbf{Timers (časovače)}
+
+Použití:
+\begin{itemize}
+\item měření času
+\item PWM generace
+\item periodické úlohy
+\end{itemize}
+
+\[
+f_{out} = \frac{f_{cpu}}{prescaler}
+\]
+
+% ============================================================
+\textbf{PWM}
+
+\begin{vzorcebox}
+\[
+D = \frac{t_{on}}{T} \cdot 100\,\%
+\]
+\end{vzorcebox}
+
+Použití:
+\begin{itemize}
+\item řízení motorů
+\item LED stmívání
+\item regulace výkonu
+\end{itemize}
+
+% ============================================================
+\textbf{Komunikace MCU}
+
+\begin{itemize}
+\item UART – jednoduchá sériová linka
+\item SPI – rychlá synchronní komunikace
+\item I2C – více zařízení na 2 vodičích
+\end{itemize}
+
+% ============================================================
+\textbf{Firmware}
+
+Firmware = program v mikrokontroléru:
+\begin{itemize}
+\item běží přímo na HW
+\item často bez OS
+\item musí být stabilní
+\end{itemize}
+
+% ============================================================
 \end{vysvetlenibox}
 
-% ============================================================
-
-% ============================================================
 \end{document}
