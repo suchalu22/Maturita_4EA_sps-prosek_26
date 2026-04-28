@@ -1,0 +1,303 @@
+% ============================================================
+%  Příprava na maturitu – Mechatronika – Okruh 10
+% ============================================================
+
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[left=2.0cm, right=1.8cm, top=1.8cm, bottom=1.8cm]{geometry}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{multicol}
+
+\usetikzlibrary{arrows.meta, positioning}
+
+% --- Barvy ---
+\definecolor{accent}{HTML}{03254E}
+\definecolor{lightblue}{HTML}{EAF2F8}
+\definecolor{lightyellow}{HTML}{FDFBE4}
+\definecolor{lightgreen}{HTML}{EAF7EA}
+\definecolor{lightred}{HTML}{FDE8E8}
+
+% --- Boxy ---
+\newmdenv[backgroundcolor=lightblue,linecolor=accent!40,roundcorner=4pt,innertopmargin=6pt,innerbottommargin=6pt]{pojmybox}
+\newmdenv[backgroundcolor=lightyellow,linecolor=accent!30,roundcorner=4pt,innertopmargin=6pt,innerbottommargin=6pt]{vysvetlenibox}
+\newmdenv[backgroundcolor=lightgreen,linecolor=accent!30,roundcorner=4pt,innertopmargin=6pt,innerbottommargin=6pt]{vzorcebox}
+\newmdenv[backgroundcolor=lightred,linecolor=accent!30,roundcorner=4pt,innertopmargin=6pt,innerbottommargin=6pt]{durazbox}
+
+\setlist[itemize]{noitemsep, leftmargin=1.4em, topsep=2pt}
+\setlist[enumerate]{noitemsep, leftmargin=1.4em, topsep=2pt}
+
+\begin{document}
+
+% ============================================================
+\section*{\large Okruh 10 – Průmyslové komunikace: komunikační sběrnice a SCADA systémy}
+
+\begin{pojmybox}
+\textbf{Klíčové pojmy:}
+signál, A/D a D/A převodník, modulace, Manchester kódování, sběrnice, UART, I2C, SPI, CAN,
+RS-232, RS-485, Modbus, Ethernet, SCADA, HMI, master/slave, topologie sítě, simplex/duplex, synchronní/asynchronní komunikace
+\end{pojmybox}
+
+\begin{vysvetlenibox}
+
+% ----------------------------------------------------------------
+\subsection*{1. Průmyslová komunikace}
+
+Komunikace mezi průmyslovými zařízeními a periferiemi (PLC, senzory, pohony, roboty, HMI, SCADA). Probíhá elektronicky po síti nebo sběrnici a způsob komunikace je standardizován.
+
+\textbf{Požadavky:} otevřenost, spolehlivost, bezpečnost, vrstevnost, deterministická komunikace, odolnost proti rušení, jednoduchá diagnostika.
+
+% ----------------------------------------------------------------
+\subsection*{2. Signál}
+
+Fyzikální jev (veličina), která přenáší informaci.
+
+\textbf{Dělení:}
+\begin{itemize}
+  \item spojitý (analogový) × diskrétní (digitální)
+  \item periodický × neperiodický
+\end{itemize}
+\textbf{Příklady:} optický, akustický, elektrický, mechanický, hydraulický.
+
+% ----------------------------------------------------------------
+\subsection*{3. A/D a D/A převodníky}
+
+\begin{vzorcebox}
+\textbf{A/D převodník – paralelní:}
+Referenční napětí je rozděleno do kvantizačních hladin pomocí odporového děliče. Operační zesilovače porovnají vstupní signál s hladinami a po uplynutí vzorkovací periody odešlou výsledek do dekodéru, který nastaví digitální výstup.
+
+\medskip
+\textbf{D/A převodník – váhová struktura:}
+U\textsubscript{REF} je pomocí napěťových děličů rozdělen na napěťové úrovně. Řídící člen spíná spínače dle potřebného napětí; výsledné napětí je dáno součtem všech úrovní. Výstupní OZ zajišťuje nízký vstupní odpor (ideálně $R_{vst} = \infty$) a nízký výstupní odpor (ideálně $R_{vyst} = 0$).
+
+\medskip
+\textbf{Rozlišení převodníku:}
+\[
+\Delta U = \frac{U_{REF}}{2^n}
+\]
+kde $U_{REF}$ = referenční napětí, $n$ = počet bitů. Vyšší $n$ = vyšší přesnost.
+\end{vzorcebox}
+
+% ----------------------------------------------------------------
+\subsection*{4. Modulace / demodulace}
+
+Metoda, při které se upravují vlastnosti signálu (frekvence, amplituda, fáze), ale nikoliv přenášená informace.
+
+\begin{itemize}
+  \item \textbf{AM} – amplitudová modulace
+  \item \textbf{FM} – frekvenční modulace
+  \item \textbf{PM} – fázová modulace
+  \item \textbf{Pulsní} modulace
+\end{itemize}
+\textbf{Demodulace} – zpětný převod modulovaného signálu na původní. Využití: Wi-Fi, rádio, televizní signál, mobilní sítě.
+
+% ----------------------------------------------------------------
+\subsection*{5. Kódování Manchester}
+
+Používá se k přenosu dat přes Ethernet na fyzické vrstvě ISO/OSI. Princip: každý bit původního signálu je „rozpůlen" na dvě části.
+
+\begin{itemize}
+  \item Pokud je aktuální bit 1 a následující bude 0 → kódovaný signál přejde do 0 již v polovině bitu 1.
+  \item Pokud je aktuální bit 0 a následující bude 1 → kódovaný signál přejde do 1 již v polovině bitu 0.
+  \item Když se hodnoty nemění → kódovaný signál kmitá (ale při poslední změně musí nejprve přejít do správné logické hodnoty).
+\end{itemize}
+
+% ----------------------------------------------------------------
+\subsection*{6. Komunikační sběrnice}
+
+Soustava vodičů přenášejících data stejného charakteru. Řídí ji \textbf{master} (řadič), ostatní prvky jsou \textbf{slave} (podřízené).
+
+\textbf{Parametry sběrnic:}
+\begin{itemize}
+  \item \textbf{Přenosová rychlost} [bit/s] – max. počet bitů za 1 s
+  \item \textbf{Šířka sběrnice} – počet paralelních vodičů
+  \item \textbf{Taktovací kmitočet} – základní frekvence (počet hodinových impulsů za 1 s)
+  \item \textbf{Délka vedení} – maximální vzdálenost
+\end{itemize}
+
+\textbf{Rozdělení sběrnic:}
+\begin{itemize}
+  \item podle druhu signálů: datové, adresové, řídící, stavové
+  \item podle počtu vodičů: sériové, paralelní
+\end{itemize}
+
+% ----------------------------------------------------------------
+\subsection*{7. Směr a synchronizace přenosu}
+
+\begin{center}
+\begin{tabularx}{0.95\linewidth}{@{} l X X @{}}
+\toprule
+\textbf{Typ} & \textbf{Popis} & \textbf{Příklad} \\
+\midrule
+Simplex & pouze jedním směrem & ovladač TV \\
+Half duplex & obousměrně, ale ne současně & vysílačky \\
+Full duplex & obousměrně současně & telefonní hovor, Ethernet \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{itemize}
+  \item \textbf{Synchronní} komunikace – přenos dat řízen hodinovými impulsy (clock)
+  \item \textbf{Asynchronní} komunikace – využívá potvrzující signály (start/stop bity), clock není potřeba
+\end{itemize}
+
+% ----------------------------------------------------------------
+\subsection*{8. UART}
+
+Jednoduchá asynchronní sériová komunikace. Zařízení musí mít nastavenou stejnou \textbf{baudovou rychlost} (počet bitů za sekundu).
+
+\begin{itemize}
+  \item 2 vodiče: \textbf{TX} (vysílání) a \textbf{RX} (příjem)
+  \item Rámec: start bit + data (7–8 bitů) + parita + stop bit(y)
+  \item \textbf{Parita lichá:} pokud je počet jedniček sudý, přidáme jednu
+  \item \textbf{Parita sudá:} pokud je počet jedniček lichý, přidáme jednu
+\end{itemize}
+\textbf{Použití:} mikrokontroléry, debug konzole, GPS moduly.
+
+% ----------------------------------------------------------------
+\subsection*{9. RS-232 vs RS-485}
+
+\begin{center}
+\begin{tabularx}{0.97\linewidth}{@{} l X X @{}}
+\toprule
+\textbf{Vlastnost} & \textbf{RS-232} & \textbf{RS-485} \\
+\midrule
+Typ přenosu & nesymetrický & diferenciální (vodiče A/B) \\
+Počet zařízení & point-to-point (2) & více zařízení na sběrnici \\
+Max. vzdálenost & cca 15\,m & až 1200\,m \\
+Odolnost proti rušení & nízká & vysoká (EMI) \\
+Použití & PC komunikace, sériový port & průmysl, Modbus RTU \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+RS-485 používá diferenciální přenos (napěťový rozdíl vodičů A a B), díky čemuž je výrazně odolnější vůči elektromagnetickému rušení.
+
+% ----------------------------------------------------------------
+\subsection*{10. I²C (Internal Integrated Circuit Bus)}
+
+Synchronní interní datová sběrnice.
+
+\begin{itemize}
+  \item 2 vodiče: \textbf{SDA} (data) + \textbf{SCL} (hodinový signál generovaný masterem)
+  \item Adresování zařízení – až 128 (7 bit) nebo 1024 (10 bit) čipů na sběrnici
+  \item Přenosová rychlost: 100\,kHz / 400\,kHz / 1\,MHz
+  \item Nevýhoda: ztráta dat při větší vzdálenosti
+  \item \textbf{Start bit:} SDA z 1→0, SCL v logické 1
+  \item \textbf{Stop bit:} SDA z 0→1, SCL v logické 1
+\end{itemize}
+\textbf{Použití:} EEPROM, senzory, LCD displeje, RTC, A/D a D/A převodníky.
+
+% ----------------------------------------------------------------
+\subsection*{11. SPI (Serial Peripheral Interface)}
+
+Velmi rychlá synchronní komunikace – 4 vodiče:
+\begin{itemize}
+  \item \textbf{MOSI} – Master Out Slave In
+  \item \textbf{MISO} – Master In Slave Out
+  \item \textbf{SCK} – hodinový signál
+  \item \textbf{CS/SS} – výběr zařízení (každé slave má vlastní CS vodič)
+\end{itemize}
+\textbf{Výhody:} vysoká rychlost, jednoduchost. \quad \textbf{Nevýhoda:} každé zařízení potřebuje vlastní CS vodič.\\
+\textbf{Použití:} displeje, SD karty, A/D převodníky, flash paměti.
+
+% ----------------------------------------------------------------
+\subsection*{12. CAN sběrnice}
+
+Používaná v automobilech a průmyslu.
+
+\begin{itemize}
+  \item Diferenciální přenos – vysoká odolnost proti rušení
+  \item Prioritizace zpráv (ID zprávy určuje prioritu)
+  \item Možnost více master zařízení
+\end{itemize}
+\textbf{Použití:} ABS, motorové řídicí jednotky, průmyslové stroje.
+
+% ----------------------------------------------------------------
+\subsection*{13. Topologie sítí}
+
+\begin{center}
+\begin{tabularx}{0.97\linewidth}{@{} l X @{}}
+\toprule
+\textbf{Topologie} & \textbf{Vlastnosti a chování při výpadku} \\
+\midrule
+\textbf{Line (liniová)} & Zařízení v linii. Výpadek rozdělí linii na dvě části – jedna zůstane nefunkční. \\
+\textbf{Bus (sběrnicová)} & Všechna zařízení na společných vodičích. Výpadek jednoho zařízení neovlivní ostatní. \\
+\textbf{Star (hvězdicová)} & Centrální switch/PLC uprostřed. Výpadek nodu (mimo centrum) neovlivní ostatní. \\
+\textbf{Ring (kruhová)} & Zařízení v kruhu. Při výpadku lze k sousedovi dostat i z druhé strany. \\
+\textbf{Tree (stromová)} & Větve napojené na centrální řízení. Výpadek zařízení vyřadí jen jeho větev. \\
+\textbf{Mesh (síťová)} & Více propojených cest. Výpadek lze obejít jinou cestou. \\
+\textbf{Fully Connected} & Každé zařízení propojeno s každým. Nejvyšší spolehlivost, ale velký počet vodičů. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+% ----------------------------------------------------------------
+\subsection*{14. SCADA systémy}
+
+\textbf{SCADA} (Supervisory Control And Data Acquisition) – systém pro dispečerské řízení a sběr dat (továrny, elektrárny, atd.). Obvykle neplní funkci plnohodnotného ovládacího systému.
+
+\textbf{Proč SCADA?}
+\begin{itemize}
+  \item Snížení počtu odborných pracovníků – linky pracují samostatně, dispečer jen hlídá
+  \item Snížení ceny výroby (méně pracovníků, méně dispečerských středisek)
+  \item Snadný dozor nad celou výrobou z jednoho počítače
+  \item Zpracování až tisíců vstupních dat
+  \item Integrace webových technologií a vzdálený přístup přes internet
+  \item Snadné ukládání dat a archivace
+  \item SCADA komunikuje s PLC pomocí průmyslových sběrnic (Modbus, Profinet, OPC-UA)
+  \item Dnes se začínají dostávat i do rodinných domů (nadšenci / smart home)
+\end{itemize}
+
+% ----------------------------------------------------------------
+\subsection*{15. HMI (Human Machine Interface)}
+
+Rozhraní člověk–stroj – lokální ovládání konkrétního stroje (dotykový panel, tlačítka, displej). \textbf{HMI leží pod SCADA systémem.}
+
+\textbf{Typy HMI displejů:}
+\begin{center}
+\begin{tabularx}{0.97\linewidth}{@{} l X X @{}}
+\toprule
+\textbf{Vlastnost} & \textbf{Odporový displej} & \textbf{Kapacitní displej} \\
+\midrule
+Princip & Vodiče se spojí při stlačení & Změna kapacity při dotyku vodiče \\
+Ovládání & Čímkoliv – rukavice, šroubovák & Pouze vodivým předmětem (rukavice nefungují) \\
+Životnost & Nižší & Vyšší \\
+Využití & Průmysl (nejčastější) & Moderní aplikace \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+% ----------------------------------------------------------------
+\subsection*{16. Rozdíl SCADA vs HMI}
+
+\begin{center}
+\begin{tabularx}{0.97\linewidth}{@{} l X X @{}}
+\toprule
+\textbf{Vlastnost} & \textbf{HMI} & \textbf{SCADA} \\
+\midrule
+Uživatel & Dělník / operátor stroje & Dispečer / vedoucí provozu \\
+Rozsah & Jeden stroj & Celý provoz / závod \\
+Funkce & Lokální ovládání & Dohled + sběr dat \\
+Archivace & Omezená & Rozsáhlá \\
+Vzdálený přístup & Většinou ne & Ano \\
+Hierarchie & Podřízeno SCADA & Nadřazeno HMI \\
+Vzájemná kontrola & HMI nemůže zasahovat do SCADA & SCADA může ovládat zařízení přes HMI \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\end{vysvetlenibox}
+
+\end{document}
