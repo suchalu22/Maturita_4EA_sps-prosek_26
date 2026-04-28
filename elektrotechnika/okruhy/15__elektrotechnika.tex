@@ -1,0 +1,206 @@
+% ============================================================
+%  Příprava na maturitu – Elektrotechnika
+%  Okruh 15: Operační zesilovače
+% ============================================================
+
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[left=2.0cm, right=1.8cm, top=1.8cm, bottom=1.8cm]{geometry}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{circuitikz}
+
+\usetikzlibrary{arrows.meta, positioning, decorations.pathmorphing, shapes.geometric, calc}
+
+% --- Barvy ---
+\definecolor{accent}{HTML}{1A3A5C}
+\definecolor{lightblue}{HTML}{EAF2F8}
+\definecolor{lightyellow}{HTML}{FDFBE4}
+\definecolor{lightgreen}{HTML}{EAF7EA}
+\definecolor{lightred}{HTML}{FDE8E8}
+\definecolor{lightgray}{HTML}{F4F4F4}
+
+% --- Boxy ---
+\newmdenv[backgroundcolor=lightblue,linecolor=accent!40,roundcorner=4pt,
+  innertopmargin=6pt,innerbottommargin=6pt,innerleftmargin=8pt,innerrightmargin=8pt]{pojmybox}
+\newmdenv[backgroundcolor=lightyellow,linecolor=accent!30,roundcorner=4pt,
+  innertopmargin=6pt,innerbottommargin=6pt,innerleftmargin=8pt,innerrightmargin=8pt]{vysvetlenibox}
+\newmdenv[backgroundcolor=lightgreen,linecolor=accent!40,roundcorner=4pt,
+  innertopmargin=6pt,innerbottommargin=6pt,innerleftmargin=8pt,innerrightmargin=8pt]{vzorcebox}
+\newmdenv[backgroundcolor=lightred,linecolor=accent!30,roundcorner=4pt,
+  innertopmargin=6pt,innerbottommargin=6pt,innerleftmargin=8pt,innerrightmargin=8pt]{durazbox}
+
+\setlist[itemize]{noitemsep, leftmargin=1.4em, topsep=2pt}
+\setlist[enumerate]{noitemsep, leftmargin=1.4em, topsep=2pt}
+
+% --- Zkratka pro jednotky ---
+\newcommand{\jednotka}[1]{\,[\mathrm{#1}]}
+
+\begin{document}
+
+% ============================================================
+\section*{\large Okruh 15 – Operační zesilovače (OZ)}
+
+\begin{pojmybox}
+\textbf{Klíčové pojmy:}
+operační zesilovač (OZ), invertující vstup ($-$), neinvertující vstup ($+$), ideální OZ, záporná a kladná zpětná vazba, invertující zesilovač, neinvertující zesilovač, napěťový sledovač, komparátor, zesílení $A_u$
+\end{pojmybox}
+
+\begin{vysvetlenibox}
+
+% ================================================================
+\subsection*{1. Značka a parametry ideálního OZ}
+
+Operační zesilovač je velmi složitý integrovaný obvod (obsahující desítky tranzistorů), který se ale navenek chová jako neuvěřitelně dokonalý zesilovač napětí. Běžně vyžaduje **symetrické napájení** (např. $+15\,\mathrm{V}$ a $-15\,\mathrm{V}$).
+
+\begin{center}
+\begin{circuitikz}[font=\small, thick]
+  \draw (0,0) node[op amp] (oa) {};
+  \node[left] at (oa.-) {Invertující vstup ($-$)};
+  \node[left] at (oa.+) {Neinvertující vstup ($+$)};
+  \node[right] at (oa.out) {Výstup ($OUT$)};
+  
+  % Napájení
+  \draw[red] (oa.up) -- ++(0,0.5) node[above] {$+U_{CC}$};
+  \draw[blue] (oa.down) -- ++(0,-0.5) node[below] {$-U_{EE}$};
+  
+  % Tabulka vedle
+  \node[anchor=west, align=left] at (4,0) {
+    \textbf{Ideální vlastnosti (vs. Reálné):}\\
+    $\bullet$ Vstupní odpor $R_{in} \to \infty$ \textit{(Reálně G$\Omega$)}\\
+    $\bullet$ Výstupní odpor $R_{out} \to 0$ \textit{(Reálně desítky $\Omega$)}\\
+    $\bullet$ Zesílení bez ZV $A_0 \to \infty$ \textit{(Reálně cca 100\,000)}\\
+    $\bullet$ Šířka pásma $f \to \infty$ \textit{(Reálně klesá s frekvencí)}
+  };
+\end{circuitikz}
+\end{center}
+
+\begin{durazbox}
+\textbf{Dvě "Zlatá pravidla" pro výpočty obvodů s OZ (při záporné zpětné vazbě):}
+\begin{enumerate}
+    \item \textbf{Do vstupů neteče ŽÁDNÝ proud:} $I_+ = 0\,\mathrm{A}$, $I_- = 0\,\mathrm{A}$ (protože $R_{in} = \infty$).
+    \item \textbf{Napětí na obou vstupech se snaží být STEJNÉ:} $U_+ = U_-$. Zesilovač mění svůj výstup tak dlouho, dokud se přes zpětnou vazbu napětí na vstupech nevyrovnají. (Tzv. virtuální nula).
+\end{enumerate}
+\end{durazbox}
+
+% ================================================================
+\subsection*{2. Zapojení 1: Invertující zesilovač}
+
+Záporná zpětná vazba (rezistor $R_2$) vede z výstupu na **invertující ($-$) vstup**.
+\textbf{Vlastnost:} Výstupní signál je fázově otočený o $180^\circ$ (obrácená polarita, proto "invertující"). Může signál zesilovat i zeslabovat.
+
+\begin{center}
+\begin{circuitikz}[font=\small, thick]
+  \draw (0,0) node[op amp] (oa) {};
+  
+  % Zem na neinvertující
+  \draw (oa.+) -- ++(0,-0.5) node[ground] {};
+  \node[above right, blue] at (oa.+) {$U_+ = 0\mathrm{V}$};
+  
+  % Vstupní rezistor R1
+  \draw (oa.-) to[R, l_=$R_1$, i<=$I_1$] ++(-3,0) to[short, -o] ++(-0.5,0) node[left] {$U_{in}$};
+  
+  % Zpětná vazba R2
+  \draw (oa.-) to[short, *-] ++(0,1.5) coordinate (tmp) 
+               to[R, l=$R_2$, i=$I_2$] (tmp -| oa.out) 
+               to[short, -*] (oa.out);
+               
+  % Virtuální nula
+  \node[above right, red] at (oa.-) {$U_- = 0\mathrm{V}$};
+  
+  % Výstup
+  \draw (oa.out) to[short, -o] ++(1,0) node[right] {$U_{out}$};
+\end{circuitikz}
+\end{center}
+
+\begin{vzorcebox}
+\textbf{Zesílení:} $A_u = - \dfrac{R_2}{R_1} \qquad \implies \qquad U_{out} = - \dfrac{R_2}{R_1} \cdot U_{in}$
+\end{vzorcebox}
+\textit{Odvození přes pravidla:} Napětí $U_+ = 0\,\mathrm{V}$ (je na zemi). Podle 2. pravidla musí být i $U_- = 0\,\mathrm{V}$ (virtuální zem). Proud $I_1$ teče přes $R_1$ a protože do OZ neteče žádný proud (1. pravidlo), musí celý pokračovat jako $I_2$ přes $R_2$.
+
+% ================================================================
+\subsection*{3. Zapojení 2: Neinvertující zesilovač}
+
+Signál přivádíme přímo na **neinvertující ($+$) vstup**. Zpětná vazba jde stále na ($-$) vstup.
+\textbf{Vlastnost:} Výstupní signál má stejnou fázi (stejnou polaritu) jako vstupní. Zesílení je **vždy větší nebo rovno 1** (nelze zeslabovat). Má obrovský vstupní odpor (nezatěžuje zdroj signálu).
+
+\begin{center}
+\begin{circuitikz}[font=\small, thick]
+  \draw (0,0) node[op amp] (oa) {};
+  
+  % Signál na +
+  \draw (oa.+) to[short, -o] ++(-1,0) node[left] {$U_{in}$};
+  
+  % R1 na zem
+  \draw (oa.-) to[R, l_=$R_1$] ++(-2,0) coordinate (gnd_node) -- (gnd_node |- 0,-1.5) node[ground] {};
+  
+  % Zpětná vazba R2
+  \draw (oa.-) to[short, *-] ++(0,1.5) coordinate (tmp) 
+               to[R, l=$R_2$] (tmp -| oa.out) 
+               to[short, -*] (oa.out);
+               
+  % Výstup
+  \draw (oa.out) to[short, -o] ++(1,0) node[right] {$U_{out}$};
+\end{circuitikz}
+\end{center}
+
+\begin{vzorcebox}
+\textbf{Zesílení:} $A_u = 1 + \dfrac{R_2}{R_1} \qquad \implies \qquad U_{out} = \left( 1 + \dfrac{R_2}{R_1} \right) \cdot U_{in}$
+\end{vzorcebox}
+
+% ================================================================
+\subsection*{4. Zapojení 3: Napěťový sledovač (Impedanční převodník)}
+
+Extrémní případ neinvertujícího zesilovače. Odstraníme $R_1$ (nekonečný odpor) a $R_2$ nahradíme drátem (nulový odpor).
+\textbf{Vlastnost:} Výstup přesně kopíruje vstup ($U_{out} = U_{in}$). Zesílení $A_u = 1$.
+\textbf{K čemu je to dobré?} Má obrovský vstupní odpor (gigaohmy) a nulový výstupní odpor. Slouží k posílení velmi slabého zdroje signálu (např. piezo senzor), aby dokázal nakrmit proudem další obvody bez poklesu napětí na senzoru.
+
+\begin{center}
+\begin{circuitikz}[font=\small, thick]
+  \draw (0,0) node[op amp] (oa) {};
+  \draw (oa.+) to[short, -o] ++(-1,0) node[left] {$U_{in}$};
+  
+  % Zpětná vazba zkrat
+  \draw (oa.-) -- ++(0,1) coordinate (tmp) -- (tmp -| oa.out) to[short, -*] (oa.out);
+  
+  \draw (oa.out) to[short, -o] ++(1,0) node[right] {$U_{out} = U_{in}$};
+\end{circuitikz}
+\end{center}
+
+% ================================================================
+\subsection*{5. Zapojení 4: Komparátor (Otevřená smyčka)}
+
+Zde **chybí záporná zpětná vazba**. OZ funguje jako porovnávač dvou napětí.
+Využívá se jeho extrémního zesílení $A_0 \approx 100\,000$. Stačí mikrovoldový rozdíl mezi vstupy a výstup okamžitě vyletí na maximum nebo minimum napájecího napětí (do stavu \textbf{saturace / přesycení}).
+
+\begin{itemize}
+    \item Pokud $U_+ > U_- \quad \implies \quad$ Výstup překlopí na $+U_{CC}$ (kladné napájení, logická 1).
+    \item Pokud $U_+ < U_- \quad \implies \quad$ Výstup překlopí na $-U_{EE}$ (záporné napájení / zem, logická 0).
+\end{itemize}
+\textbf{Použití:} Termostaty (když napětí z teploměru překročí referenční napětí na trimru, OZ překlopí a sepne relé topení), A/D převodníky, senzory světla.
+
+\begin{center}
+\begin{circuitikz}[font=\small, thick]
+  \draw (0,0) node[op amp] (oa) {};
+  
+  \draw (oa.-) to[short, -o] ++(-1,0) node[left] {$U_{ref}$ (Pevné referenční)};
+  \draw (oa.+) to[short, -o] ++(-1,0) node[left] {$U_{senzor}$ (Měřené)};
+  
+  \draw[red] (oa.up) -- ++(0,0.3) node[above] {$+12\,\mathrm{V}$};
+  \draw[blue] (oa.down) -- ++(0,-0.3) node[below] {$0\,\mathrm{V}$ (Zem)};
+  
+  \draw (oa.out) to[short, -o] ++(1,0) node[right, align=left] {Pokud $U_{senzor} > U_{ref} \to \mathrm{OUT} = +12\,\mathrm{V}$\\Pokud $U_{senzor} < U_{ref} \to \mathrm{OUT} = 0\,\mathrm{V}$};
+\end{circuitikz}
+\end{center}
+
+\end{vysvetlenibox}
+
+\end{document}
