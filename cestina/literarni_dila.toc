@@ -23,11 +23,11 @@
 \contentsline {section}{\numberline {10}Proces}{19}{section.10}%
 \contentsline {section}{\numberline {11}Proměna}{21}{section.11}%
 \contentsline {section}{\numberline {12}Stařec a moře}{22}{section.12}%
-\contentsline {section}{\numberline {13}Velký Gatsby}{23}{section.13}%
-\contentsline {section}{\numberline {14}Farma zvířat}{24}{section.14}%
-\contentsline {section}{\numberline {15}Krysař}{27}{section.15}%
-\contentsline {section}{\numberline {16}Válka s mloky}{28}{section.16}%
-\contentsline {section}{\numberline {17}Bílá nemoc}{29}{section.17}%
-\contentsline {section}{\numberline {18}Osudy dobrého vojáka Švejka za světové války}{30}{section.18}%
-\contentsline {section}{\numberline {19}Smrt krýsných srnců}{32}{section.19}%
-\contentsline {section}{\numberline {20}Prima sezona}{33}{section.20}%
+\contentsline {section}{\numberline {13}Velký Gatsby}{26}{section.13}%
+\contentsline {section}{\numberline {14}Farma zvířat}{27}{section.14}%
+\contentsline {section}{\numberline {15}Krysař}{30}{section.15}%
+\contentsline {section}{\numberline {16}Válka s mloky}{31}{section.16}%
+\contentsline {section}{\numberline {17}Bílá nemoc}{32}{section.17}%
+\contentsline {section}{\numberline {18}Osudy dobrého vojáka Švejka za světové války}{33}{section.18}%
+\contentsline {section}{\numberline {19}Smrt krýsných srnců}{35}{section.19}%
+\contentsline {section}{\numberline {20}Prima sezona}{36}{section.20}%

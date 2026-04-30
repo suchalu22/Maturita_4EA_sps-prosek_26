@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2026.4.10)  29 APR 2026 17:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2026.4.10)  30 APR 2026 17:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -620,13 +620,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-12.64995pt}.
 
 [25]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 748.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 748.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 748.
-
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -654,6 +647,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-12.64995pt}.
 
 [28]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 759.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 759.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 759.
+
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -698,7 +698,34 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-12.64995pt}.
 
-[33] (./literarni_dila.aux)
+[33]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 24.64995pt, for example:
+(fancyhdr)                \setlength{\headheight}{24.64995pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-12.64995pt}.
+
+[34]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 24.64995pt, for example:
+(fancyhdr)                \setlength{\headheight}{24.64995pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-12.64995pt}.
+
+[35]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 24.64995pt, for example:
+(fancyhdr)                \setlength{\headheight}{24.64995pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-12.64995pt}.
+
+[36] (./literarni_dila.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -707,10 +734,10 @@ Package rerunfilecheck Info: File `literarni_dila.out' has not changed.
 (rerunfilecheck)             Checksum: BE17678D033FE6A046914A37E0E7FB3A;2264.
  ) 
 Here is how much of TeX's memory you used:
- 11631 strings out of 473197
- 181550 string characters out of 5718605
+ 11635 strings out of 473197
+ 181584 string characters out of 5718605
  618341 words of memory out of 5000000
- 34692 multiletter control sequences out of 15000+600000
+ 34693 multiletter control sequences out of 15000+600000
  568768 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,12n,79p,2478b,576s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -720,10 +747,10 @@ m-super/sfbx1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx2488.pfb
 ></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/f
 onts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm
 -super/sfti1200.pfb>
-Output written on literarni_dila.pdf (34 pages, 229604 bytes).
+Output written on literarni_dila.pdf (37 pages, 238423 bytes).
 PDF statistics:
- 328 PDF objects out of 1000 (max. 8388607)
- 274 compressed objects within 3 object streams
- 73 named destinations out of 1000 (max. 500000)
+ 343 PDF objects out of 1000 (max. 8388607)
+ 286 compressed objects within 3 object streams
+ 76 named destinations out of 1000 (max. 500000)
  161 words of extra memory for PDF output out of 10000 (max. 10000000)
 
